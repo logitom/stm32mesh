@@ -74,9 +74,18 @@
 
 
 /* Private function prototypes -----------------------------------------------*/
+/* USER CODE END Includes */
+#define OFFSET 0x800
+#define DEST_ADDRESS (SRAM_BASE+OFFSET)
+
+/* Private variables ---------------------------------------------------------*/
+UART_HandleTypeDef huart1;
+DMA_HandleTypeDef hdma_usart1_rx;
+
 
 void USARTConfig(void);
 void Stack_6LoWPAN_Init(void);
+static void MX_DMA_Init(void); 
 
 /**
   * @brief  main()
@@ -102,6 +111,10 @@ int main()
 
     USARTConfig();
 
+    /* DMA init */
+    MX_DMA_Init();   
+    
+     
     /* esp8266 wifi initialize */ 
     ESP8266_Init();
     
@@ -147,4 +160,17 @@ int main()
   * @}
   */
 
+
+
+
+static void MX_DMA_Init(void) 
+{
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA1_Channel5_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
+}
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -45,7 +45,7 @@
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
-UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart1;   
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
@@ -60,7 +60,7 @@ const uint8_t TCP_CONNECTION[]="AT+CIPSTART=\"TCP\",\"192.168.2.161\",8888\\n\\r
 
 void ESP8266_Init(void)
 {
-     MX_USART1_UART_Init();
+     MX_USART1_UART_Init(); 
      ESP8266_APInit();
     // ESP8266_Write();
 }
@@ -78,16 +78,7 @@ static void MX_USART1_UART_Init(void)
     PA9     ------> USART1_TX
     PA10     ------> USART1_RX 
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_9|GPIO_PIN_10;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF7_USART1;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-     
-  
-  huart1.Instance = USART1;
+   huart1.Instance = USART1;
   huart1.Init.BaudRate = 115200;
   huart1.Init.WordLength = UART_WORDLENGTH_8B;
   huart1.Init.StopBits = UART_STOPBITS_1;
@@ -97,24 +88,8 @@ static void MX_USART1_UART_Init(void)
   huart1.Init.OverSampling = UART_OVERSAMPLING_16;
   if (HAL_UART_Init(&huart1) != HAL_OK)
   {
-    //_Error_Handler(__FILE__, __LINE__);
+    ;//_Error_Handler(__FILE__, __LINE__);
   }
-   
-   /* USART1 interrupt Init */
-    HAL_NVIC_SetPriority(USART1_IRQn, 0, 1);
-    HAL_NVIC_EnableIRQ(USART1_IRQn);
-  /* USER CODE BEGIN USART1_MspInit 1 */
-  
-  huart1.pRxBuffPtr = (uint8_t*)UART1_RxBuffer;
- // huart1.pTxBuffPtr = (uint8_t*)UART1_TxBuffer;
-  huart1.RxXferSize = UART_RxBufferSize;
-  huart1.ErrorCode = HAL_UART_ERROR_NONE;
- 
-  //HAL_UART_Receive_IT(&huart1, (uint8_t*)UART1_RxBuffer,1);
-  /* Enable the UART Data Register not empty Interrupt */
- // __HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
-  //UART_RxBufferSize
-  
 }
 
 void ESP8266_Write(const uint8_t *inst)
@@ -122,8 +97,8 @@ void ESP8266_Write(const uint8_t *inst)
   uint16_t StrLen;
   StrLen=strlen((const char*)inst);
   //static uint8_t test[]="AT\r\n";
-  HAL_UART_Transmit_IT(&huart1,inst,StrLen);
-  //HAL_UART_Transmit(&huart1,test,5,200);
+ // HAL_UART_Transmit_IT(&huart1,inst,StrLen);
+  HAL_UART_Transmit(&huart1,(uint8_t *)inst,StrLen,200);
 }  
 
 void ESP8266_APInit(void)
@@ -179,22 +154,25 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
             lladdr[15]);
     sprintf((char*)buffer2,"AT+CIPSEND=%d\r\n",DataLen); 
     ESP8266_Write(buffer2);
-    HAL_Delay(500);   
+    HAL_Delay(1000);   
   
     ESP8266_Write(buffer); 
-    HAL_Delay(500);  
+    HAL_Delay(1000);  
   
   /* close a TCP connection */  
    // ESP8266_Write("AT+CIPCLOSE\n\r");
 }
 
 
-__weak void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+
+#if 0
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
   /* Prevent unused argument(s) compilation warning */
-  //UNUSED(huart);
-  HAL_UART_Receive_IT(huart,(uint8_t*)huart->pRxBuffPtr,1);
+  UNUSED(huart);
+ // HAL_UART_Receive_IT(huart,(uint8_t*)huart->pRxBuffPtr,1);
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_UART_RxCpltCallback can be implemented in the user file
    */
 }
+#endif

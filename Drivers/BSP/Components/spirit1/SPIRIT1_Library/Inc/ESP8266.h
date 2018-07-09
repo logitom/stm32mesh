@@ -35,12 +35,15 @@
 #ifndef __ESP8266_DRIVER__H
 #define __ESP8266_DRIVER__H
 
+#include "stm32l1xx_hal.h"
 #include <stdint.h>
 #include "net/ip/uip.h"
 #ifdef __cplusplus
   extern "C" {
 #endif
 
+
+    
 static void MX_USART1_UART_Init(void);
 void ESP8266_Init(void);
 void ESP8266_Write(const uint8_t *inst);

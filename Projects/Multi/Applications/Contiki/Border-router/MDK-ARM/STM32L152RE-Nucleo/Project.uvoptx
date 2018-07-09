@@ -201,9 +201,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>365</LineNumber>
+          <LineNumber>376</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134241524</Address>
+          <Address>134241332</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -212,55 +212,40 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\..\Src\stm32l1xx_it.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\border_router_l152\../../Src/stm32l1xx_it.c\365</Expression>
+          <Expression>\\border_router_l152\../../Src/stm32l1xx_it.c\376</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>181</LineNumber>
+          <LineNumber>1229</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134228716</Address>
+          <Address>134228342</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\Src\stm32l1xx_hal_msp.c</Filename>
+          <Filename>..\..\..\..\..\..\..\Drivers\STM32L1xx_HAL_Driver\Src\stm32l1xx_hal_uart.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\border_router_l152\../../Src/stm32l1xx_hal_msp.c\181</Expression>
+          <Expression>\\border_router_l152\../../../../../../../Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_uart.c\1229</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>huart</ItemText>
+          <ItemText>TxXferCount</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>huart</ItemText>
+          <ItemText>pRxBuffPtr</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>data</ItemText>
-        </Ww>
-        <Ww>
-          <count>3</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>humidity</ItemText>
-        </Ww>
-        <Ww>
-          <count>4</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>buffer</ItemText>
-        </Ww>
-        <Ww>
-          <count>5</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>DataLen</ItemText>
+          <ItemText>huart1.Instance-&gt;DR</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -274,7 +259,7 @@
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>0</SubType>
-          <ItemText>huart</ItemText>
+          <ItemText>huart1.Instance-&gt;DR</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>

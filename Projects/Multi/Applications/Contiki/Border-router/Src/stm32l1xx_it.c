@@ -42,13 +42,14 @@
 #include "spirit1.h"
 #include "main.h"
 #include "sensors.h"
-
+#include <stdint.h>
 
 
 /** @addtogroup L1
  *  @ingroup Border_router
  *  @{
  */
+
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -59,6 +60,8 @@
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
+/* External variables --------------------------------------------------------*/
+extern DMA_HandleTypeDef hdma_usart1_rx;
 extern UART_HandleTypeDef UartHandle;
 extern TIM_HandleTypeDef htim2;
 extern const struct sensors_sensor button_sensor;
@@ -66,6 +69,8 @@ extern volatile unsigned long seconds;
 extern volatile clock_time_t ticks;
 extern volatile uint32_t rtimer_clock;
 extern UART_HandleTypeDef huart1;
+
+uint8_t i=0;
 
 /******************************************************************************/
 /*            Cortex-M3 Processor Exceptions Handlers                         */
@@ -341,6 +346,12 @@ void TIM2_IRQHandler(void)
 }
 
 
+#if 1
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+   ; // HAL_UART_Receive_IT(huart, (uint8_t*)huart->pRxBuffPtr,1 ); 
+}
+#endif
 /**
 * @brief  Tx Transfer completed callback
 * @param  UartHandle: UART handle.
@@ -350,7 +361,7 @@ void TIM2_IRQHandler(void)
 */
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle)
 {
-  
+  // HAL_UART_Receive_IT(&huart1, (uint8_t*)huart1.pRxBuffPtr, 8); 
 
 }
 
@@ -363,12 +374,19 @@ void USART1_IRQHandler(void)
 
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
-  /* USER CODE BEGIN USART1_IRQn 1 */
   
-  //if(__HAL_UART_GET_FLAG(huart, UART_FLAG_RXNE)){
+  /* USER CODE BEGIN USART1_IRQn 1 */
+  if(__HAL_UART_GET_IT_SOURCE(&huart1,UART_IT_RXNE))
+{
+    huart1.pRxBuffPtr[i++]=huart1.Instance->DR;
+}
+
+  
+  
+  //if(__HAL_UART_GET_FLAG(huart1, UART_FLAG_RXNE)){
   
   //ESP8266_Write();
-  //HAL_UART_Receive_IT(&huart1,(uint8_t*)&huart1.pRxBuffPtr,1);
+  HAL_UART_Receive_IT(&huart1,(uint8_t*)&huart1.pRxBuffPtr,1);
  // __HAL_UART_CLEAR_FLAG(&huart1, UART_FLAG_RXNE);
   /* USER CODE END USART1_IRQn 1 */
 }
@@ -402,6 +420,21 @@ void Contiki_SysTick_Handler(void)
     etimer_request_poll();
   }
 }
+
+/**
+* @brief This function handles DMA1 channel5 global interrupt.
+*/
+void DMA1_Channel5_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel5_IRQn 0 */
+
+  /* USER CODE END DMA1_Channel5_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_usart1_rx);
+  /* USER CODE BEGIN DMA1_Channel5_IRQn 1 */
+
+  /* USER CODE END DMA1_Channel5_IRQn 1 */
+}
+
 
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)

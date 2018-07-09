@@ -47,6 +47,7 @@
 #include "dev/slip.h"
 
 #include "servreg-hack.h"
+#include "stm32l1xx_hal.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -60,6 +61,7 @@
 #define DEBUG DEBUG_PRINT
 #include "net/ip/uip-debug.h"
 
+extern  UART_HandleTypeDef huart1;
 static uip_ipaddr_t prefix;
 static uint8_t prefix_set;
 static uint8_t sender_ip[16];
@@ -415,7 +417,10 @@ PROCESS_THREAD(border_router_process, ev, data)
      //PROCESS_YIELD();
      PROCESS_PAUSE();
      HAL_Delay(1000);
-     ESP8266_Write("go2\r\n");
+ //    HAL_UART_Receive_IT(&huart1, (uint8_t*)huart1.pRxBuffPtr, 1);
+   //  ESP8266_Write("go2\r\n");
+   
+    
 #if 0    
     if (ev == sensors_event && data == &button_sensor) {
       PRINTF("Initiating global repair\n");

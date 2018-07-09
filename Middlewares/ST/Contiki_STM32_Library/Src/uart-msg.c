@@ -76,12 +76,14 @@ unsigned char databyte[1] = {0};
 *                the configuration information for the specified UART module.
 * @retval None
 */
+#if 0
 #ifndef USE_X_CUBE_IDW01M1
 void st_lib_hal_uart_rx_cplt_callback(st_lib_uart_handle_typedef *huart)
 {   
   slip_input_byte(databyte[0]);
   st_lib_hal_uart_receive_it(&st_lib_uart_handle, databyte, 1);
 }
+#endif
 #endif
 /*---------------------------------------------------------------------------*/
 void
