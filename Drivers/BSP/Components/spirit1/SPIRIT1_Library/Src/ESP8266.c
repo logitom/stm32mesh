@@ -61,7 +61,7 @@ const uint8_t TCP_CONNECTION[]="AT+CIPSTART=\"TCP\",\"192.168.2.161\",8888\\n\\r
 void ESP8266_Init(void)
 {
      MX_USART1_UART_Init(); 
-     ESP8266_APInit();
+    // ESP8266_APInit();
     // ESP8266_Write();
 }
 
@@ -90,6 +90,8 @@ static void MX_USART1_UART_Init(void)
   {
     ;//_Error_Handler(__FILE__, __LINE__);
   }
+  
+   //HAL_UART_Receive_DMA(&huart1,(uint8_t*)DEST_ADDRESS,5); 
 }
 
 void ESP8266_Write(const uint8_t *inst)

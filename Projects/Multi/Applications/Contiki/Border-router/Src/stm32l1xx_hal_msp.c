@@ -165,7 +165,14 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
   /* USER CODE END USART1_MspInit 0 */
     /* Peripheral clock enable */
     __HAL_RCC_USART1_CLK_ENABLE();
-  
+   
+   
+   // USAR1Tx_CLK_ENABLE();
+    //USAR1Tx_RX_GPIO_CLK_ENABLE();
+   // USAR1Tx_TX_GPIO_CLK_ENABLE();
+    
+    //enable DMA1 clock 
+    DMAx_CLK_ENABLE(); 
     /**USART1 GPIO Configuration    
     PA9     ------> USART1_TX
     PA10     ------> USART1_RX 
@@ -191,11 +198,11 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
     {
       //_Error_Handler(__FILE__, __LINE__);
     }
-
+     
     __HAL_LINKDMA(huart,hdmarx,hdma_usart1_rx);
 
   /* USER CODE BEGIN USART1_MspInit 1 */
-
+  
   /* USER CODE END USART1_MspInit 1 */
 
   }else
@@ -231,7 +238,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
     
   /*##-3- Configure the NVIC for UART ########################################*/
   /* NVIC for USART */
-  HAL_NVIC_SetPriority(USARTx_IRQn, 0, 1);
+  HAL_NVIC_SetPriority(USARTx_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(USARTx_IRQn);
   
  }
@@ -334,14 +341,14 @@ void USARTConfig(void)
 
     if(HAL_UART_Init(&UartHandle) != HAL_OK)
     {
-        //          Error_Handler();
-      while(1);
+        //Error_Handler();
+      // while(1);
     }
 
     UartHandle.pRxBuffPtr = (uint8_t*)UART_RxBuffer;
     UartHandle.RxXferSize = UART_RxBufferSize;
     UartHandle.ErrorCode = HAL_UART_ERROR_NONE;
-    HAL_UART_Receive_IT(&UartHandle, (uint8_t*)UART_RxBuffer, 1);
+   // HAL_UART_Receive_IT(&UartHandle, (uint8_t*)UART_RxBuffer, 1);
 }
 
 

@@ -195,7 +195,7 @@ void MX_GPIO_Init(void)
 {
 
   /* GPIO Ports Clock Enable */
-  __GPIOA_CLK_ENABLE();
+  __GPIOA_CLK_ENABLE();  /*Enable the clock for GPIOA peripheral*/
   __GPIOC_CLK_ENABLE();
   __GPIOD_CLK_ENABLE();
 }

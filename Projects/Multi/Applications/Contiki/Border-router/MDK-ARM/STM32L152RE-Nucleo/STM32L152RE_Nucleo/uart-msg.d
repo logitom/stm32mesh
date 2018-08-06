@@ -115,3 +115,8 @@
 .\stm32l152re_nucleo\uart-msg.o: ..\..\Inc\cube_hal.h
 .\stm32l152re_nucleo\uart-msg.o: ..\..\..\..\..\..\..\Drivers\BSP\Components\spirit1\SPIRIT1_Util\Inc\SPIRIT1_Util.h
 .\stm32l152re_nucleo\uart-msg.o: ..\..\..\..\..\..\..\Drivers\BSP\X-NUCLEO-IDS01Ax\Inc\radio_spi.h
+.\stm32l152re_nucleo\uart-msg.o: ..\..\..\..\..\..\..\Drivers\BSP\Components\spirit1\SPIRIT1_Library\Inc\ESP8266.h
+.\stm32l152re_nucleo\uart-msg.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/uip.h
+.\stm32l152re_nucleo\uart-msg.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/uipopt.h
+.\stm32l152re_nucleo\uart-msg.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/tcpip.h
+.\stm32l152re_nucleo\uart-msg.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/uip.h

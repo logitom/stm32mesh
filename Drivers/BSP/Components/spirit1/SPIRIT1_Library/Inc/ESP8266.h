@@ -42,7 +42,8 @@
   extern "C" {
 #endif
 
-
+#define OFFSET 0x800
+#define DEST_ADDRESS (SRAM_BASE+OFFSET)
     
 static void MX_USART1_UART_Init(void);
 void ESP8266_Init(void);

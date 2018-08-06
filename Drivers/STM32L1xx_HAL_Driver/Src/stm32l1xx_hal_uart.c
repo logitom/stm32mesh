@@ -156,6 +156,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l1xx_hal.h"
+#include "st-lib.h"
 
 /** @addtogroup STM32L1xx_HAL_Driver
   * @{
@@ -1618,7 +1619,8 @@ static void UART_DMAReceiveCplt(DMA_HandleTypeDef *hdma)
       huart->State = HAL_UART_STATE_READY;
     }
   }
-  HAL_UART_RxCpltCallback(huart);
+  //HAL_UART_RxCpltCallback(huart);
+  st_lib_hal_uart_rx_cplt_callback(huart);
 }
 
 /**

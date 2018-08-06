@@ -54,6 +54,8 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "ESP8266.h"
+
 /** @addtogroup Border_router
   * @{
   */
@@ -65,6 +67,8 @@ extern  UART_HandleTypeDef huart1;
 static uip_ipaddr_t prefix;
 static uint8_t prefix_set;
 static uint8_t sender_ip[16];
+
+uint8_t DMAstr[7];
 /* for receiver function */
 #define UDP_PORT 1234
 #define SERVICE_ID 190
@@ -469,21 +473,25 @@ receiver(struct simple_udp_connection *c,
         //  node1_counter++;
           printf("\r\n Node1");    
       }
-      
+  
+#if 0      
       for(i=0;i<16;i++)
       {
         sender_ip[i]=((uint8_t *)sender_addr)[i];
         printf("ith: %d ip:%x \r\n",i,sender_ip[i]);
       } 
+#endif      
       
-      
-      printf(" sender addr:%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x  length %d: '%s'\n",
+      printf(" sender addr:%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x  length %d: data:%d\n",
 	          sender_ip[0],sender_ip[1],sender_ip[2],sender_ip[3],sender_ip[4], 
             sender_ip[5],sender_ip[6],sender_ip[7],sender_ip[8],sender_ip[9],
             sender_ip[10],sender_ip[11],sender_ip[12],sender_ip[13],sender_ip[14],
-            sender_ip[15],datalen, data);
+            sender_ip[15],datalen, data[0]);
       //ESP8266 send data
-      ESP8266_SendData(sender_ip,data);
+     // ESP8266_SendData(sender_ip,data);
+      // waiting for data
+   //   HAL_UART_Receive_DMA(&huart1,(uint8_t*)DEST_ADDRESS,5); 
+    
       //Thomas send data to server
       // uip_debug_ipaddr_print(sender_addr);
     //  printf("\n");
@@ -546,10 +554,11 @@ PROCESS_THREAD(unicast_receiver_process, ev, data)
 
   simple_udp_register(&unicast_connection, UDP_PORT,
                       NULL, UDP_PORT, receiver);
-
+  
+  
   while(1) {
-   
-    PROCESS_WAIT_EVENT();
+ 
+  PROCESS_WAIT_EVENT();
   }
   PROCESS_END();
 }

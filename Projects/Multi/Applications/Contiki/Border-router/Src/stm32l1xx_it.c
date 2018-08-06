@@ -70,6 +70,8 @@ extern volatile clock_time_t ticks;
 extern volatile uint32_t rtimer_clock;
 extern UART_HandleTypeDef huart1;
 
+extern uint8_t DMAstr[7];
+
 uint8_t i=0;
 
 /******************************************************************************/
@@ -346,10 +348,10 @@ void TIM2_IRQHandler(void)
 }
 
 
-#if 1
+#if 0
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-   ; // HAL_UART_Receive_IT(huart, (uint8_t*)huart->pRxBuffPtr,1 ); 
+     HAL_UART_Receive_DMA(&huart1,(uint8_t*)DEST_ADDRESS,10); 
 }
 #endif
 /**
@@ -361,8 +363,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 */
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle)
 {
-  // HAL_UART_Receive_IT(&huart1, (uint8_t*)huart1.pRxBuffPtr, 8); 
-
+   //HAL_UART_Receive_IT(&huart1, (uint8_t*)huart1.pRxBuffPtr, 8); 
+    HAL_UART_Receive_DMA(UartHandle,(uint8_t*)DMAstr,7); 
 }
 
 /**

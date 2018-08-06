@@ -75,8 +75,7 @@
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE END Includes */
-#define OFFSET 0x800
-#define DEST_ADDRESS (SRAM_BASE+OFFSET)
+
 
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart1;
@@ -112,12 +111,12 @@ int main()
     USARTConfig();
 
     /* DMA init */
-    MX_DMA_Init();   
+   // MX_DMA_Init();   
     
-     
+   
     /* esp8266 wifi initialize */ 
     ESP8266_Init();
-    
+           
     /* Initialize RTC */
     RTC_Config();
     RTC_TimeStampConfig();
@@ -139,14 +138,15 @@ int main()
        __DATE__,__TIME__);
 #endif
 
+   
     Stack_6LoWPAN_Init();
+   
 
     while(1) {
       int r = 0;
       do {
         r = process_run();
-        //  HAL_Delay(1000);
-        } while(r > 0);
+         } while(r > 0);
     }
 
 }
@@ -161,8 +161,12 @@ int main()
   */
 
 
-
-
+#if 0
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+     HAL_UART_Receive_DMA(&huart1,(uint8_t*)DEST_ADDRESS,17); 
+}
+#endif
 static void MX_DMA_Init(void) 
 {
   /* DMA controller clock enable */
