@@ -45,7 +45,7 @@
 #define OFFSET 0x800
 #define DEST_ADDRESS (SRAM_BASE+OFFSET)
     
-static void MX_USART1_UART_Init(void);
+static void MX_UART4_UART_Init(void);
 void ESP8266_Init(void);
 void ESP8266_Write(const uint8_t *inst);
 void ESP8266_APInit(void);

@@ -45,7 +45,7 @@
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
-extern UART_HandleTypeDef huart1;   
+extern UART_HandleTypeDef huart4;   
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
@@ -60,33 +60,33 @@ const uint8_t TCP_CONNECTION[]="AT+CIPSTART=\"TCP\",\"192.168.2.161\",8888\\n\\r
 
 void ESP8266_Init(void)
 {
-     MX_USART1_UART_Init(); 
-    // ESP8266_APInit();
-    // ESP8266_Write();
+     MX_UART4_UART_Init(); 
+     ESP8266_APInit();
+     //ESP8266_Write();
 }
 
 
 /* USART1 init function */
-static void MX_USART1_UART_Init(void)
+static void MX_UART4_UART_Init(void)
 {
     GPIO_InitTypeDef  GPIO_InitStruct;
   /* USER CODE END USART1_MspInit 0 */
     /* Peripheral clock enable */
-    __HAL_RCC_USART1_CLK_ENABLE();
+    __HAL_RCC_UART4_CLK_ENABLE();
   
     /**USART1 GPIO Configuration    
-    PA9     ------> USART1_TX
-    PA10     ------> USART1_RX 
+    PC10     ------> UART4_TX
+    PC11     ------> UART4_RX 
     */
-   huart1.Instance = USART1;
-  huart1.Init.BaudRate = 115200;
-  huart1.Init.WordLength = UART_WORDLENGTH_8B;
-  huart1.Init.StopBits = UART_STOPBITS_1;
-  huart1.Init.Parity = UART_PARITY_NONE;
-  huart1.Init.Mode = UART_MODE_TX_RX;
-  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
-  if (HAL_UART_Init(&huart1) != HAL_OK)
+  huart4.Instance = UART4;
+  huart4.Init.BaudRate = 115200;
+  huart4.Init.WordLength = UART_WORDLENGTH_8B;
+  huart4.Init.StopBits = UART_STOPBITS_1;
+  huart4.Init.Parity = UART_PARITY_NONE;
+  huart4.Init.Mode = UART_MODE_TX_RX;
+  huart4.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart4.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart4) != HAL_OK)
   {
     ;//_Error_Handler(__FILE__, __LINE__);
   }
@@ -100,7 +100,7 @@ void ESP8266_Write(const uint8_t *inst)
   StrLen=strlen((const char*)inst);
   //static uint8_t test[]="AT\r\n";
  // HAL_UART_Transmit_IT(&huart1,inst,StrLen);
-  HAL_UART_Transmit(&huart1,(uint8_t *)inst,StrLen,200);
+  HAL_UART_Transmit(&huart4,(uint8_t *)inst,StrLen,200);
 }  
 
 void ESP8266_APInit(void)
@@ -113,16 +113,16 @@ void ESP8266_APInit(void)
 
 void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
 {
-    uint8_t tmp[6];
-    uint8_t humidity[6];
+    uint8_t tmp; //device id
+    uint8_t humidity; //door status
     uint8_t DataLen;  
     uint8_t buffer2[30];
     uint8_t lladdr[16];
     uint8_t buffer[150];   
     
-    /* get temperature data */
-    memcpy(tmp,&data[2],5);  
-    tmp[5]='\0';  
+    /* get Device ID  */
+    tmp=data[0];  
+      
   
     /* get lladdress */
     for(int i=0;i<16;i++)
@@ -132,18 +132,18 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
     }
     //lladdr[16]='\0';  
      
-    /* get humidity data */    
-    memcpy(humidity,&data[10],5);
-    humidity[5]='\0';  
+    /* get door status */    
+    humidity=data[1];  
+      
   
     /* creat a TCP connection */
-    ESP8266_Write("AT+CIPSTART=\"TCP\",\"192.168.2.161\",8888\r\n");
+    ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"192.168.2.161\",8888\r\n");
     HAL_Delay(500);  
     
     /* send data */   
    //sprintf((char*)buffer,"GET /test_sigfox/keep_history.php\?_temperature=32.77\&_humidity=50.89\&_mac=999\r\n");
    // sprintf((char*)buffer,"GET /test_sigfox/keep_history.php\?_temperature=32.11\&_humidity=77\&_mac=112233\r\n");    
-    sprintf((char*)buffer,"GET /test_sigfox/keep_history.php\?_temperature=%s\&_humidity=%s\&_mac=%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x\r\n",tmp,humidity,
+    sprintf((char*)buffer,"GET /test_sigfox/keep_history.php\?_temperature=%d\&_humidity=%d\&_mac=%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x\r\n",tmp,humidity,
       lladdr[0],lladdr[1],lladdr[2],lladdr[3],lladdr[4], 
             lladdr[5],lladdr[6],lladdr[7],lladdr[8],lladdr[9],
             lladdr[10],lladdr[11],lladdr[12],lladdr[13],lladdr[14],
@@ -154,6 +154,8 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
             lladdr[5],lladdr[6],lladdr[7],lladdr[8],lladdr[9],
             lladdr[10],lladdr[11],lladdr[12],lladdr[13],lladdr[14],
             lladdr[15]);
+    
+    printf("web buffer:%s \n",buffer);
     sprintf((char*)buffer2,"AT+CIPSEND=%d\r\n",DataLen); 
     ESP8266_Write(buffer2);
     HAL_Delay(1000);   

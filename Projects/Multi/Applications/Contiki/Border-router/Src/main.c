@@ -78,7 +78,7 @@
 
 
 /* Private variables ---------------------------------------------------------*/
-UART_HandleTypeDef huart1;
+UART_HandleTypeDef huart4;
 DMA_HandleTypeDef hdma_usart1_rx;
 
 

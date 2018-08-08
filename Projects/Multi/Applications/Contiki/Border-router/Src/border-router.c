@@ -459,7 +459,7 @@ receiver(struct simple_udp_connection *c,
 	  uip_debug_ipaddr_print(sender_addr);
 	
   
-      #if 1
+     
       if(((uint8_t *)sender_addr)[15]==0x40)
       {
         //  node3_counter++;
@@ -474,7 +474,7 @@ receiver(struct simple_udp_connection *c,
           printf("\r\n Node1");    
       }
   
-#if 0      
+#if 1      
       for(i=0;i<16;i++)
       {
         sender_ip[i]=((uint8_t *)sender_addr)[i];
@@ -486,28 +486,10 @@ receiver(struct simple_udp_connection *c,
 	          sender_ip[0],sender_ip[1],sender_ip[2],sender_ip[3],sender_ip[4], 
             sender_ip[5],sender_ip[6],sender_ip[7],sender_ip[8],sender_ip[9],
             sender_ip[10],sender_ip[11],sender_ip[12],sender_ip[13],sender_ip[14],
-            sender_ip[15],datalen, data[0]);
+            sender_ip[15],datalen, data[1]);
       //ESP8266 send data
-     // ESP8266_SendData(sender_ip,data);
-      // waiting for data
-   //   HAL_UART_Receive_DMA(&huart1,(uint8_t*)DEST_ADDRESS,5); 
-    
-      //Thomas send data to server
-      // uip_debug_ipaddr_print(sender_addr);
-    //  printf("\n");
-    //  sprintf(buf, "mmmhhhhmmmjhhh");
-	
-    #endif
-//Use next line instead to match the simpler CSV "sender,msg" code of the receiver
-//      sprintf(buf, "%lu", message_number);
-     
-     // simple_udp_sendto(&unicast_connection, buf, strlen(buf) + 1, sender_addr);
-  
-  
-/*Comment previous lines and uncomment next two lines for a simple CSV output*/
-	  //uip_debug_ipaddr_print(sender_addr);
-	  //printf(",%s\n", data);
-
+      ESP8266_SendData(sender_ip,data);
+ 
 }
 /*---------------------------------------------------------------------------*/
 

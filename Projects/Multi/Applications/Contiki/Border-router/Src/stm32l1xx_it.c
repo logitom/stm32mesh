@@ -68,7 +68,7 @@ extern const struct sensors_sensor button_sensor;
 extern volatile unsigned long seconds;
 extern volatile clock_time_t ticks;
 extern volatile uint32_t rtimer_clock;
-extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart4;
 
 extern uint8_t DMAstr[7];
 
@@ -364,33 +364,19 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle)
 {
    //HAL_UART_Receive_IT(&huart1, (uint8_t*)huart1.pRxBuffPtr, 8); 
-    HAL_UART_Receive_DMA(UartHandle,(uint8_t*)DMAstr,7); 
+    //HAL_UART_Receive_DMA(UartHandle,(uint8_t*)DMAstr,7); 
 }
 
 /**
 * @brief This function handles USART1 global interrupt.
 */
-void USART1_IRQHandler(void)
+void UART4_IRQHandler(void)
 {
-  /* USER CODE BEGIN USART1_IRQn 0 */
+  /* USER CODE BEGIN USART4_IRQn */
 
-  /* USER CODE END USART1_IRQn 0 */
-  HAL_UART_IRQHandler(&huart1);
-  
-  /* USER CODE BEGIN USART1_IRQn 1 */
-  if(__HAL_UART_GET_IT_SOURCE(&huart1,UART_IT_RXNE))
-{
-    huart1.pRxBuffPtr[i++]=huart1.Instance->DR;
-}
-
-  
-  
-  //if(__HAL_UART_GET_FLAG(huart1, UART_FLAG_RXNE)){
-  
-  //ESP8266_Write();
-  HAL_UART_Receive_IT(&huart1,(uint8_t*)&huart1.pRxBuffPtr,1);
- // __HAL_UART_CLEAR_FLAG(&huart1, UART_FLAG_RXNE);
-  /* USER CODE END USART1_IRQn 1 */
+  /* USER CODE END USART4_IRQn  */
+  HAL_UART_IRQHandler(&huart4);
+ 
 }
 
 /**

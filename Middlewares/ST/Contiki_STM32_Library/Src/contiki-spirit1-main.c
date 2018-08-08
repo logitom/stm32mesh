@@ -192,7 +192,7 @@ void Stack_6LoWPAN_Init(void)
 
   PRINTF("Contiki and SPIRIT1 correctly configured... Starting all processes\n");
 
- // process_start(&sensors_process, NULL);
+  process_start(&sensors_process, NULL);
 
   autostart_start(autostart_processes);
 
