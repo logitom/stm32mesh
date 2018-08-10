@@ -61,7 +61,7 @@
 /* Private functions ---------------------------------------------------------*/
 
 /* External variables --------------------------------------------------------*/
-extern DMA_HandleTypeDef hdma_usart1_rx;
+extern DMA_HandleTypeDef hdma_uart4_rx;
 extern UART_HandleTypeDef UartHandle;
 extern TIM_HandleTypeDef htim2;
 extern const struct sensors_sensor button_sensor;
@@ -410,14 +410,14 @@ void Contiki_SysTick_Handler(void)
 }
 
 /**
-* @brief This function handles DMA1 channel5 global interrupt.
+* @brief This function handles DMA2 channel3 global interrupt.
 */
-void DMA1_Channel5_IRQHandler(void)
+void DMA2_Channel3_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel5_IRQn 0 */
 
   /* USER CODE END DMA1_Channel5_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_usart1_rx);
+  HAL_DMA_IRQHandler(&hdma_uart4_rx);
   /* USER CODE BEGIN DMA1_Channel5_IRQn 1 */
 
   /* USER CODE END DMA1_Channel5_IRQn 1 */

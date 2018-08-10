@@ -83,10 +83,11 @@ unsigned char buf[17] ;
 #ifndef USE_X_CUBE_IDW01M1
 void st_lib_hal_uart_rx_cplt_callback(st_lib_uart_handle_typedef *huart)
 {   
-  if(huart->Instance==USART1)
+  if(huart->Instance==UART4)
   {
 	   // memcpy(buf,(uint8_t*)DMAstr,7);
      // ESP8266_Write(buf);
+     HAL_UART_Transmit(huart,(uint8_t *)DMAstr,7,200);
       HAL_UART_Receive_DMA(huart,(uint8_t*)DMAstr,7); 
   }else if(huart->Instance==USART2)
   {

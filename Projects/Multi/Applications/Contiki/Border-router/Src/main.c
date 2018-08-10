@@ -79,8 +79,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart4;
-DMA_HandleTypeDef hdma_usart1_rx;
-
+DMA_HandleTypeDef hdma_uart4_rx;
+extern uint8_t DMAstr[7];
 
 void USARTConfig(void);
 void Stack_6LoWPAN_Init(void);
@@ -111,7 +111,7 @@ int main()
     USARTConfig();
 
     /* DMA init */
-   // MX_DMA_Init();   
+    MX_DMA_Init();   
     
    
     /* esp8266 wifi initialize */ 
@@ -140,7 +140,7 @@ int main()
 
    
     Stack_6LoWPAN_Init();
-   
+    HAL_UART_Receive_DMA(&huart4,(uint8_t*)DMAstr,7); 
 
     while(1) {
       int r = 0;
@@ -164,17 +164,17 @@ int main()
 #if 0
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-     HAL_UART_Receive_DMA(&huart1,(uint8_t*)DEST_ADDRESS,17); 
+     HAL_UART_Receive_DMA(&huart4,(uint8_t*)DMAstr,7); 
 }
 #endif
 static void MX_DMA_Init(void) 
 {
   /* DMA controller clock enable */
-  __HAL_RCC_DMA1_CLK_ENABLE();
+  __HAL_RCC_DMA2_CLK_ENABLE();
 
   /* DMA interrupt init */
   /* DMA1_Channel5_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
+  HAL_NVIC_SetPriority(DMA2_Channel3_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Channel3_IRQn);
 }
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

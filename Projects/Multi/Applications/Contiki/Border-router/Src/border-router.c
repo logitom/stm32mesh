@@ -63,7 +63,7 @@
 #define DEBUG DEBUG_PRINT
 #include "net/ip/uip-debug.h"
 
-extern  UART_HandleTypeDef huart1;
+extern  UART_HandleTypeDef huart4;
 static uip_ipaddr_t prefix;
 static uint8_t prefix_set;
 static uint8_t sender_ip[16];
@@ -383,7 +383,7 @@ PROCESS_THREAD(border_router_process, ev, data)
 
   PROCESS_PAUSE();
 
-  //SENSORS_ACTIVATE(button_sensor);
+  SENSORS_ACTIVATE(button_sensor);
 
   PRINTF("RPL-Border router started\n");
 #if 0
@@ -416,16 +416,19 @@ PROCESS_THREAD(border_router_process, ev, data)
 #endif
 
   process_start(&unicast_receiver_process, NULL);  
+  
+ // HAL_UART_Receive_DMA(&huart4,(uint8_t*)DMAstr,7); 
+  
   while(1) {
   
-     //PROCESS_YIELD();
-     PROCESS_PAUSE();
-     HAL_Delay(1000);
+     PROCESS_YIELD();
+    // PROCESS_PAUSE();
+    // HAL_Delay(1000);
  //    HAL_UART_Receive_IT(&huart1, (uint8_t*)huart1.pRxBuffPtr, 1);
    //  ESP8266_Write("go2\r\n");
    
     
-#if 0    
+#if 1    
     if (ev == sensors_event && data == &button_sensor) {
       PRINTF("Initiating global repair\n");
       rpl_repair_root(RPL_DEFAULT_INSTANCE);
