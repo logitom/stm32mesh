@@ -56,6 +56,8 @@
 
 #include "ESP8266.h"
 
+
+
 /** @addtogroup Border_router
   * @{
   */
@@ -523,8 +525,12 @@ set_global_address(void)
 
 PROCESS_THREAD(unicast_receiver_process, ev, data)
 {
+  int i;
   uip_ipaddr_t *ipaddr;
-
+  
+  uint16_t ssid[4]={0x6ef,0x6fd,0x6f4,0x6f4};
+  uint16_t code[4];
+  
   PROCESS_BEGIN();
 
   servreg_hack_init();
@@ -541,13 +547,18 @@ PROCESS_THREAD(unicast_receiver_process, ev, data)
                       NULL, UDP_PORT, receiver);
   
   
-  while(1) {
+ // ESP8266_Write("AT+\n"); //disconnect with ap
  
+  while(1) {
+  
   PROCESS_WAIT_EVENT();
   }
   PROCESS_END();
 }
 /*---------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------*/
+
 
 
 /**

@@ -1192,6 +1192,9 @@ void HAL_UART_IRQHandler(UART_HandleTypeDef *huart)
 {
   uint32_t tmp_flag = 0, tmp_it_source = 0;
 
+  tmp_flag = __HAL_UART_GET_FLAG(huart, UART_FLAG_IDLE);
+  tmp_it_source = __HAL_UART_GET_IT_SOURCE(huart, UART_IT_IDLE); 
+  
   tmp_flag = __HAL_UART_GET_FLAG(huart, UART_FLAG_PE);
   tmp_it_source = __HAL_UART_GET_IT_SOURCE(huart, UART_IT_PE);  
   /* UART parity error interrupt occurred ------------------------------------*/
@@ -1896,10 +1899,24 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
      Set PCE and PS bits according to huart->Init.Parity value
      Set TE and RE bits according to huart->Init.Mode value
      Set OVER8 bit according to huart->Init.OverSampling value */
-  tmpreg = (uint32_t)huart->Init.WordLength | huart->Init.Parity | huart->Init.Mode | huart->Init.OverSampling;
-  MODIFY_REG(huart->Instance->CR1, 
+  if(huart->Instance==UART4)
+  {
+    //|USART_CR1_IDLEIE
+    SET_BIT(huart->Instance->CR1, USART_CR1_IDLEIE);
+     
+    tmpreg = (uint32_t)huart->Init.WordLength | huart->Init.Parity | huart->Init.Mode | huart->Init.OverSampling;
+    MODIFY_REG(huart->Instance->CR1, 
              (uint32_t)(USART_CR1_M | USART_CR1_PCE | USART_CR1_PS | USART_CR1_TE | USART_CR1_RE | USART_CR1_OVER8), 
              tmpreg);
+  }else
+  {
+    tmpreg = (uint32_t)huart->Init.WordLength | huart->Init.Parity | huart->Init.Mode | huart->Init.OverSampling;
+    MODIFY_REG(huart->Instance->CR1, 
+             (uint32_t)(USART_CR1_M | USART_CR1_PCE | USART_CR1_PS | USART_CR1_TE | USART_CR1_RE | USART_CR1_OVER8), 
+             tmpreg);   
+    
+  }    
+  
   
   /*------- UART-associated USART registers setting : CR3 Configuration ------*/
   /* Configure the UART HFC: Set CTSE and RTSE bits according to huart->Init.HwFlowCtl value */

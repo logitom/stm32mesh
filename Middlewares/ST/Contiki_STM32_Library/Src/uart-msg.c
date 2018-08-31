@@ -87,8 +87,10 @@ void st_lib_hal_uart_rx_cplt_callback(st_lib_uart_handle_typedef *huart)
   {
 	   // memcpy(buf,(uint8_t*)DMAstr,7);
      // ESP8266_Write(buf);
-     HAL_UART_Transmit(huart,(uint8_t *)DMAstr,7,200);
-      HAL_UART_Receive_DMA(huart,(uint8_t*)DMAstr,7); 
+     //HAL_UART_Transmit(huart,(uint8_t *)DMAstr,7,200);
+     HAL_UART_Receive_DMA(huart,(uint8_t*)DMAstr,7); 
+     // add uart data parser  & AES decoder here
+     
   }else if(huart->Instance==USART2)
   {
       slip_input_byte(databyte[0]);

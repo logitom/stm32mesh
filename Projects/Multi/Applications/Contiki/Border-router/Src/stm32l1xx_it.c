@@ -351,7 +351,7 @@ void TIM2_IRQHandler(void)
 #if 0
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-     HAL_UART_Receive_DMA(&huart1,(uint8_t*)DEST_ADDRESS,10); 
+     HAL_UART_Receive_DMA(huart,(uint8_t*)DMAstr,7); 
 }
 #endif
 /**
@@ -364,7 +364,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle)
 {
    //HAL_UART_Receive_IT(&huart1, (uint8_t*)huart1.pRxBuffPtr, 8); 
-    //HAL_UART_Receive_DMA(UartHandle,(uint8_t*)DMAstr,7); 
+   HAL_UART_Receive_DMA(UartHandle,(uint8_t*)DMAstr,7); 
 }
 
 /**
@@ -372,11 +372,27 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle)
 */
 void UART4_IRQHandler(void)
 {
+    volatile uint32_t tmp;                  /* Must be volatile to prevent optimizations */    
+    volatile static uint32_t counter=0;  
   /* USER CODE BEGIN USART4_IRQn */
-
+  //HAL_DMA_Abort(&hdma_uart4_rx);
   /* USER CODE END USART4_IRQn  */
   HAL_UART_IRQHandler(&huart4);
- 
+  if(huart4.Instance->SR & USART_FLAG_IDLE)
+  {
+        tmp = huart4.Instance->SR;                  /* Read status register */
+        tmp = huart4.Instance->DR;                  /* Read data register */
+        (void)tmp;                                  /* Prevent compiler warnings */       
+     
+          counter=hdma_uart4_rx.Instance->CNDTR;
+          if(counter!=0)
+          {  
+              HAL_UART_DMAStop(&huart4);
+              HAL_UART_DMAResume(&huart4);
+              HAL_UART_Receive_DMA(&huart4,(uint8_t*)DMAstr,7); 
+          }
+  }
+  
 }
 
 /**

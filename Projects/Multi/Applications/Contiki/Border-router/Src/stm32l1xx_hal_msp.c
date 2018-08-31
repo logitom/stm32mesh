@@ -183,7 +183,11 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF8_UART4;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
+    
+    /* UART4 interrupt Init */
+    HAL_NVIC_SetPriority(UART4_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(UART4_IRQn);
+    
     /* USART1 DMA Init */
     /* USART1_RX Init */
     hdma_uart4_rx.Instance = DMA2_Channel3;
@@ -271,6 +275,9 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
     */
     HAL_GPIO_DeInit(GPIOC, GPIO_PIN_10|GPIO_PIN_11);
 
+    /* UART4 interrupt DeInit */
+    HAL_NVIC_DisableIRQ(UART4_IRQn);
+ 
     /* USART1 DMA DeInit */
     HAL_DMA_DeInit(huart->hdmarx);
   /* USER CODE BEGIN USART1_MspDeInit 1 */
