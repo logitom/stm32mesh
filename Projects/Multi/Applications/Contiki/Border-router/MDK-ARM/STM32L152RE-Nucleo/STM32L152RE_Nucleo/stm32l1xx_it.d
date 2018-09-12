@@ -112,3 +112,9 @@
 .\stm32l152re_nucleo\stm32l1xx_it.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\dev\slip.h
 .\stm32l152re_nucleo\stm32l1xx_it.o: ..\..\Inc\main.h
 .\stm32l152re_nucleo\stm32l1xx_it.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\lib\sensors.h
+.\stm32l152re_nucleo\stm32l1xx_it.o: ..\..\..\..\..\..\..\Middlewares\ST\Contiki_STM32_Library\Inc\hw-config.h
+.\stm32l152re_nucleo\stm32l1xx_it.o: ..\..\..\..\..\..\..\Drivers\BSP\Components\spirit1\SPIRIT1_Library\Inc\ESP8266.h
+.\stm32l152re_nucleo\stm32l1xx_it.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/uip.h
+.\stm32l152re_nucleo\stm32l1xx_it.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/uipopt.h
+.\stm32l152re_nucleo\stm32l1xx_it.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/tcpip.h
+.\stm32l152re_nucleo\stm32l1xx_it.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/uip.h

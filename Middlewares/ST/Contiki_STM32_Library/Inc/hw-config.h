@@ -156,7 +156,7 @@
 #ifdef USE_STM32L1XX_NUCLEO
 /*---------------------------------------------------------------------------*/
 
-#define UART_RxBufferSize    512
+#define UART_RxBufferSize    256
 /*---------------------------------------------------------------------------*/    
 #define I2Cx                            I2C1
 #define I2Cx_CLK_ENABLE()               __I2C1_CLK_ENABLE()

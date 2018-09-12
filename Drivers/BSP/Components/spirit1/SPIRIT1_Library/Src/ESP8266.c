@@ -49,8 +49,8 @@ extern UART_HandleTypeDef huart4;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-volatile uint8_t UART1_RxBuffer[UART_RxBufferSize];
-volatile uint8_t UART1_TxBuffer[UART_RxBufferSize];
+volatile uint8_t UART4_RxBuffer[UART_RxBufferSize];
+//volatile uint8_t UART1_TxBuffer[UART_RxBufferSize];
 
 const uint8_t DISCONNECT_AP[]={"AT+CWQAP\\r\\n"};
 const uint8_t CONNECT_AP[]={"\\well\\,\\26426588\\\\n\\r"};
@@ -90,6 +90,12 @@ static void MX_UART4_UART_Init(void)
   {
     ;//_Error_Handler(__FILE__, __LINE__);
   }
+  
+   huart4.pRxBuffPtr = (uint8_t*)UART4_RxBuffer;
+   huart4.RxXferSize = UART_RxBufferSize;
+   huart4.ErrorCode = HAL_UART_ERROR_NONE;
+  
+  
   
    //HAL_UART_Receive_DMA(&huart1,(uint8_t*)DEST_ADDRESS,5); 
 }

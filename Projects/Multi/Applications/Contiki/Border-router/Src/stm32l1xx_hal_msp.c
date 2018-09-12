@@ -55,7 +55,7 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 volatile uint8_t UART_RxBuffer[UART_RxBufferSize];
-volatile uint32_t Usart_BaudRate = 115200;//previously 115200
+volatile uint32_t Usart_BaudRate = 115200;
 
 UART_HandleTypeDef UartHandle;
 /* Private function prototypes -----------------------------------------------*/

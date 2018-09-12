@@ -68,7 +68,8 @@
 /*---------------------------------------------------------------------------*/
 void uart_send_msg(unsigned char *);
 extern st_lib_uart_handle_typedef st_lib_uart_handle;
-extern uint8_t DMAstr[7];
+//extern uint8_t DMAstr[7];
+extern volatile uint8_t UART_RxBuffer[UART_RxBufferSize];
 /*---------------------------------------------------------------------------*/
 unsigned char databyte[1] = {0};
 unsigned char buf[17] ;
@@ -88,7 +89,7 @@ void st_lib_hal_uart_rx_cplt_callback(st_lib_uart_handle_typedef *huart)
 	   // memcpy(buf,(uint8_t*)DMAstr,7);
      // ESP8266_Write(buf);
      //HAL_UART_Transmit(huart,(uint8_t *)DMAstr,7,200);
-     HAL_UART_Receive_DMA(huart,(uint8_t*)DMAstr,7); 
+     HAL_UART_Receive_DMA(huart,(uint8_t*)UART_RxBuffer,UART_RxBufferSize); 
      // add uart data parser  & AES decoder here
      
   }else if(huart->Instance==USART2)

@@ -50,6 +50,7 @@ void ESP8266_Init(void);
 void ESP8266_Write(const uint8_t *inst);
 void ESP8266_APInit(void);
 void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data);
+void ESP8266_SendCommandToNode(uint8_t *Server_Command,uint8_t Command_Length);
 #ifdef __cplusplus
 }
 #endif

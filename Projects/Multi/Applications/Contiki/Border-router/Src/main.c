@@ -64,6 +64,7 @@
 #include "spirit1.h"
 #include "process.h"
 #include "ESP8266.h"
+#include "hw-config.h"
 /** @defgroup Border_router
   * @{
   */
@@ -80,8 +81,9 @@
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart4;
 DMA_HandleTypeDef hdma_uart4_rx;
-extern uint8_t DMAstr[7];
 
+//extern uint8_t DMAstr[7];
+extern volatile uint8_t UART_RxBuffer[UART_RxBufferSize];
 void USARTConfig(void);
 void Stack_6LoWPAN_Init(void);
 static void MX_DMA_Init(void); 
@@ -140,7 +142,7 @@ int main()
 
    
     Stack_6LoWPAN_Init();
-    HAL_UART_Receive_DMA(&huart4,(uint8_t*)DMAstr,7); 
+    HAL_UART_Receive_DMA(&huart4,(uint8_t*)UART_RxBuffer,UART_RxBufferSize); 
 
     while(1) {
       int r = 0;

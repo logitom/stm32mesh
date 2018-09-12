@@ -55,7 +55,7 @@
 #include <ctype.h>
 
 #include "ESP8266.h"
-
+#include "hw-config.h"
 
 
 /** @addtogroup Border_router
@@ -65,12 +65,20 @@
 #define DEBUG DEBUG_PRINT
 #include "net/ip/uip-debug.h"
 
+extern volatile uint8_t UART_RxBuffer[UART_RxBufferSize];
 extern  UART_HandleTypeDef huart4;
 static uip_ipaddr_t prefix;
 static uint8_t prefix_set;
 static uint8_t sender_ip[16];
 
-uint8_t DMAstr[7];
+uint8_t ServerCommandFlag=0;
+uint32_t Server_Command_Len=0;
+
+void SendCommandToNode(void);
+#define JSON_ADDR 22
+
+
+//uint8_t DMAstr[7];
 /* for receiver function */
 #define UDP_PORT 1234
 #define SERVICE_ID 190
@@ -423,12 +431,20 @@ PROCESS_THREAD(border_router_process, ev, data)
   
   while(1) {
   
-     PROCESS_YIELD();
+     //PROCESS_YIELD();
     // PROCESS_PAUSE();
     // HAL_Delay(1000);
  //    HAL_UART_Receive_IT(&huart1, (uint8_t*)huart1.pRxBuffPtr, 1);
    //  ESP8266_Write("go2\r\n");
-   
+    
+    //send parsing data here
+    if(ServerCommandFlag==1)
+    {
+       ServerCommandFlag=0;  
+       SendCommandToNode();
+           
+    }       
+    
     
 #if 1    
     if (ev == sensors_event && data == &button_sensor) {
@@ -559,6 +575,80 @@ PROCESS_THREAD(unicast_receiver_process, ev, data)
 
 /*---------------------------------------------------------------------------*/
 
+
+/*---------------------------------------------------------------------------*/
+// Parsing Json file. command and data
+// 1. command: _cmd:     index 8, len  1 byte
+// 2. address: _address: index 22,len 32 bytes
+/*---------------------------------------------------------------------------*/
+void SendCommandToNode(void)
+{
+    uip_ipaddr_t addr; 
+    uint8_t _cmd;
+    uint8_t tmp,tmpaddr; 
+    int i=0,j=0;
+    int index=0;
+    
+    //Parsing command type
+    _cmd=UART_RxBuffer[8];  
+    
+    printf("\n received command: %c\n",_cmd);
+  
+    do{  
+      
+    if(UART_RxBuffer[JSON_ADDR+i] >=0x30 && UART_RxBuffer[JSON_ADDR+i]<=0x39)
+    {
+       tmp= UART_RxBuffer[JSON_ADDR+i]-0x30;     
+    }else
+    {
+       tmp= UART_RxBuffer[JSON_ADDR+i]-0x57;    
+    }      
+    
+    if(i%2==0)
+    {
+      tmpaddr=tmp<<4;
+    }else
+    {       
+       tmpaddr=tmpaddr+tmp;
+       addr.u8[index++]=tmpaddr;
+       
+       printf("%x",tmpaddr);
+    }
+    i++;
+    
+    }while(UART_RxBuffer[JSON_ADDR+i]!=0x22);
+    
+    
+    // re-arrange ipv6 address
+    if(index!=15)
+    {
+       //for(i=0;i<=15;i++)
+        //addr.u8[i]=0x00; 
+      
+       
+       for(i=15;i>=(15-index+2);i--)
+       {
+           tmpaddr= addr.u8[i];
+           addr.u8[i]=tmpaddr;         
+       }         
+    }      
+    //uip_ip6addr_u8 
+    //  uip_ip6addr(addr, 0xaaaa, 0, 0, 0, 0, 0, 0, 0);
+    //JSON_ADDR
+    
+    
+#if 1
+   uip_debug_ipaddr_print(&addr);
+   //Parsing address
+ //  for(i=0;i<16;i++)
+ //  {
+     //printf("\n send command addr %x\n",addr->u8[i]);
+ //  }
+#endif   
+   //send command to Node
+   //simple_udp_sendto(&unicast_connection,(const void *)&_cmd,2, addr); 
+  
+}  
 
 
 /**

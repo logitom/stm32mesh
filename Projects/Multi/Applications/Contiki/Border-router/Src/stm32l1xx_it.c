@@ -43,7 +43,8 @@
 #include "main.h"
 #include "sensors.h"
 #include <stdint.h>
-
+#include "hw-config.h"
+#include "ESP8266.h"
 
 /** @addtogroup L1
  *  @ingroup Border_router
@@ -56,6 +57,7 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+extern uint32_t Server_Command_Len;
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -70,9 +72,12 @@ extern volatile clock_time_t ticks;
 extern volatile uint32_t rtimer_clock;
 extern UART_HandleTypeDef huart4;
 
-extern uint8_t DMAstr[7];
+extern volatile uint8_t UART_RxBuffer[UART_RxBufferSize];
+extern uint8_t ServerCommandFlag;
+//extern uint8_t DMAstr[7];
 
-uint8_t i=0;
+
+//uint8_t i=0;
 
 /******************************************************************************/
 /*            Cortex-M3 Processor Exceptions Handlers                         */
@@ -364,7 +369,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle)
 {
    //HAL_UART_Receive_IT(&huart1, (uint8_t*)huart1.pRxBuffPtr, 8); 
-   HAL_UART_Receive_DMA(UartHandle,(uint8_t*)DMAstr,7); 
+  // HAL_UART_Receive_DMA(UartHandle,(uint8_t*)DMAstr,7); 
 }
 
 /**
@@ -385,14 +390,16 @@ void UART4_IRQHandler(void)
         (void)tmp;                                  /* Prevent compiler warnings */       
      
           counter=hdma_uart4_rx.Instance->CNDTR;
+          
           if(counter!=0)
           {  
               HAL_UART_DMAStop(&huart4);
+              ServerCommandFlag=1;
+              Server_Command_Len=UART_RxBufferSize-counter;            
               HAL_UART_DMAResume(&huart4);
-              HAL_UART_Receive_DMA(&huart4,(uint8_t*)DMAstr,7); 
+              HAL_UART_Receive_DMA(&huart4,(uint8_t*)UART_RxBuffer,UART_RxBufferSize); 
           }
   }
-  
 }
 
 /**
