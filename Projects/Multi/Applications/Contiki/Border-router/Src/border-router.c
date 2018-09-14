@@ -431,12 +431,13 @@ PROCESS_THREAD(border_router_process, ev, data)
   
   while(1) {
   
-     //PROCESS_YIELD();
+     PROCESS_YIELD();
     // PROCESS_PAUSE();
     // HAL_Delay(1000);
  //    HAL_UART_Receive_IT(&huart1, (uint8_t*)huart1.pRxBuffPtr, 1);
    //  ESP8266_Write("go2\r\n");
-    
+
+#if 0    
     //send parsing data here
     if(ServerCommandFlag==1)
     {
@@ -444,7 +445,7 @@ PROCESS_THREAD(border_router_process, ev, data)
        SendCommandToNode();
            
     }       
-    
+#endif    
     
 #if 1    
     if (ev == sensors_event && data == &button_sensor) {
@@ -628,7 +629,7 @@ void SendCommandToNode(void)
        
        for(i=15;i>=(15-index+2);i--)
        {
-           tmpaddr= addr.u8[i];
+           tmpaddr= addr.u8[index];
            addr.u8[i]=tmpaddr;         
        }         
     }      

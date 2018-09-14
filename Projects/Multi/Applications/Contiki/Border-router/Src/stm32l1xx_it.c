@@ -394,7 +394,7 @@ void UART4_IRQHandler(void)
           if(counter!=0)
           {  
               HAL_UART_DMAStop(&huart4);
-              ServerCommandFlag=1;
+             // ServerCommandFlag=1;
               Server_Command_Len=UART_RxBufferSize-counter;            
               HAL_UART_DMAResume(&huart4);
               HAL_UART_Receive_DMA(&huart4,(uint8_t*)UART_RxBuffer,UART_RxBufferSize); 

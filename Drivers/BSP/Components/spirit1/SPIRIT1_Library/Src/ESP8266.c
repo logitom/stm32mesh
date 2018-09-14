@@ -114,6 +114,7 @@ void ESP8266_APInit(void)
     ESP8266_Write("AT+CWQAP\r\n"); //disconnect with ap
     HAL_Delay(1000);
     ESP8266_Write("AT+CWJAP=\"well\"\,\"26426588\"\r\n"); //connect to well ap
+ //  ESP8266_Write("AT+CWJAP=\"CPE_CF58A0\"\,\"freewifi\"\r\n");
     HAL_Delay(1000);  
 }
 
@@ -143,17 +144,29 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
       
   
     /* creat a TCP connection */
-    ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"192.168.2.161\",8888\r\n");
+     ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"well-electronics.asuscomm.com\",7070\r\n");
+   //  ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"www.google.com\",80\r\n");
+    //ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"36.239.116.51\",8888\r\n"); //36.239.116.51 NAS  192.168.2.148
+    //well-electronics.asuscomm.com/test_server/test_send_data.php
+   // ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"well-electronics.asuscomm.com\/test_server\/test_send_data.php\",80\r\n");
+  // ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"well-electronics.asuscomm.com\",80\r\n");
+   // http://well-electronics.asuscomm.com/test_server/test_send_data.php
     HAL_Delay(500);  
     
     /* send data */   
-   //sprintf((char*)buffer,"GET /test_sigfox/keep_history.php\?_temperature=32.77\&_humidity=50.89\&_mac=999\r\n");
+   // sprintf((char*)buffer,"GET \/test_server\/test_send_data.php/test_sigfox/keep_history.php\?_temperature=%d\&_humidity=%d\&_mac=%x%x%
    // sprintf((char*)buffer,"GET /test_sigfox/keep_history.php\?_temperature=32.11\&_humidity=77\&_mac=112233\r\n");    
-    sprintf((char*)buffer,"GET /test_sigfox/keep_history.php\?_temperature=%d\&_humidity=%d\&_mac=%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x\r\n",tmp,humidity,
-      lladdr[0],lladdr[1],lladdr[2],lladdr[3],lladdr[4], 
+  //  sprintf((char*)buffer,"GET well-electronics.asuscomm.com/test_server/test_send_data.php\?temp=%d\&_humidity=%d\&_mac=%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x\r\n",tmp,humidity,
+    // sprintf((char*)buffer,"GET /test_sigfox/get_data.php");
+#if 0
+    sprintf((char*)buffer,"GET /test_server/test_send_data.php\?temp=%d\&_humidity=%d\&_mac=%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x HTTP/1.1\r\n",tmp,humidity,   
+    lladdr[0],lladdr[1],lladdr[2],lladdr[3],lladdr[4], 
             lladdr[5],lladdr[6],lladdr[7],lladdr[8],lladdr[9],
             lladdr[10],lladdr[11],lladdr[12],lladdr[13],lladdr[14],
             lladdr[15]);  
+#endif
+    //sprintf((char*)buffer,"AT+PING=\"www.google.com\"\r\n");
+    sprintf((char*)buffer,"http:\\\\well-electronics.asuscomm.com:7070/app/ HTTP/1.0 host: well-electronics.asuscomm.com\r\n");//well-electronics.asuscomm.com  36.239.116.51
     DataLen=strlen((const char*)buffer);
     printf("web ip:%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x \r\n",lladdr[15],lladdr[14],lladdr[13],lladdr[12],lladdr[11], 
            lladdr[0],lladdr[1],lladdr[2],lladdr[3],lladdr[4], 
