@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\STM32L152RE_Nucleo\border-router_l152.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\STM32L152RE_Nucleo\border-router_l152.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060061: Last Updated: Fri Sep 14 17:04:08 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060061: Last Updated: Tue Sep 18 17:40:14 2018
 <BR><P>
 <H3>Maximum Stack Usage =        548 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -864,8 +864,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[cd]"></a>ESP8266_SendData</STRONG> (Thumb, 212 bytes, Stack size 312 bytes, esp8266.o(i.ESP8266_SendData))
-<BR><BR>[Stack]<UL><LI>Max Depth = 384<LI>Call Chain = ESP8266_SendData &rArr; ESP8266_Write &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
+<P><STRONG><a name="[cd]"></a>ESP8266_SendData</STRONG> (Thumb, 128 bytes, Stack size 368 bytes, esp8266.o(i.ESP8266_SendData))
+<BR><BR>[Stack]<UL><LI>Max Depth = 440<LI>Call Chain = ESP8266_SendData &rArr; ESP8266_Write &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ESP8266_Write
@@ -5031,7 +5031,7 @@ Local Symbols
 <BR>[Address Reference Count : 1]<UL><LI> border-router_1.o(.data)
 </UL>
 <P><STRONG><a name="[69]"></a>receiver</STRONG> (Thumb, 156 bytes, Stack size 104 bytes, border-router_1.o(i.receiver))
-<BR><BR>[Stack]<UL><LI>Max Depth = 488<LI>Call Chain = receiver &rArr; ESP8266_SendData &rArr; ESP8266_Write &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
+<BR><BR>[Stack]<UL><LI>Max Depth = 544<LI>Call Chain = receiver &rArr; ESP8266_SendData &rArr; ESP8266_Write &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[242]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_debug_ipaddr_print
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ESP8266_SendData

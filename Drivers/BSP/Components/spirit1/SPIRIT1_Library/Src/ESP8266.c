@@ -125,7 +125,7 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
     uint8_t DataLen;  
     uint8_t buffer2[30];
     uint8_t lladdr[16];
-    uint8_t buffer[150];   
+    uint8_t buffer[300];   
     
     /* get Device ID  */
     tmp=data[0];  
@@ -142,10 +142,16 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
     /* get door status */    
     humidity=data[1];  
       
-  
+    // ESP8266_Write((const uint8_t*)"AT+GMR\r\n");
     /* creat a TCP connection */
-     ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"well-electronics.asuscomm.com\",7070\r\n");
-   //  ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"www.google.com\",80\r\n");
+  //  ESP8266_Write((const uint8_t*)"AT+CIPMUX=1\r\n");
+  //  HAL_Delay(500); 
+  //  ESP8266_Write((const uint8_t*)"AT+CWMODE=3\r\n");
+  //  HAL_Delay(500); 
+   // ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"192.168.2.148\",80\r\n");
+      ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"192.168.2.53\",8080\r\n");   
+    // ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"well-electronics.asuscomm.com\",7070\r\n");
+    // ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"www.google.com\",80\r\n");
     //ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"36.239.116.51\",8888\r\n"); //36.239.116.51 NAS  192.168.2.148
     //well-electronics.asuscomm.com/test_server/test_send_data.php
    // ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"well-electronics.asuscomm.com\/test_server\/test_send_data.php\",80\r\n");
@@ -159,20 +165,51 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
   //  sprintf((char*)buffer,"GET well-electronics.asuscomm.com/test_server/test_send_data.php\?temp=%d\&_humidity=%d\&_mac=%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x\r\n",tmp,humidity,
     // sprintf((char*)buffer,"GET /test_sigfox/get_data.php");
 #if 0
-    sprintf((char*)buffer,"GET /test_server/test_send_data.php\?temp=%d\&_humidity=%d\&_mac=%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x HTTP/1.1\r\n",tmp,humidity,   
+    sprintf((char*)buffer,"temp=%d_humidity=%d_mac=%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x HTTP/1.1\r\n",tmp,humidity,   
     lladdr[0],lladdr[1],lladdr[2],lladdr[3],lladdr[4], 
             lladdr[5],lladdr[6],lladdr[7],lladdr[8],lladdr[9],
             lladdr[10],lladdr[11],lladdr[12],lladdr[13],lladdr[14],
             lladdr[15]);  
 #endif
-    //sprintf((char*)buffer,"AT+PING=\"www.google.com\"\r\n");
-    sprintf((char*)buffer,"http:\\\\well-electronics.asuscomm.com:7070/app/ HTTP/1.0 host: well-electronics.asuscomm.com\r\n");//well-electronics.asuscomm.com  36.239.116.51
+ //   sprintf((char*)buffer,"GET /test_sigfox/get_data.php\r\n");
+  //  sprintf((char*)buffer,"%s Host: 192.168.2.148\r\n",buffer);
+#if 1   
+    sprintf((char*)buffer,"GET");
+#if 0
+    sprintf((char*)buffer,"%s /test_server/test_send_data.php\?temp=%d_humidity=%d_mac=%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x HTTP/1.1\r\n",buffer,tmp,humidity,   
+    lladdr[0],lladdr[1],lladdr[2],lladdr[3],lladdr[4], 
+            lladdr[5],lladdr[6],lladdr[7],lladdr[8],lladdr[9],
+            lladdr[10],lladdr[11],lladdr[12],lladdr[13],lladdr[14],
+            lladdr[15]);    
+#endif
+    sprintf((char*)buffer,"%s / HTTP/1.1\r\n",buffer); 
+  //  sprintf((char*)buffer,"%sHost: 192.168.2.148:80\r\n\r\n",buffer);
+    sprintf((char*)buffer,"%sHost: 192.168.2.53:8080\r\n\r\n",buffer);
+   // sprintf((char*)buffer,"%sHost: www.google.com:80\r\n",buffer);
+ //   sprintf((char*)buffer,"%sUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)",buffer);
+  //  sprintf((char*)buffer,"%s AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36\r\n",buffer);
+ //   sprintf((char*)buffer,"%sAccept: /\r\n",buffer);
+ //   sprintf((char*)buffer,"%sAccept-Encoding: gzip, deflate\r\n\r\n",buffer);
+   
+ //   sprintf((char*)buffer,"%sAccept-Language: zh-TW,zh;q=0.9,en-US;q=0.8\r\n",buffer);
+ //    sprintf((char*)buffer,"%sAccept-Language: zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7\r\n",buffer);
+#endif
+ 
+    // sprintf((char*)buffer,"AT+PING=\"tw.yahoo.com\"\r\n");
+   //  ESP8266_Write((const uint8_t*)"AT+PING=\"tw.yahoo.com\"\r\n");   
+  //   HAL_Delay(1000); 
+//    sprintf((char*)buffer,"%sHost: 192.168.2.53\r\n",buffer);//well-electronics.asuscomm.com  36.239.116.51
+//    sprintf((char*)buffer,"%s User-Agent: ESP8266/1.3\r\n",buffer);
+ //   sprintf((char*)buffer,"%s Connection: close\r\n\r\n",buffer);
     DataLen=strlen((const char*)buffer);
+#if 0  
     printf("web ip:%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x \r\n",lladdr[15],lladdr[14],lladdr[13],lladdr[12],lladdr[11], 
            lladdr[0],lladdr[1],lladdr[2],lladdr[3],lladdr[4], 
             lladdr[5],lladdr[6],lladdr[7],lladdr[8],lladdr[9],
             lladdr[10],lladdr[11],lladdr[12],lladdr[13],lladdr[14],
             lladdr[15]);
+#endif    
+    
     
     printf("web buffer:%s \n",buffer);
     sprintf((char*)buffer2,"AT+CIPSEND=%d\r\n",DataLen); 
@@ -180,10 +217,11 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
     HAL_Delay(1000);   
   
     ESP8266_Write(buffer); 
-    HAL_Delay(1000);  
+    HAL_Delay(6000);  
   
   /* close a TCP connection */  
-   // ESP8266_Write("AT+CIPCLOSE\n\r");
+  //ESP8266_Write("AT+CIPCLOSE=1\n\r");
+  //HAL_Delay(1000);
 }
 
 
