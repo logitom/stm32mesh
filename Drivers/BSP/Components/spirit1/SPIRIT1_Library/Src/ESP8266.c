@@ -122,10 +122,11 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
 {
     uint8_t tmp; //device id
     uint8_t humidity; //door status
-    uint8_t DataLen;  
+    uint8_t DataLen; 
+    uint8_t Content_len;  
     uint8_t buffer2[30];
     uint8_t lladdr[16];
-    uint8_t buffer[300];   
+    uint8_t buffer[250];   
     
     /* get Device ID  */
     tmp=data[0];  
@@ -149,8 +150,8 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
   //  ESP8266_Write((const uint8_t*)"AT+CWMODE=3\r\n");
   //  HAL_Delay(500); 
    // ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"192.168.2.148\",80\r\n");
-      ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"192.168.2.53\",8080\r\n");   
-    // ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"well-electronics.asuscomm.com\",7070\r\n");
+    //  ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"192.168.2.53\",8080\r\n");   
+     ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"well-electronics.asuscomm.com\",80\r\n");
     // ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"www.google.com\",80\r\n");
     //ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"36.239.116.51\",8888\r\n"); //36.239.116.51 NAS  192.168.2.148
     //well-electronics.asuscomm.com/test_server/test_send_data.php
@@ -174,17 +175,33 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
  //   sprintf((char*)buffer,"GET /test_sigfox/get_data.php\r\n");
   //  sprintf((char*)buffer,"%s Host: 192.168.2.148\r\n",buffer);
 #if 1   
-    sprintf((char*)buffer,"GET");
-#if 0
-    sprintf((char*)buffer,"%s /test_server/test_send_data.php\?temp=%d_humidity=%d_mac=%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x HTTP/1.1\r\n",buffer,tmp,humidity,   
+    sprintf((char*)buffer,"temp=%d&_humidity=%d&_mac=%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x \r\n",tmp,humidity,   
     lladdr[0],lladdr[1],lladdr[2],lladdr[3],lladdr[4], 
             lladdr[5],lladdr[6],lladdr[7],lladdr[8],lladdr[9],
             lladdr[10],lladdr[11],lladdr[12],lladdr[13],lladdr[14],
-            lladdr[15]);    
-#endif
-    sprintf((char*)buffer,"%s / HTTP/1.1\r\n",buffer); 
+            lladdr[15]);
+    
+    Content_len=strlen((const char*)buffer);
+    
+    sprintf((char*)buffer,"POST");
+    sprintf((char*)buffer,"%s /test_server/test_send_data.php HTTP/1.1\r\n",buffer);    
+
+  //  sprintf((char*)buffer,"%s / HTTP/1.1\r\n",buffer); 
   //  sprintf((char*)buffer,"%sHost: 192.168.2.148:80\r\n\r\n",buffer);
-    sprintf((char*)buffer,"%sHost: 192.168.2.53:8080\r\n\r\n",buffer);
+    sprintf((char*)buffer,"%sAccept: /\r\n",buffer);
+    sprintf((char*)buffer,"%sHost: well-electronics.asuscomm.com\r\n",buffer);
+    sprintf((char*)buffer,"%sContent-Type: application/x-www-form-urlencoded\r\n",buffer);
+    sprintf((char*)buffer,"%sContent-Length: %d\r\n\r\n",buffer,Content_len);
+    
+   
+    sprintf((char*)buffer,"%stemp=%d&_humidity=%d&_mac=%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x",buffer,tmp,humidity,   
+    lladdr[0],lladdr[1],lladdr[2],lladdr[3],lladdr[4], 
+            lladdr[5],lladdr[6],lladdr[7],lladdr[8],lladdr[9],
+            lladdr[10],lladdr[11],lladdr[12],lladdr[13],lladdr[14],
+            lladdr[15]);
+    
+    
+       
    // sprintf((char*)buffer,"%sHost: www.google.com:80\r\n",buffer);
  //   sprintf((char*)buffer,"%sUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)",buffer);
   //  sprintf((char*)buffer,"%s AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36\r\n",buffer);
@@ -201,7 +218,7 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
 //    sprintf((char*)buffer,"%sHost: 192.168.2.53\r\n",buffer);//well-electronics.asuscomm.com  36.239.116.51
 //    sprintf((char*)buffer,"%s User-Agent: ESP8266/1.3\r\n",buffer);
  //   sprintf((char*)buffer,"%s Connection: close\r\n\r\n",buffer);
-    DataLen=strlen((const char*)buffer);
+   
 #if 0  
     printf("web ip:%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x \r\n",lladdr[15],lladdr[14],lladdr[13],lladdr[12],lladdr[11], 
            lladdr[0],lladdr[1],lladdr[2],lladdr[3],lladdr[4], 
@@ -210,7 +227,7 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
             lladdr[15]);
 #endif    
     
-    
+    DataLen=strlen((const char*)buffer);
     printf("web buffer:%s \n",buffer);
     sprintf((char*)buffer2,"AT+CIPSEND=%d\r\n",DataLen); 
     ESP8266_Write(buffer2);
