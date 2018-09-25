@@ -81,6 +81,9 @@
 .\stm32l152re_nucleo\esp8266.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\sys/energest.h
 .\stm32l152re_nucleo\esp8266.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/uip.h
 .\stm32l152re_nucleo\esp8266.o: ..\..\..\..\..\..\..\Middlewares\ST\Contiki_STM32_Library\Inc\hw-config.h
+.\stm32l152re_nucleo\esp8266.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\stm32l152re_nucleo\esp8266.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\stm32l152re_nucleo\esp8266.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\stm32l152re_nucleo\esp8266.o: ..\..\Inc\cube_hal.h
 .\stm32l152re_nucleo\esp8266.o: ..\..\Inc\stm32l1xx_it.h
 .\stm32l152re_nucleo\esp8266.o: ..\..\..\..\..\..\..\Drivers\BSP\X-NUCLEO-IDS01Ax\Inc\radio_gpio.h
@@ -115,4 +118,3 @@
 .\stm32l152re_nucleo\esp8266.o: ..\..\..\..\..\..\..\Drivers\BSP\X-NUCLEO-IDS01Ax\Inc\radio_shield_config.h
 .\stm32l152re_nucleo\esp8266.o: ..\..\..\..\..\..\..\Drivers\BSP\Components\spirit1\SPIRIT1_Util\Inc\SPIRIT1_Util.h
 .\stm32l152re_nucleo\esp8266.o: ..\..\..\..\..\..\..\Drivers\BSP\STM32L1xx_Nucleo\stm32l1xx_nucleo.h
-.\stm32l152re_nucleo\esp8266.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h

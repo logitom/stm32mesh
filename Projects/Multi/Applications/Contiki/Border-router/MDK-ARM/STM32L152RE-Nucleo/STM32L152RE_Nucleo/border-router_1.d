@@ -156,6 +156,8 @@
 .\stm32l152re_nucleo\border-router_1.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
 .\stm32l152re_nucleo\border-router_1.o: ..\..\..\..\..\..\..\Drivers\BSP\Components\spirit1\SPIRIT1_Library\Inc\ESP8266.h
 .\stm32l152re_nucleo\border-router_1.o: ..\..\..\..\..\..\..\Middlewares\ST\Contiki_STM32_Library\Inc\hw-config.h
+.\stm32l152re_nucleo\border-router_1.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\stm32l152re_nucleo\border-router_1.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\stm32l152re_nucleo\border-router_1.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/uip-debug.h
 .\stm32l152re_nucleo\border-router_1.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/net-debug.h
 .\stm32l152re_nucleo\border-router_1.o: ..\..\Inc\httpd-simple.h

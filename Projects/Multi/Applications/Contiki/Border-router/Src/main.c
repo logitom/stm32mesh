@@ -142,7 +142,7 @@ int main()
 
    
     Stack_6LoWPAN_Init();
-    HAL_UART_Receive_DMA(&huart4,(uint8_t*)UART_RxBuffer,UART_RxBufferSize); 
+   
 
     while(1) {
       int r = 0;

@@ -111,3 +111,11 @@
 .\stm32l152re_nucleo\stm32l1xx_hal_msp.o: ..\..\..\..\..\..\..\Middlewares\ST\Contiki_STM32_Library\Inc\spirit1-const.h
 .\stm32l152re_nucleo\stm32l1xx_hal_msp.o: ..\..\..\..\..\..\..\Drivers\BSP\X-NUCLEO-IDS01Ax\Inc\radio_shield_config.h
 .\stm32l152re_nucleo\stm32l1xx_hal_msp.o: ..\..\..\..\..\..\..\Drivers\BSP\Components\spirit1\SPIRIT1_Util\Inc\SPIRIT1_Util.h
+.\stm32l152re_nucleo\stm32l1xx_hal_msp.o: ..\..\..\..\..\..\..\Drivers\BSP\Components\spirit1\SPIRIT1_Library\Inc\ESP8266.h
+.\stm32l152re_nucleo\stm32l1xx_hal_msp.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/uip.h
+.\stm32l152re_nucleo\stm32l1xx_hal_msp.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/uipopt.h
+.\stm32l152re_nucleo\stm32l1xx_hal_msp.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/tcpip.h
+.\stm32l152re_nucleo\stm32l1xx_hal_msp.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/uip.h
+.\stm32l152re_nucleo\stm32l1xx_hal_msp.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\stm32l152re_nucleo\stm32l1xx_hal_msp.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\stm32l152re_nucleo\stm32l1xx_hal_msp.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

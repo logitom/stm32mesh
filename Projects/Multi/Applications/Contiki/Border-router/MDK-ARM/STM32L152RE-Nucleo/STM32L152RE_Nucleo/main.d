@@ -117,3 +117,5 @@
 .\stm32l152re_nucleo\main.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/tcpip.h
 .\stm32l152re_nucleo\main.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/uip.h
 .\stm32l152re_nucleo\main.o: ..\..\..\..\..\..\..\Middlewares\ST\Contiki_STM32_Library\Inc\hw-config.h
+.\stm32l152re_nucleo\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\stm32l152re_nucleo\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

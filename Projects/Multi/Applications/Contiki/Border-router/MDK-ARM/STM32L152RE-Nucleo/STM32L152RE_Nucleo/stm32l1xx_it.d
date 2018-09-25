@@ -118,3 +118,6 @@
 .\stm32l152re_nucleo\stm32l1xx_it.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/uipopt.h
 .\stm32l152re_nucleo\stm32l1xx_it.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/tcpip.h
 .\stm32l152re_nucleo\stm32l1xx_it.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/uip.h
+.\stm32l152re_nucleo\stm32l1xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\stm32l152re_nucleo\stm32l1xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\stm32l152re_nucleo\stm32l1xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

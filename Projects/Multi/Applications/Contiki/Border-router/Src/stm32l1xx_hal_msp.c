@@ -39,6 +39,7 @@
 #include "main.h"
 #include "hw-config.h"
 #include "cube_hal.h"
+#include "ESP8266.h"
 
 /** @defgroup L1
   * @ingroup Border_router
@@ -63,7 +64,7 @@ UART_HandleTypeDef UartHandle;
 
 /* extern variables  ---------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_uart4_rx;
-
+extern Wifi_t	Wifi;
 /**
   * @brief  Initializes the Global MSP.
   * @param  None
@@ -352,8 +353,8 @@ void USARTConfig(void)
       // while(1);
     }
 
-    UartHandle.pRxBuffPtr = (uint8_t*)UART_RxBuffer;
-    UartHandle.RxXferSize = UART_RxBufferSize;
+    UartHandle.pRxBuffPtr = (uint8_t*)Wifi.RxBuffer; // wifi-rx buffer
+    UartHandle.RxXferSize = _WIFI_RX_SIZE;
     UartHandle.ErrorCode = HAL_UART_ERROR_NONE;
    // HAL_UART_Receive_IT(&UartHandle, (uint8_t*)UART_RxBuffer, 1);
 }
