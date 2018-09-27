@@ -396,7 +396,7 @@ void UART4_IRQHandler(void)
               Wifi_RxCallBack();
               HAL_UART_DMAStop(&huart4);
              // ServerCommandFlag=1;
-              Server_Command_Len=UART_RxBufferSize-counter; //Total amount of uart received.          
+             // Server_Command_Len=UART_RxBufferSize-counter; //Total amount of uart received.          
               HAL_UART_DMAResume(&huart4);
               HAL_UART_Receive_DMA(&_WIFI_USART,(uint8_t*)&Wifi.usartBuff,UART_RxBufferSize); 
           }

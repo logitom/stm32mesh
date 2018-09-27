@@ -462,12 +462,23 @@ PROCESS_THREAD(border_router_process, ev, data)
            
     }       
 #endif    
-#if 1    
-    Wifi_GetMyIp();	
-    if((Wifi.Mode==WifiMode_SoftAp) || (Wifi.Mode==WifiMode_StationAndSoftAp))
-    Wifi_SoftAp_GetConnectedDevices();
-		Wifi_TcpIp_GetConnectionStatus();
-    Wifi_RxClear();  
+#if 1 
+    Wifi_RxClear();
+    
+    
+    
+    Wifi_TcpIp_StartUdpConnection(1,"192.168.2.161",16888,1003);
+          
+
+    Wifi_TcpIp_SendDataUdp(1,5,(uint8_t*)"3258d");
+    //Wifi_RxClear();     
+    //Wifi_GetMyIp();	
+    //if((Wifi.Mode==WifiMode_SoftAp) || (Wifi.Mode==WifiMode_StationAndSoftAp))
+    //Wifi_SoftAp_GetConnectedDevices();
+		//Wifi_TcpIp_GetConnectionStatus();
+    
+
+    // send data to server    
 		for(uint8_t i=0; i< 100; i++)
     {
       if( Wifi.GotNewData==true)
@@ -483,7 +494,7 @@ PROCESS_THREAD(border_router_process, ev, data)
       }
       HAL_Delay(10);
     }
-    Wifi_UserProcess();
+    //Wifi_UserProcess();
 #endif    
     
 #if 1    

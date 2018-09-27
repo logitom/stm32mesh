@@ -289,7 +289,9 @@ void  Wifi_UserProcess(void)
   {   
     if(last!=2)
     {
-      Wifi_TcpIp_StartTcpConnection(0,Wifi.MyGateWay,8888,10);
+      //Wifi_TcpIp_StartTcpConnection(0,Wifi.MyGateWay,8888,10);
+      //  Wifi_TcpIp_StartTcpConnection(1,"192.168.2.161",16888,10);
+        Wifi_TcpIp_StartUdpConnection(1,"192.168.2.161",16888,1003);
     }
     last=2;
   }
@@ -544,7 +546,8 @@ void	Wifi_RxCallBack(void)
     //--- Fill Data Buffer    
   }           
   //--- data buffer
-	HAL_UART_Receive_DMA(&_WIFI_USART,(uint8_t*)&Wifi.RxBuffer,_WIFI_RX_SIZE);
+	//HAL_UART_Receive_DMA(&_WIFI_USART,(uint8_t*)&Wifi.RxBuffer,_WIFI_RX_SIZE);
+  //HAL_UART_Receive_DMA(&_WIFI_USART,(uint8_t*)&Wifi.RxBuffer,1);
   //+++ check +IPD in At command buffer
   if(Wifi.RxIndex>4)
   {
@@ -596,10 +599,6 @@ void	Wifi_Init(void)
 	Wifi_RxClear();
 	Wifi_TxClear();
   WifiTask();
-	//osSemaphoreDef(WifiSemHandle);
-	//WifiSemHandle = osSemaphoreCreate(osSemaphore(WifiSemHandle), 1);
-//	osThreadDef(WifiTaskName, WifiTask, Priority, 0, _WIFI_TASK_SIZE);
-//	WifiTaskHandle = osThreadCreate(osThread(WifiTaskName), NULL);	
 }
 //#########################################################################################################
 //#########################################################################################################
@@ -807,22 +806,26 @@ bool	Wifi_GetMyIp(void)
 bool	Wifi_Station_ConnectToAp(char *SSID,char *Pass,char *MAC)
 {
 	
-	uint8_t result;
+	uint8_t result=0;
 	bool		returnVal=false;
 	do
 	{
 		Wifi_RxClear();
 		if(MAC==NULL)
-			sprintf((char*)Wifi.TxBuffer,"AT+CWJAP_CUR=\"%s\",\"%s\"\r\n",SSID,Pass);
-		else
-			sprintf((char*)Wifi.TxBuffer,"AT+CWJAP_CUR=\"%s\",\"%s\",\"%s\"\r\n",SSID,Pass,MAC);
+			sprintf((char*)Wifi.TxBuffer,"AT+CWJAP=\"%s\",\"%s\"\r\n",SSID,Pass);
+    else
+			sprintf((char*)Wifi.TxBuffer,"AT+CWJAP=\"%s\",\"%s\",\"%s\"\r\n",SSID,Pass,MAC);
 		if(Wifi_SendString((char*)Wifi.TxBuffer)==false)
 			break;
-		if(Wifi_WaitForString(_WIFI_WAIT_TIME_MED,&result,3,"\r\nOK\r\n","\r\nERROR\r\n","\r\nFAIL\r\n")==false)
+    	//if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,2,"\r\nCONNECTED\r\n","\r\nOK\r\n","\r\nERROR\r\n","\r\nFAIL\r\n")==false)
+		if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,2,"\r\nCONNECTED\r\n","\r\nOK\r\n")==false)
 			break;
 		if( result > 1)
-			break;		
-		returnVal=true;	
+		{  	
+      returnVal=true;	
+      break;
+    }      
+		//returnVal=result;	
 	}while(0);
 	
 	return returnVal;		
@@ -1113,6 +1116,7 @@ bool  Wifi_TcpIp_StartTcpConnection(uint8_t LinkId,char *RemoteIp,uint16_t Remot
 	bool		returnVal=false;
 	do
 	{
+    #if 0
     Wifi_RxClear();
     sprintf((char*)Wifi.TxBuffer,"AT+CIPSERVER=1,%d\r\n",RemotePort);
 		if(Wifi_SendString((char*)Wifi.TxBuffer)==false)
@@ -1120,15 +1124,18 @@ bool  Wifi_TcpIp_StartTcpConnection(uint8_t LinkId,char *RemoteIp,uint16_t Remot
 		if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,2,"OK","ERROR")==false)
 			break;
 		if(result == 2)
-			break;		
+			break;
+    #endif		
 		Wifi_RxClear();
     if(Wifi.TcpIpMultiConnection==false)
+      //sprintf((char*)Wifi.TxBuffer,"AT+CIPSTART=\"TCP\",\"%s\",%d,%d\r\n",RemoteIp,RemotePort,TimeOut);
       sprintf((char*)Wifi.TxBuffer,"AT+CIPSTART=\"TCP\",\"%s\",%d,%d\r\n",RemoteIp,RemotePort,TimeOut);
     else
-      sprintf((char*)Wifi.TxBuffer,"AT+CIPSTART=%d,\"TCP\",\"%s\",%d,%d\r\n",LinkId,RemoteIp,RemotePort,TimeOut);
+      //sprintf((char*)Wifi.TxBuffer,"AT+CIPSTART=%d,\"TCP\",\"%s\",%d,%d\r\n",LinkId,RemoteIp,RemotePort,TimeOut);
+       sprintf((char*)Wifi.TxBuffer,"AT+CIPSTART=%d,\"TCP\",\"%s\",%d,%d\r\n",LinkId,RemoteIp,RemotePort,TimeOut);
 		if(Wifi_SendString((char*)Wifi.TxBuffer)==false)
 			break;
-		if(Wifi_WaitForString(_WIFI_WAIT_TIME_HIGH,&result,3,"OK","CONNECT","ERROR")==false)
+		if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,3,"OK","CONNECT","ERROR")==false)
 			break;
 		if(result == 3)
 			break;		
@@ -1152,7 +1159,7 @@ bool  Wifi_TcpIp_StartUdpConnection(uint8_t LinkId,char *RemoteIp,uint16_t Remot
       sprintf((char*)Wifi.TxBuffer,"AT+CIPSTART=%d,\"UDP\",\"%s\",%d,%d\r\n",LinkId,RemoteIp,RemotePort,LocalPort);
 		if(Wifi_SendString((char*)Wifi.TxBuffer)==false)
 			break;
-		if(Wifi_WaitForString(_WIFI_WAIT_TIME_HIGH,&result,3,"OK","ALREADY","ERROR")==false)
+		if(Wifi_WaitForString(_WIFI_WAIT_TIME_MED,&result,3,"OK","ALREADY","ERROR")==false)
 			break;
 		if(result == 3)
 			break;		
