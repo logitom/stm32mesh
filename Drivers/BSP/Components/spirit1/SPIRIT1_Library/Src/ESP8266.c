@@ -574,16 +574,16 @@ void	Wifi_RxCallBack(void)
 //#########################################################################################################
 void WifiTask(void)
 {
-	HAL_Delay(3000);
-	Wifi_SendStringAndWait("AT\r\n",1000);
- 	Wifi_SetRfPower(82);
-  Wifi_TcpIp_GetMultiConnection();
-  Wifi_TcpIp_Close(0);
-  Wifi_TcpIp_Close(1);
-  Wifi_TcpIp_Close(2);
-  Wifi_TcpIp_Close(3);
-  Wifi_TcpIp_Close(4);
-  Wifi_TcpIp_SetMultiConnection(true);
+	Wifi_SendStringAndWait("AT+RST\r\n",1000);
+ 	HAL_Delay(3000);
+  Wifi_SetRfPower(82);
+ // Wifi_TcpIp_GetMultiConnection();
+ // Wifi_TcpIp_Close(0);
+ // Wifi_TcpIp_Close(1);
+ // Wifi_TcpIp_Close(2);
+ // Wifi_TcpIp_Close(3);
+ // Wifi_TcpIp_Close(4);
+  Wifi_TcpIp_SetMultiConnection(1);
 	Wifi_GetMode();
 	Wifi_Station_DhcpIsEnable();
 	Wifi_UserInit();  
@@ -817,7 +817,9 @@ bool	Wifi_Station_ConnectToAp(char *SSID,char *Pass,char *MAC)
 			sprintf((char*)Wifi.TxBuffer,"AT+CWJAP=\"%s\",\"%s\",\"%s\"\r\n",SSID,Pass,MAC);
 		if(Wifi_SendString((char*)Wifi.TxBuffer)==false)
 			break;
-    	//if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,2,"\r\nCONNECTED\r\n","\r\nOK\r\n","\r\nERROR\r\n","\r\nFAIL\r\n")==false)
+    
+    HAL_Delay(1000);	
+    //if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,2,"\r\nCONNECTED\r\n","\r\nOK\r\n","\r\nERROR\r\n","\r\nFAIL\r\n")==false)
 		if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,2,"\r\nCONNECTED\r\n","\r\nOK\r\n")==false)
 			break;
 		if( result > 1)
@@ -1078,7 +1080,7 @@ bool  Wifi_TcpIp_SetMultiConnection(bool EnableMultiConnections)
 		if(result == 2)
 			break;				
     Wifi.TcpIpMultiConnection=EnableMultiConnections;		
-		returnVal=true;	
+		returnVal=EnableMultiConnections;	
 	}while(0);
 	
 	return returnVal;			

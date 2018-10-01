@@ -63,12 +63,35 @@
 #define		_WIFI_TX_SIZE								256
 #define		_WIFI_RX_SIZE								512
 #define		_WIFI_RX_FOR_DATA_SIZE			512    
-#define		_WIFI_WAIT_TIME_LOW					1000
+#define		_WIFI_WAIT_TIME_LOW					2000
 #define		_WIFI_WAIT_TIME_MED					5000
 #define		_WIFI_WAIT_TIME_HIGH				25000
 #define		_WIFI_WAIT_TIME_VERYHIGH		60000    
     
 
+
+/**********************************************************/
+/*  Constants  of register server procedures              */
+/**********************************************************/    
+#define   APP_TO_DEVICE_CMD                  0xa0
+#define   DEVICE_TO_APP_CMD                  0xa1
+#define   APP_TO_DEVICE_EOP                  0xa2
+#define   DEVICE_TO_APP_EOP                  0xa3
+#define   APP_TO_DEVICE_AP_REG               0x02
+#define   DEVICE_TO_APP_AP_REG               0x03
+#define   APP_TO_DEVICE_NAME                 0x04 // name of APP
+#define   DEVICE_TO_APP_NAME                 0x05 // name of device
+
+#define   REGISTER_SERVER_SUCCEFULL          0xb0 
+#define   REGISTER_WIFI_FAILED               0xb1
+#define   REGISTER_WIFI_PWD_FAILED           0xb2
+#define   REGISTER_SERVER_FAILED             0xb3
+#define   REGISTER_WIFI_CONNECTING           0xb4 
+#define   REGISTER_SERVER_CHECKSUM_ERROR     0xb5    
+/**********************************************************/
+/*  Constants  of register server procedures              */
+/**********************************************************/     
+    
 static void MX_UART4_UART_Init(void);
 void ESP8266_Init(void);
 void ESP8266_Write(const uint8_t *inst);
@@ -76,6 +99,48 @@ void ESP8266_APInit(void);
 void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data);
 void ESP8266_SendCommandToNode(uint8_t *Server_Command,uint8_t Command_Length);
     
+
+  
+
+typedef struct
+{
+    uint8_t Header;
+    uint8_t Cmd;
+    uint8_t EOP;    
+
+}Command_t;
+
+typedef struct
+{
+  Command_t Reg_Svr_Cmd;	
+  uint8_t   AP_SSID_Len;
+  uint8_t   AP_Pwd_Len;
+  uint8_t   Svr_URL_Len;	
+	uint16_t  Google_ID_len;
+	uint8_t*  Svr_UserName_Len; // server user name
+	uint8_t   Google_Token_Len;
+	uint8_t*  AP_SSID;
+  uint8_t*  AP_Pwd;
+	uint8_t*  Svr_URL;
+	uint8_t*  Google_ID;
+	uint8_t*  Svr_UserName;
+	uint8_t*  Google_Token;
+	uint32_t  Reg_Svr_csum;
+  //----------------
+}Register_Svr_t;
+
+
+
+typedef struct
+{
+    Command_t AP_Status_cmd;
+    uint8_t   AP_Status;    
+    uint32_t  AP_Status_csum;
+
+}AP_Status_t;
+
+Command_t PCode_Cmd;
+
 
 //###################################################################################################
 typedef	enum

@@ -477,7 +477,7 @@ PROCESS_THREAD(border_router_process, ev, data)
     //Wifi_SoftAp_GetConnectedDevices();
 		//Wifi_TcpIp_GetConnectionStatus();
     
-
+#if 0
     // send data to server    
 		for(uint8_t i=0; i< 100; i++)
     {
@@ -495,6 +495,7 @@ PROCESS_THREAD(border_router_process, ev, data)
       HAL_Delay(10);
     }
     //Wifi_UserProcess();
+#endif
 #endif    
     
 #if 1    
