@@ -118,3 +118,6 @@
 .\stm32l152re_nucleo\esp8266.o: ..\..\..\..\..\..\..\Drivers\BSP\X-NUCLEO-IDS01Ax\Inc\radio_shield_config.h
 .\stm32l152re_nucleo\esp8266.o: ..\..\..\..\..\..\..\Drivers\BSP\Components\spirit1\SPIRIT1_Util\Inc\SPIRIT1_Util.h
 .\stm32l152re_nucleo\esp8266.o: ..\..\..\..\..\..\..\Drivers\BSP\STM32L1xx_Nucleo\stm32l1xx_nucleo.h
+.\stm32l152re_nucleo\esp8266.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/uip-debug.h
+.\stm32l152re_nucleo\esp8266.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/net-debug.h
+.\stm32l152re_nucleo\esp8266.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/linkaddr.h

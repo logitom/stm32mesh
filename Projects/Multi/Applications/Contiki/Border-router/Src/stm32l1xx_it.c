@@ -75,8 +75,8 @@ extern UART_HandleTypeDef huart4;
 extern volatile uint8_t UART_RxBuffer[UART_RxBufferSize];
 extern uint8_t ServerCommandFlag;
 //extern uint8_t DMAstr[7];
-
-
+extern Wifi_t	Wifi;
+extern bool Server_Parsing_Flag;
 //uint8_t i=0;
 
 /******************************************************************************/
@@ -389,16 +389,21 @@ void UART4_IRQHandler(void)
         tmp = huart4.Instance->DR;                  /* Read data register */
         (void)tmp;                                  /* Prevent compiler warnings */       
      
-          counter=hdma_uart4_rx.Instance->CNDTR;
+         counter=hdma_uart4_rx.Instance->CNDTR;
           
           if(counter!=0)
           {  
-              Wifi_RxCallBack();
               HAL_UART_DMAStop(&huart4);
-             // ServerCommandFlag=1;
-             // Server_Command_Len=UART_RxBufferSize-counter; //Total amount of uart received.          
+              //Wifi.RxIndex=_WIFI_RX_SIZE-counter; //Total amount of uart received. 
+              if(Wifi.Mode==_WIFI_REGISTRATION_MODE)
+              {
+                Server_Parsing_Flag=true;
+                //Server_Reg_Parsing();
+              }                
+              //Wifi_RxCallBack();
+              // ServerCommandFlag=1;
               HAL_UART_DMAResume(&huart4);
-              HAL_UART_Receive_DMA(&_WIFI_USART,(uint8_t*)&Wifi.usartBuff,UART_RxBufferSize); 
+              HAL_UART_Receive_DMA(&_WIFI_USART,(uint8_t*)&Wifi.RxBuffer,_WIFI_RX_SIZE); 
           }
   }
 }

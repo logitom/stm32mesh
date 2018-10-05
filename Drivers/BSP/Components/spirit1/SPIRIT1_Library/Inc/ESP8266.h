@@ -57,18 +57,20 @@
 #define OFFSET 0x800
 #define DEST_ADDRESS (SRAM_BASE+OFFSET)
 
+   
 
 #define		_WIFI_USART									huart4
 
 #define		_WIFI_TX_SIZE								256
 #define		_WIFI_RX_SIZE								512
 #define		_WIFI_RX_FOR_DATA_SIZE			512    
-#define		_WIFI_WAIT_TIME_LOW					2000
+#define		_WIFI_WAIT_TIME_LOW					3000
 #define		_WIFI_WAIT_TIME_MED					5000
 #define		_WIFI_WAIT_TIME_HIGH				25000
 #define		_WIFI_WAIT_TIME_VERYHIGH		60000    
-    
-
+#define   _WIFI_REGISTRATION_MODE     0x00
+#define   _WIFI_SERVER_MODE           0x01     
+#define   _WIFI_CONFIG_MODE           0x02  // For setting wifi module parameter
 
 /**********************************************************/
 /*  Constants  of register server procedures              */
@@ -79,8 +81,8 @@
 #define   DEVICE_TO_APP_EOP                  0xa3
 #define   APP_TO_DEVICE_AP_REG               0x02
 #define   DEVICE_TO_APP_AP_REG               0x03
-#define   APP_TO_DEVICE_NAME                 0x04 // name of APP
-#define   DEVICE_TO_APP_NAME                 0x05 // name of device
+#define   APP_TO_DEVICE_NAME                 0x04 // Project code of APP
+#define   DEVICE_TO_APP_NAME                 0x05 // Project code of device
 
 #define   REGISTER_SERVER_SUCCEFULL          0xb0 
 #define   REGISTER_WIFI_FAILED               0xb1
@@ -139,7 +141,7 @@ typedef struct
 
 }AP_Status_t;
 
-Command_t PCode_Cmd;
+//Command_t PCode_Cmd;
 
 
 //###################################################################################################
@@ -181,6 +183,7 @@ typedef struct
 typedef struct
 {
 	//----------------Usart	Paremeter
+  uint8_t                       Wifi_Mode;
 	uint8_t                       usartBuff;
 	uint8_t                       RxBuffer[UART_RxBufferSize];
 	uint8_t                       TxBuffer[UART_TxBufferSize];
@@ -261,7 +264,7 @@ bool  Wifi_TcpIp_SendDataTcp(uint8_t LinkId,uint16_t dataLen,uint8_t *data);
 void	Wifi_RxClear(void);
 void	Wifi_TxClear(void);
 //###################################################################################################
-        
+void	Server_Reg_Parsing(void);        
     
 #ifdef __cplusplus
 }

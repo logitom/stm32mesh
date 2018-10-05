@@ -71,6 +71,7 @@ static uip_ipaddr_t prefix;
 static uint8_t prefix_set;
 static uint8_t sender_ip[16];
 
+extern bool Server_Parsing_Flag;
 uint8_t ServerCommandFlag=0;
 uint32_t Server_Command_Len=0;
 
@@ -441,11 +442,11 @@ PROCESS_THREAD(border_router_process, ev, data)
 	Wifi_GetMode();
 	Wifi_Station_DhcpIsEnable();
 	Wifi_UserInit();  
-    
+   Wifi_TcpIp_StartUdpConnection(1,"192.168.4.2",1678,3000);  
   #endif
   
  // HAL_UART_Receive_DMA(&huart4,(uint8_t*)DMAstr,7); 
-  
+ 
   while(1) {
   
     // PROCESS_YIELD();
@@ -463,14 +464,21 @@ PROCESS_THREAD(border_router_process, ev, data)
     }       
 #endif    
 #if 1 
-    Wifi_RxClear();
+   // Wifi_RxClear();
     
+    if(Server_Parsing_Flag==true)
+    {
+        Server_Parsing_Flag=false;
+        Wifi.Mode=_WIFI_SERVER_MODE;
+        Server_Reg_Parsing();      
+    }      
     
-    
-    Wifi_TcpIp_StartUdpConnection(1,"192.168.2.161",16888,1003);
+   // Wifi_TcpIp_StartUdpConnection(1,"192.168.4.2",1678,3000);
           
 
-    Wifi_TcpIp_SendDataUdp(1,5,(uint8_t*)"3258d");
+   // Wifi_TcpIp_SendDataUdp(1,11,(uint8_t*)"a1010102a3");
+   // printf("\r\n %s",(char*)Wifi.RxBuffer);
+   // HAL_Delay(5000);
     //Wifi_RxClear();     
     //Wifi_GetMyIp();	
     //if((Wifi.Mode==WifiMode_SoftAp) || (Wifi.Mode==WifiMode_StationAndSoftAp))
