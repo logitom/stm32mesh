@@ -65,6 +65,7 @@
 #define DEBUG DEBUG_PRINT
 #include "net/ip/uip-debug.h"
 
+
 extern volatile uint8_t UART_RxBuffer[UART_RxBufferSize];
 extern  UART_HandleTypeDef huart4;
 static uip_ipaddr_t prefix;
@@ -382,6 +383,7 @@ PROCESS_THREAD(border_router_process, ev, data)
 {
   static struct etimer et;
 
+  
   PROCESS_BEGIN();
 
 /* While waiting for the prefix to be sent through the SLIP connection, the future

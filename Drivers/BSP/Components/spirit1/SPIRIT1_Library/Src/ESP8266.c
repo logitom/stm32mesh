@@ -53,8 +53,9 @@ extern UART_HandleTypeDef huart4;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+
+
 volatile uint8_t UART4_RxBuffer[UART_RxBufferSize];
-//volatile uint8_t UART1_TxBuffer[UART_RxBufferSize];
 
 const uint8_t DISCONNECT_AP[]={"AT+CWQAP\\r\\n"};
 const uint8_t CONNECT_AP[]={"\\well\\,\\26426588\\\\n\\r"};
@@ -67,6 +68,7 @@ bool Server_Parsing_Flag=false;
 
 void ESP8266_Init(void)
 {
+    
      MX_UART4_UART_Init(); 
      ESP8266_APInit();
      HAL_Delay(2000);
@@ -587,8 +589,10 @@ void	Wifi_RxCallBack(void)
 //#########################################################################################################
 void WifiTask(void)
 {
-	Wifi.Mode=_WIFI_CONFIG_MODE;
-  Wifi_SoftAp_Create("Well Intelligence","111111ap",1,3,4,0);
+	
+  
+  Wifi.Mode=_WIFI_CONFIG_MODE;
+  Wifi_SoftAp_Create("Well Intelligence2","111111ap",1,3,4,0);
   
   Wifi_SendStringAndWait("AT+RST\r\n",1000);
  	HAL_Delay(3000);
@@ -604,7 +608,11 @@ void WifiTask(void)
 	Wifi_Station_DhcpIsEnable();
 	
   Wifi_UserInit();  
-  while(Wifi_TcpIp_StartUdpConnection(3,"192.168.4.2",1678,3000)==false);
+  while(Wifi_TcpIp_StartUdpConnection(0,"192.168.4.2",1678,3000)==false);
+  while(Wifi_TcpIp_StartUdpConnection(1,"192.168.4.3",1678,3000)==false);
+  while(Wifi_TcpIp_StartUdpConnection(2,"192.168.4.4",1678,3000)==false);
+  while(Wifi_TcpIp_StartUdpConnection(3,"192.168.4.5",1678,3000)==false);
+  while(Wifi_TcpIp_StartUdpConnection(4,"192.168.4.6",1678,3000)==false);
  //Wifi_TcpIp_StartUdpConnection(3,"127.0.0.1",1678,3000);   
 }
 //#########################################################################################################
@@ -1194,7 +1202,7 @@ bool  Wifi_TcpIp_StartUdpConnection(uint8_t LinkId,char *RemoteIp,uint16_t Remot
 			break;
     //Wifi_RxClear();
     //HAL_Delay(3000);
-    printf("\r\n create new connection: %s",Wifi.RxBuffer);
+    printf("\r\n create new connection: %d",LinkId);
 		if(Wifi_WaitForString(_WIFI_WAIT_TIME_MED,&result,2,"OK","CONNECT")==false)
 		{
         break;
@@ -1346,6 +1354,7 @@ bool  Wifi_TcpIp_SendDataTcp(uint8_t LinkId,uint16_t dataLen,uint8_t *data)
 //#########################################################################################################
 void	Server_Reg_Parsing(void)
 {
+    int i;
     uint8_t result;
     uint8_t header;
     uint8_t cmd;
@@ -1353,7 +1362,9 @@ void	Server_Reg_Parsing(void)
     char ip[4];
     char *ptr=NULL;
     uint16_t DataLen;
-    uint16_t total_len;  
+    uint16_t total_len;
+     
+    uint8_t ack_pkt[4]; //ack packet for registration mode
     char buffer[120];
     char buffer2[20];
   // parsing IPD+ len
@@ -1371,21 +1382,30 @@ void	Server_Reg_Parsing(void)
     ip[2]=Wifi.RxBuffer[15];
     ip[3]=Wifi.RxBuffer[16];
     
-   EOP=Wifi.RxBuffer[18];
-   printf("\r\n len,:%d, cmd: %x",total_len,cmd); 
+   EOP=Wifi.RxBuffer[19];
+    printf("\r\n len,:%d, cmd: %x",total_len,cmd); 
     printf("\r\n header,:%x,EOP:%x",header,EOP);     
     printf("\r\n ip:%d.%d.%d.%d",ip[0],ip[1],ip[2],ip[3]); 
    // sprintf((char*)buffer,"AT+CIPSTART=3,\"UDP\",\"%d.%d.%d.%d\",1678,3000,0\r\n",ip[0],ip[1],ip[2],ip[3]); 
     //DataLen=strlen((const char*)buffer);
     //ESP8266_Write((uint8_t*)buffer);
    // printf("web buffer:%s \n",buffer);
-    sprintf((char*)buffer2,"AT+CIPSEND=3,3\r\n"); 
+    for(i=0;i<=4;i++)
+    {
+   // HAL_Delay(2000);
+    sprintf((char*)buffer2,"AT+CIPSEND=%d,3\r\n",i); 
     ESP8266_Write((uint8_t*)buffer2);
     HAL_Delay(1000);
-
-    sprintf((char*)buffer2,"a105a3\r\n"); 
+     
+    ack_pkt[0]=0xa1;
+    ack_pkt[1]=0x05;
+    ack_pkt[2]=0xa3;    
+    ack_pkt[3]=0x00; //NULL
+    sprintf((char*)buffer2,"%s",ack_pkt);
+    printf("\r\n%s\r\n",ack_pkt); 
     ESP8266_Write((uint8_t*)buffer2);
     HAL_Delay(1000);
+    } 
     Wifi.Mode=_WIFI_REGISTRATION_MODE;    
     
 }

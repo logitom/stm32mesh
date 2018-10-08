@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\STM32L152RE_Nucleo\border-router_l152.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\STM32L152RE_Nucleo\border-router_l152.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060061: Last Updated: Fri Oct 05 16:55:40 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060061: Last Updated: Mon Oct 08 14:47:39 2018
 <BR><P>
 <H3>Maximum Stack Usage =        568 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -366,15 +366,6 @@ Global Symbols
 <LI><a href="#[2b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_set_prefix
 <LI><a href="#[276]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_prefix_64
 <LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;receiver
-<LI><a href="#[18f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wifi_SendRaw
-<LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_udp_packet
-<LI><a href="#[227]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handle_incoming_reg
-<LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;slip_input_callback
-<LI><a href="#[1e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_send
-<LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_copyto
-<LI><a href="#[26e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_copyfrom
-<LI><a href="#[26d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_attr_copyto
-<LI><a href="#[26c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_attr_copyfrom
 <LI><a href="#[25e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_add
 <LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_prefix_add
 <LI><a href="#[1f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_select_src
@@ -389,6 +380,15 @@ Global Symbols
 <LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;echo_request_input
 <LI><a href="#[297]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_add
 <LI><a href="#[2b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_defrt_add
+<LI><a href="#[18f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wifi_SendRaw
+<LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_udp_packet
+<LI><a href="#[227]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handle_incoming_reg
+<LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;slip_input_callback
+<LI><a href="#[1e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_send
+<LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_copyto
+<LI><a href="#[26e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_copyfrom
+<LI><a href="#[26d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_attr_copyto
+<LI><a href="#[26c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_attr_copyfrom
 <LI><a href="#[2d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_udp_new
 <LI><a href="#[1fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_icmp6_error_output
 <LI><a href="#[5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;process_thread_simple_udp_process
@@ -415,11 +415,11 @@ Global Symbols
 <P><STRONG><a name="[1ef]"></a>__aeabi_memmove</STRONG> (Thumb, 0 bytes, Stack size 8 bytes, memmovea.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __aeabi_memmove
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_udp_packet_send
-<LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;output
+<BR>[Called By]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;output
 <LI><a href="#[2b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_remove_header
 <LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;echo_request_input
 <LI><a href="#[8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;echo_reply_input
+<LI><a href="#[2c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_udp_packet_send
 <LI><a href="#[1fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_icmp6_error_output
 <LI><a href="#[28c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;remove_ext_hdr
 <LI><a href="#[242]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;insert_hbh_header
@@ -441,19 +441,19 @@ Global Symbols
 <P><STRONG><a name="[a0]"></a>__aeabi_memclr</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, memseta.o(.text))
 <BR><BR>[Calls]<UL><LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
 </UL>
-<BR>[Called By]<UL><LI><a href="#[18b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wifi_TxClear
+<BR>[Called By]<UL><LI><a href="#[2e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uncompress_addr
+<LI><a href="#[18b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wifi_TxClear
 <LI><a href="#[188]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wifi_RxClear
 <LI><a href="#[23d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memb_init
 <LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_attr_clear
 <LI><a href="#[24c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_add_lladdr
-<LI><a href="#[2e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uncompress_addr
 <LI><a href="#[1b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_ip_from_prefix
 </UL>
 
 <P><STRONG><a name="[179]"></a>__aeabi_memclr4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
-<LI><a href="#[2da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_init
+<BR><BR>[Called By]<UL><LI><a href="#[2da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_init
 <LI><a href="#[1be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;create_frame
+<LI><a href="#[178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 <LI><a href="#[b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dio_input
 <LI><a href="#[298]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_alloc_instance
 <LI><a href="#[292]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_alloc_dag
@@ -493,13 +493,13 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = memcmp
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_set_root
-<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;output
-<LI><a href="#[19d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linkaddr_cmp
 <LI><a href="#[2d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_list_loop
 <LI><a href="#[1a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;addr_context_lookup_by_prefix
 <LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ns_input
 <LI><a href="#[297]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_add
 <LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_defrt_lookup
+<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;output
+<LI><a href="#[19d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linkaddr_cmp
 <LI><a href="#[1f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_process
 <LI><a href="#[1d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_lookup
 <LI><a href="#[202]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_lookup
@@ -1685,7 +1685,7 @@ Global Symbols
 <P><STRONG><a name="[20]"></a>SVC_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l1xx_it.o(i.SVC_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l152xe.o(RESET)
 </UL>
-<P><STRONG><a name="[126]"></a>Server_Reg_Parsing</STRONG> (Thumb, 152 bytes, Stack size 64 bytes, esp8266.o(i.Server_Reg_Parsing))
+<P><STRONG><a name="[126]"></a>Server_Reg_Parsing</STRONG> (Thumb, 200 bytes, Stack size 64 bytes, esp8266.o(i.Server_Reg_Parsing))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = Server_Reg_Parsing &rArr; atoi &rArr; strtol &rArr; _strtoul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
@@ -2328,7 +2328,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l152xe.o(RESET)
 </UL>
-<P><STRONG><a name="[17e]"></a>WifiTask</STRONG> (Thumb, 126 bytes, Stack size 24 bytes, esp8266.o(i.WifiTask))
+<P><STRONG><a name="[17e]"></a>WifiTask</STRONG> (Thumb, 190 bytes, Stack size 24 bytes, esp8266.o(i.WifiTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = WifiTask &rArr; Wifi_SoftAp_Create &rArr; Wifi_SendString &rArr; Wifi_SendRaw &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
@@ -2523,8 +2523,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[17e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WifiTask
 </UL>
 
-<P><STRONG><a name="[187]"></a>Wifi_TcpIp_StartUdpConnection</STRONG> (Thumb, 116 bytes, Stack size 48 bytes, esp8266.o(i.Wifi_TcpIp_StartUdpConnection))
-<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = Wifi_TcpIp_StartUdpConnection &rArr; Wifi_SendString &rArr; Wifi_SendRaw &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
+<P><STRONG><a name="[187]"></a>Wifi_TcpIp_StartUdpConnection</STRONG> (Thumb, 114 bytes, Stack size 40 bytes, esp8266.o(i.Wifi_TcpIp_StartUdpConnection))
+<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = Wifi_TcpIp_StartUdpConnection &rArr; Wifi_SendString &rArr; Wifi_SendRaw &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wifi_WaitForString
@@ -2717,8 +2717,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ctimer_set_with_process
 </UL>
-<BR>[Called By]<UL><LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_init
-<LI><a href="#[212]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;schedule_transmission
+<BR>[Called By]<UL><LI><a href="#[212]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;schedule_transmission
+<LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_init
 <LI><a href="#[2b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_schedule_unicast_dio_immediately
 <LI><a href="#[235]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_schedule_probing
 <LI><a href="#[2a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_reset_periodic_timer
@@ -2850,8 +2850,8 @@ Global Symbols
 <LI><a href="#[1a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;add_timer
 </UL>
 <BR>[Called By]<UL><LI><a href="#[283]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servreg_hack_register
-<LI><a href="#[3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;process_thread_servreg_hack_process
 <LI><a href="#[2da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_init
+<LI><a href="#[3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;process_thread_servreg_hack_process
 <LI><a href="#[6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;process_thread_tcpip_process
 <LI><a href="#[1d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ctimer_set_with_process
 <LI><a href="#[16]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;process_thread_ctimer_process
@@ -2937,9 +2937,9 @@ Global Symbols
 <P><STRONG><a name="[20c]"></a>frame802154_parse</STRONG> (Thumb, 286 bytes, Stack size 48 bytes, frame802154.o(i.frame802154_parse))
 <BR><BR>[Stack]<UL><LI>Max Depth = 68<LI>Call Chain = frame802154_parse &rArr; frame802154_has_panid
 </UL>
-<BR>[Calls]<UL><LI><a href="#[1a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linkaddr_copy
-<LI><a href="#[20d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;frame802154_parse_fcf
+<BR>[Calls]<UL><LI><a href="#[20d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;frame802154_parse_fcf
 <LI><a href="#[1ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;frame802154_has_panid
+<LI><a href="#[1a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linkaddr_copy
 <LI><a href="#[20e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
 </UL>
 <BR>[Called By]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;parse
@@ -3056,23 +3056,23 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memcmp
 </UL>
-<BR>[Called By]<UL><LI><a href="#[1c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_holds_broadcast
-<LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;index_from_lladdr
-<LI><a href="#[267]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_link_neighbor_callback
+<BR>[Called By]<UL><LI><a href="#[267]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_link_neighbor_callback
 <LI><a href="#[19b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;add_fragment
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packet_input
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_packet
+<LI><a href="#[1c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_holds_broadcast
+<LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;index_from_lladdr
 </UL>
 
 <P><STRONG><a name="[1a1]"></a>linkaddr_copy</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, linkaddr.o(i.linkaddr_copy))
-<BR><BR>[Called By]<UL><LI><a href="#[261]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_set_addr
-<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_attr_clear
-<LI><a href="#[24c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_add_lladdr
-<LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;output
+<BR><BR>[Called By]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;output
 <LI><a href="#[19b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;add_fragment
 <LI><a href="#[1be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;create_frame
 <LI><a href="#[20c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;frame802154_parse
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_packet
+<LI><a href="#[261]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_set_addr
+<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_attr_clear
+<LI><a href="#[24c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_add_lladdr
 </UL>
 
 <P><STRONG><a name="[16e]"></a>linkaddr_set_node_addr</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, linkaddr.o(i.linkaddr_set_node_addr))
@@ -3085,12 +3085,12 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[24f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_tail
 <LI><a href="#[1d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_remove
 </UL>
-<BR>[Called By]<UL><LI><a href="#[227]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handle_incoming_reg
-<LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ctimer_reset
-<LI><a href="#[24c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_add_lladdr
-<LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_packet
+<BR>[Called By]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_packet
 <LI><a href="#[2a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_icmp6_register_input_handler
 <LI><a href="#[297]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_add
+<LI><a href="#[227]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handle_incoming_reg
+<LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ctimer_reset
+<LI><a href="#[24c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_add_lladdr
 <LI><a href="#[1d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ctimer_set_with_process
 <LI><a href="#[1ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ctimer_restart
 </UL>
@@ -3099,11 +3099,6 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[216]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_head
 <LI><a href="#[283]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servreg_hack_register
 <LI><a href="#[1ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_head
-<LI><a href="#[228]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servreg_hack_list_head
-<LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_udp_packet
-<LI><a href="#[286]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;purge_registrations
-<LI><a href="#[256]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_allocate
-<LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;index_from_lladdr
 <LI><a href="#[2d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_defrt_periodic
 <LI><a href="#[2e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_icmp6_input
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;transmit_packet_list
@@ -3115,6 +3110,11 @@ Global Symbols
 <LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_defrt_lookup
 <LI><a href="#[28d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rm_routelist
 <LI><a href="#[1b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;call_route_callback
+<LI><a href="#[228]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servreg_hack_list_head
+<LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_udp_packet
+<LI><a href="#[286]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;purge_registrations
+<LI><a href="#[256]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_allocate
+<LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;index_from_lladdr
 <LI><a href="#[28e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_rm
 <LI><a href="#[1d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_lookup
 <LI><a href="#[2ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_defrt_choose
@@ -3133,11 +3133,6 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[217]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_next
 <LI><a href="#[283]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servreg_hack_register
 <LI><a href="#[1ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_next
-<LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_udp_packet
-<LI><a href="#[286]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;purge_registrations
-<LI><a href="#[227]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handle_incoming_reg
-<LI><a href="#[256]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_allocate
-<LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;index_from_lladdr
 <LI><a href="#[2d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_defrt_periodic
 <LI><a href="#[2e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_icmp6_input
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_packet
@@ -3146,6 +3141,11 @@ Global Symbols
 <LI><a href="#[2ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_defrt_rm
 <LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_defrt_lookup
 <LI><a href="#[1b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;call_route_callback
+<LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_udp_packet
+<LI><a href="#[286]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;purge_registrations
+<LI><a href="#[227]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handle_incoming_reg
+<LI><a href="#[256]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_allocate
+<LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;index_from_lladdr
 <LI><a href="#[28e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_rm
 <LI><a href="#[2ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_defrt_choose
 </UL>
@@ -3161,21 +3161,21 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[1d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_remove
 </UL>
 <BR>[Called By]<UL><LI><a href="#[283]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servreg_hack_register
-<LI><a href="#[227]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handle_incoming_reg
 <LI><a href="#[297]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_add
 <LI><a href="#[2b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_defrt_add
+<LI><a href="#[227]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handle_incoming_reg
 <LI><a href="#[1d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_lookup
 </UL>
 
 <P><STRONG><a name="[1d5]"></a>list_remove</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, list.o(i.list_remove))
-<BR><BR>[Called By]<UL><LI><a href="#[229]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_push
+<BR><BR>[Called By]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_packet
+<LI><a href="#[20f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;free_packet
+<LI><a href="#[2ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_defrt_rm
+<LI><a href="#[229]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_push
 <LI><a href="#[1cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_add
 <LI><a href="#[286]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;purge_registrations
 <LI><a href="#[227]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handle_incoming_reg
 <LI><a href="#[258]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;remove_key
-<LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_packet
-<LI><a href="#[20f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;free_packet
-<LI><a href="#[2ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_defrt_rm
 <LI><a href="#[1d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ctimer_stop
 <LI><a href="#[28e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_rm
 <LI><a href="#[1d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_lookup
@@ -3224,25 +3224,25 @@ Global Symbols
 <P><STRONG><a name="[22a]"></a>memb_alloc</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, memb.o(i.memb_alloc))
 <BR><BR>[Called By]<UL><LI><a href="#[283]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servreg_hack_register
 <LI><a href="#[236]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;httpd_appcall
-<LI><a href="#[227]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handle_incoming_reg
-<LI><a href="#[264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queuebuf_new_from_packetbuf
-<LI><a href="#[256]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_allocate
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_packet
 <LI><a href="#[297]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_add
 <LI><a href="#[2b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_defrt_add
+<LI><a href="#[227]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handle_incoming_reg
+<LI><a href="#[264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queuebuf_new_from_packetbuf
+<LI><a href="#[256]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_allocate
 </UL>
 
 <P><STRONG><a name="[211]"></a>memb_free</STRONG> (Thumb, 44 bytes, Stack size 12 bytes, memb.o(i.memb_free))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = memb_free
 </UL>
 <BR>[Called By]<UL><LI><a href="#[236]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;httpd_appcall
-<LI><a href="#[286]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;purge_registrations
-<LI><a href="#[264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queuebuf_new_from_packetbuf
-<LI><a href="#[210]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queuebuf_free
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_packet
 <LI><a href="#[20f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;free_packet
 <LI><a href="#[297]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_add
 <LI><a href="#[2ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_defrt_rm
+<LI><a href="#[286]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;purge_registrations
+<LI><a href="#[264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queuebuf_new_from_packetbuf
+<LI><a href="#[210]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queuebuf_free
 <LI><a href="#[28e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_rm
 </UL>
 
@@ -3252,9 +3252,9 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
 </UL>
 <BR>[Called By]<UL><LI><a href="#[281]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servreg_hack_init
-<LI><a href="#[171]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queuebuf_init
 <LI><a href="#[2dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_init
 <LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
+<LI><a href="#[171]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queuebuf_init
 </UL>
 
 <P><STRONG><a name="[287]"></a>memb_inmemb</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, memb.o(i.memb_inmemb))
@@ -3280,10 +3280,10 @@ Global Symbols
 <LI><a href="#[1a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linkaddr_copy
 <LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
 </UL>
-<BR>[Called By]<UL><LI><a href="#[24e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_packet_sent
-<LI><a href="#[23e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_input_callback
-<LI><a href="#[25e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_add
+<BR>[Called By]<UL><LI><a href="#[25e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_add
 <LI><a href="#[297]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_add
+<LI><a href="#[24e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_packet_sent
+<LI><a href="#[23e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_input_callback
 <LI><a href="#[21f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_add_parent
 </UL>
 
@@ -3294,13 +3294,13 @@ Global Symbols
 <LI><a href="#[245]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;item_from_index
 <LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;index_from_lladdr
 </UL>
-<BR>[Called By]<UL><LI><a href="#[24e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_packet_sent
-<LI><a href="#[23e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_input_callback
-<LI><a href="#[249]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_from_lladdr
-<LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_ll_lookup
+<BR>[Called By]<UL><LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_ll_lookup
 <LI><a href="#[1fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_verify_hbh_header
 <LI><a href="#[2b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_is_nexthop
 <LI><a href="#[297]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_add
+<LI><a href="#[24e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_packet_sent
+<LI><a href="#[23e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_input_callback
+<LI><a href="#[249]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_from_lladdr
 <LI><a href="#[29e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_get_parent
 <LI><a href="#[201]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;find_parent_any_dag_any_instance
 </UL>
@@ -3367,9 +3367,9 @@ Global Symbols
 <P><STRONG><a name="[24b]"></a>nbr_table_register</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, nbr-table.o(i.nbr_table_register))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = nbr_table_register
 </UL>
-<BR>[Called By]<UL><LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_init
-<LI><a href="#[2dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_init
+<BR>[Called By]<UL><LI><a href="#[2dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_init
 <LI><a href="#[2db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_neighbors_init
+<LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_init
 <LI><a href="#[299]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_dag_init
 </UL>
 
@@ -3426,11 +3426,11 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[1c1]"></a>packetbuf_attr</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, packetbuf.o(i.packetbuf_attr))
-<BR><BR>[Called By]<UL><LI><a href="#[23e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_input_callback
-<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;input
+<BR><BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;input
 <LI><a href="#[1be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;create_frame
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_packet
 <LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packet_sent
+<LI><a href="#[23e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_input_callback
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;value
 </UL>
 
@@ -3465,8 +3465,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_attr_clear
 </UL>
-<BR>[Called By]<UL><LI><a href="#[26e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_copyfrom
-<LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;output
+<BR>[Called By]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;output
+<LI><a href="#[26e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_copyfrom
 <LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;process_thread_spirit_radio_process
 </UL>
 
@@ -3497,11 +3497,11 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[1c4]"></a>packetbuf_dataptr</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, packetbuf.o(i.packetbuf_dataptr))
-<BR><BR>[Called By]<UL><LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_copyto
-<LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;output
+<BR><BR>[Called By]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;output
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;input
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;parse
 <LI><a href="#[1be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;create_frame
+<LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_copyto
 <LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;process_thread_spirit_radio_process
 </UL>
 
@@ -3565,8 +3565,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[271]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_hdrlen
 </UL>
-<BR>[Called By]<UL><LI><a href="#[1c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_hdralloc
-<LI><a href="#[2be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_one_packet
+<BR>[Called By]<UL><LI><a href="#[2be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_one_packet
+<LI><a href="#[1c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_hdralloc
 </UL>
 
 <P><STRONG><a name="[278]"></a>process_alloc_event</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, process.o(i.process_alloc_event))
@@ -3736,11 +3736,11 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[28b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rand
 </UL>
 <BR>[Called By]<UL><LI><a href="#[283]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servreg_hack_register
-<LI><a href="#[3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;process_thread_servreg_hack_process
 <LI><a href="#[2d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_compute_reachable_time
 <LI><a href="#[1be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;create_frame
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_packet
 <LI><a href="#[212]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;schedule_transmission
+<LI><a href="#[3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;process_thread_servreg_hack_process
 <LI><a href="#[2a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_reset_periodic_timer
 <LI><a href="#[219]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_probing_target
 <LI><a href="#[218]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_probing_delay
@@ -3792,8 +3792,8 @@ Global Symbols
 <P><STRONG><a name="[21f]"></a>rpl_add_parent</STRONG> (Thumb, 48 bytes, Stack size 16 bytes, rpl-dag.o(i.rpl_add_parent))
 <BR><BR>[Stack]<UL><LI>Max Depth = 192<LI>Call Chain = rpl_add_parent &rArr; nbr_table_add_lladdr &rArr; nbr_table_allocate &rArr; rpl_nbr_policy_find_removable &rArr; find_removable_dao &rArr; update_nbr &rArr; uip_ds6_route_is_nexthop &rArr; uip_ds6_nbr_lladdr_from_ipaddr &rArr; uip_ds6_nbr_lookup &rArr; nbr_table_head &rArr; nbr_table_next &rArr; nbr_get_bit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[24c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_add_lladdr
-<LI><a href="#[296]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_lladdr_from_ipaddr
+<BR>[Calls]<UL><LI><a href="#[296]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_lladdr_from_ipaddr
+<LI><a href="#[24c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_add_lladdr
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_process_dio
 <LI><a href="#[2a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_join_instance
@@ -3960,8 +3960,8 @@ Global Symbols
 <P><STRONG><a name="[1a4]"></a>rpl_icmp6_update_nbr_table</STRONG> (Thumb, 40 bytes, Stack size 24 bytes, rpl-icmp6.o(i.rpl_icmp6_update_nbr_table))
 <BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = rpl_icmp6_update_nbr_table &rArr; uip_ds6_nbr_add &rArr; nbr_table_add_lladdr &rArr; nbr_table_allocate &rArr; rpl_nbr_policy_find_removable &rArr; find_removable_dao &rArr; update_nbr &rArr; uip_ds6_route_is_nexthop &rArr; uip_ds6_nbr_lladdr_from_ipaddr &rArr; uip_ds6_nbr_lookup &rArr; nbr_table_head &rArr; nbr_table_next &rArr; nbr_get_bit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[19c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_addr
-<LI><a href="#[25e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_add
+<BR>[Calls]<UL><LI><a href="#[25e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_add
+<LI><a href="#[19c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_addr
 <LI><a href="#[202]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_lookup
 </UL>
 <BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dis_input
@@ -4593,8 +4593,8 @@ Global Symbols
 <LI><a href="#[28c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;remove_ext_hdr
 <LI><a href="#[2cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcpip_output
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_udp_packet_send
-<LI><a href="#[1de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_icmp6_send
+<BR>[Called By]<UL><LI><a href="#[1de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_icmp6_send
+<LI><a href="#[2c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_udp_packet_send
 <LI><a href="#[1f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eventhandler
 </UL>
 
@@ -4623,8 +4623,8 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[21a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;clock_time
 </UL>
 <BR>[Called By]<UL><LI><a href="#[236]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;httpd_appcall
-<LI><a href="#[286]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;purge_registrations
 <LI><a href="#[19b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;add_fragment
+<LI><a href="#[286]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;purge_registrations
 <LI><a href="#[17]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;process_thread_etimer_process
 </UL>
 
@@ -4648,10 +4648,10 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[283]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servreg_hack_register
 <LI><a href="#[236]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;httpd_appcall
+<LI><a href="#[19b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;add_fragment
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etimer_set
 <LI><a href="#[286]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;purge_registrations
 <LI><a href="#[227]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handle_incoming_reg
-<LI><a href="#[19b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;add_fragment
 </UL>
 
 <P><STRONG><a name="[20a]"></a>uart_send_char</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, console.o(i.uart_send_char))
@@ -4720,8 +4720,8 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[276]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_prefix_64
 <LI><a href="#[282]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_global_address
-<LI><a href="#[165]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Stack_6LoWPAN_Init
 <LI><a href="#[2da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_init
+<LI><a href="#[165]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Stack_6LoWPAN_Init
 <LI><a href="#[1b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_prefix
 </UL>
 
@@ -4757,11 +4757,11 @@ Global Symbols
 <P><STRONG><a name="[2b1]"></a>uip_ds6_defrt_add</STRONG> (Thumb, 84 bytes, Stack size 16 bytes, uip-ds6-route.o(i.uip_ds6_defrt_add))
 <BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = uip_ds6_defrt_add &rArr; uip_ds6_defrt_lookup &rArr; memcmp
 </UL>
-<BR>[Calls]<UL><LI><a href="#[229]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_push
-<LI><a href="#[22a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memb_alloc
-<LI><a href="#[2cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stimer_set
+<BR>[Calls]<UL><LI><a href="#[2cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stimer_set
 <LI><a href="#[2d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_defrt_lookup
 <LI><a href="#[1b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;call_route_callback
+<LI><a href="#[229]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_push
+<LI><a href="#[22a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memb_alloc
 <LI><a href="#[190]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_set_default_route
@@ -4791,10 +4791,10 @@ Global Symbols
 <P><STRONG><a name="[2d9]"></a>uip_ds6_defrt_periodic</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, uip-ds6-route.o(i.uip_ds6_defrt_periodic))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = uip_ds6_defrt_periodic &rArr; uip_ds6_defrt_rm &rArr; call_route_callback
 </UL>
-<BR>[Calls]<UL><LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_item_next
-<LI><a href="#[1b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_head
-<LI><a href="#[2ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stimer_expired
+<BR>[Calls]<UL><LI><a href="#[2ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stimer_expired
 <LI><a href="#[2ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_defrt_rm
+<LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_item_next
+<LI><a href="#[1b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_head
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_periodic
 </UL>
@@ -4802,11 +4802,11 @@ Global Symbols
 <P><STRONG><a name="[2ac]"></a>uip_ds6_defrt_rm</STRONG> (Thumb, 60 bytes, Stack size 16 bytes, uip-ds6-route.o(i.uip_ds6_defrt_rm))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = uip_ds6_defrt_rm &rArr; call_route_callback
 </UL>
-<BR>[Calls]<UL><LI><a href="#[1d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_remove
+<BR>[Calls]<UL><LI><a href="#[1b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;call_route_callback
+<LI><a href="#[1d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_remove
 <LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_item_next
 <LI><a href="#[1b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_head
 <LI><a href="#[211]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memb_free
-<LI><a href="#[1b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;call_route_callback
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_defrt_periodic
 <LI><a href="#[2a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_set_default_route
@@ -4827,11 +4827,11 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_set_addr_iid
 <LI><a href="#[173]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_addr_add
-<LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etimer_set
 <LI><a href="#[2dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_init
 <LI><a href="#[2db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_neighbors_init
 <LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_prefix_add
 <LI><a href="#[2d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_compute_reachable_time
+<LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etimer_set
 <LI><a href="#[2a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_maddr_add
 <LI><a href="#[179]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
@@ -4850,10 +4850,10 @@ Global Symbols
 <P><STRONG><a name="[267]"></a>uip_ds6_link_neighbor_callback</STRONG> (Thumb, 50 bytes, Stack size 16 bytes, uip-ds6-nbr.o(i.uip_ds6_link_neighbor_callback))
 <BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = uip_ds6_link_neighbor_callback &rArr; link_stats_packet_sent &rArr; nbr_table_add_lladdr &rArr; nbr_table_allocate &rArr; rpl_nbr_policy_find_removable &rArr; find_removable_dao &rArr; update_nbr &rArr; uip_ds6_route_is_nexthop &rArr; uip_ds6_nbr_lladdr_from_ipaddr &rArr; uip_ds6_nbr_lookup &rArr; nbr_table_head &rArr; nbr_table_next &rArr; nbr_get_bit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[24e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_packet_sent
+<BR>[Calls]<UL><LI><a href="#[2a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_link_neighbor_callback
+<LI><a href="#[24e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_packet_sent
 <LI><a href="#[19c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_addr
 <LI><a href="#[19d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linkaddr_cmp
-<LI><a href="#[2a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_link_neighbor_callback
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packet_sent
 </UL>
@@ -4897,8 +4897,8 @@ Global Symbols
 <P><STRONG><a name="[25e]"></a>uip_ds6_nbr_add</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, uip-ds6-nbr.o(i.uip_ds6_nbr_add))
 <BR><BR>[Stack]<UL><LI>Max Depth = 192<LI>Call Chain = uip_ds6_nbr_add &rArr; nbr_table_add_lladdr &rArr; nbr_table_allocate &rArr; rpl_nbr_policy_find_removable &rArr; find_removable_dao &rArr; update_nbr &rArr; uip_ds6_route_is_nexthop &rArr; uip_ds6_nbr_lladdr_from_ipaddr &rArr; uip_ds6_nbr_lookup &rArr; nbr_table_head &rArr; nbr_table_next &rArr; nbr_get_bit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[24c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_add_lladdr
-<LI><a href="#[2a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_ipv6_neighbor_callback
+<BR>[Calls]<UL><LI><a href="#[2a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_ipv6_neighbor_callback
+<LI><a href="#[24c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_add_lladdr
 <LI><a href="#[190]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 </UL>
 <BR>[Called By]<UL><LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ns_input
@@ -4954,8 +4954,8 @@ Global Symbols
 <P><STRONG><a name="[71]"></a>uip_ds6_nbr_rm</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, uip-ds6-nbr.o(i.uip_ds6_nbr_rm))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = uip_ds6_nbr_rm &rArr; rpl_ipv6_neighbor_callback &rArr; rpl_find_parent_any_dag &rArr; find_parent_any_dag_any_instance &rArr; uip_ds6_nbr_lookup &rArr; nbr_table_head &rArr; nbr_table_next &rArr; nbr_get_bit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[25b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_remove
-<LI><a href="#[2a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_ipv6_neighbor_callback
+<BR>[Calls]<UL><LI><a href="#[2a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_ipv6_neighbor_callback
+<LI><a href="#[25b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_remove
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> uip-ds6-nbr.o(i.uip_ds6_neighbors_init)
 </UL>
@@ -4971,10 +4971,10 @@ Global Symbols
 <P><STRONG><a name="[1f8]"></a>uip_ds6_periodic</STRONG> (Thumb, 62 bytes, Stack size 16 bytes, uip-ds6.o(i.uip_ds6_periodic))
 <BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = uip_ds6_periodic &rArr; uip_ds6_addr_rm &rArr; uip_ds6_maddr_lookup &rArr; uip_ds6_list_loop &rArr; memcmp
 </UL>
-<BR>[Calls]<UL><LI><a href="#[1cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etimer_reset
-<LI><a href="#[2d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_defrt_periodic
+<BR>[Calls]<UL><LI><a href="#[2d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_defrt_periodic
 <LI><a href="#[2ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stimer_expired
 <LI><a href="#[1b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_addr_rm
+<LI><a href="#[1cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etimer_reset
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eventhandler
 </UL>
@@ -4992,6 +4992,8 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = uip_ds6_route_add &rArr; nbr_table_add_lladdr &rArr; nbr_table_allocate &rArr; rpl_nbr_policy_find_removable &rArr; find_removable_dao &rArr; update_nbr &rArr; uip_ds6_route_is_nexthop &rArr; uip_ds6_nbr_lladdr_from_ipaddr &rArr; uip_ds6_nbr_lookup &rArr; nbr_table_head &rArr; nbr_table_next &rArr; nbr_get_bit
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_nexthop
+<LI><a href="#[296]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_lladdr_from_ipaddr
+<LI><a href="#[1b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;call_route_callback
 <LI><a href="#[229]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_push
 <LI><a href="#[1ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_init
 <LI><a href="#[1cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_add
@@ -5000,8 +5002,6 @@ Global Symbols
 <LI><a href="#[25a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_lock
 <LI><a href="#[204]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_get_from_lladdr
 <LI><a href="#[24c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_add_lladdr
-<LI><a href="#[296]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_lladdr_from_ipaddr
-<LI><a href="#[1b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;call_route_callback
 <LI><a href="#[28e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_rm
 <LI><a href="#[1d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_lookup
 <LI><a href="#[1a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memcmp
@@ -5033,8 +5033,8 @@ Global Symbols
 <P><STRONG><a name="[2b2]"></a>uip_ds6_route_is_nexthop</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, uip-ds6-route.o(i.uip_ds6_route_is_nexthop))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = uip_ds6_route_is_nexthop &rArr; uip_ds6_nbr_lladdr_from_ipaddr &rArr; uip_ds6_nbr_lookup &rArr; nbr_table_head &rArr; nbr_table_next &rArr; nbr_get_bit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[204]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_get_from_lladdr
-<LI><a href="#[296]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_lladdr_from_ipaddr
+<BR>[Calls]<UL><LI><a href="#[296]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_lladdr_from_ipaddr
+<LI><a href="#[204]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_get_from_lladdr
 </UL>
 <BR>[Called By]<UL><LI><a href="#[220]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_process_parent_event
 <LI><a href="#[207]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;update_nbr
@@ -5070,8 +5070,8 @@ Global Symbols
 <P><STRONG><a name="[1dc]"></a>uip_ds6_route_nexthop</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, uip-ds6-route.o(i.uip_ds6_route_nexthop))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = uip_ds6_route_nexthop &rArr; nbr_table_get_lladdr &rArr; key_from_item
 </UL>
-<BR>[Calls]<UL><LI><a href="#[259]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_get_lladdr
-<LI><a href="#[2a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_ipaddr_from_lladdr
+<BR>[Calls]<UL><LI><a href="#[2a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_ipaddr_from_lladdr
+<LI><a href="#[259]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_get_lladdr
 </UL>
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;generate_routes
 <LI><a href="#[297]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_add
@@ -5086,12 +5086,12 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_nexthop
 <LI><a href="#[25f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_debug_ipaddr_print
+<LI><a href="#[1b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;call_route_callback
 <LI><a href="#[1d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_remove
 <LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_item_next
 <LI><a href="#[1b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_head
 <LI><a href="#[211]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memb_free
 <LI><a href="#[25b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_remove
-<LI><a href="#[1b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;call_route_callback
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_verify_hbh_header
 <LI><a href="#[297]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_add
@@ -5117,10 +5117,10 @@ Global Symbols
 <P><STRONG><a name="[172]"></a>uip_ds6_set_addr_iid</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, uip-ds6.o(i.uip_ds6_set_addr_iid))
 <BR><BR>[Called By]<UL><LI><a href="#[276]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_prefix_64
 <LI><a href="#[282]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_global_address
-<LI><a href="#[165]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Stack_6LoWPAN_Init
 <LI><a href="#[2a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_link_neighbor_callback
 <LI><a href="#[2da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_init
 <LI><a href="#[2e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uncompress_addr
+<LI><a href="#[165]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Stack_6LoWPAN_Init
 <LI><a href="#[1b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_ip_from_prefix
 </UL>
 
@@ -5356,8 +5356,8 @@ Local Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> border-router_1.o(.data)
 </UL>
-<P><STRONG><a name="[0]"></a>process_thread_unicast_receiver_process</STRONG> (Thumb, 80 bytes, Stack size 16 bytes, border-router_1.o(i.process_thread_unicast_receiver_process))
-<BR><BR>[Stack]<UL><LI>Max Depth = 132<LI>Call Chain = process_thread_unicast_receiver_process &rArr; set_global_address &rArr; uip_ds6_addr_add &rArr; uip_ds6_maddr_add &rArr; uip_ds6_list_loop &rArr; memcmp
+<P><STRONG><a name="[0]"></a>process_thread_unicast_receiver_process</STRONG> (Thumb, 78 bytes, Stack size 24 bytes, border-router_1.o(i.process_thread_unicast_receiver_process))
+<BR><BR>[Stack]<UL><LI>Max Depth = 140<LI>Call Chain = process_thread_unicast_receiver_process &rArr; set_global_address &rArr; uip_ds6_addr_add &rArr; uip_ds6_maddr_add &rArr; uip_ds6_list_loop &rArr; memcmp
 </UL>
 <BR>[Calls]<UL><LI><a href="#[25f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_debug_ipaddr_print
 <LI><a href="#[284]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;simple_udp_register
@@ -5825,13 +5825,13 @@ Local Symbols
 <P><STRONG><a name="[19b]"></a>add_fragment</STRONG> (Thumb, 306 bytes, Stack size 48 bytes, sicslowpan.o(i.add_fragment))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = add_fragment &rArr; store_fragment &rArr; __aeabi_memcpy
 </UL>
-<BR>[Calls]<UL><LI><a href="#[1a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;timer_set
+<BR>[Calls]<UL><LI><a href="#[19e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;store_fragment
+<LI><a href="#[1a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;clear_fragments
+<LI><a href="#[1a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;timer_set
 <LI><a href="#[19f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;timer_expired
 <LI><a href="#[19c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_addr
 <LI><a href="#[1a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linkaddr_copy
 <LI><a href="#[19d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linkaddr_cmp
-<LI><a href="#[19e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;store_fragment
-<LI><a href="#[1a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;clear_fragments
 </UL>
 <BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;input
 </UL>
@@ -5885,15 +5885,15 @@ Local Symbols
 <P><STRONG><a name="[77]"></a>input</STRONG> (Thumb, 464 bytes, Stack size 40 bytes, sicslowpan.o(i.input))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = input &rArr; link_stats_input_callback &rArr; nbr_table_add_lladdr &rArr; nbr_table_allocate &rArr; rpl_nbr_policy_find_removable &rArr; find_removable_dao &rArr; update_nbr &rArr; uip_ds6_route_is_nexthop &rArr; uip_ds6_nbr_lladdr_from_ipaddr &rArr; uip_ds6_nbr_lookup &rArr; nbr_table_head &rArr; nbr_table_next &rArr; nbr_get_bit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[23e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_input_callback
+<BR>[Calls]<UL><LI><a href="#[23f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uncompress_hdr_iphc
+<LI><a href="#[240]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_packet_attrs
+<LI><a href="#[1bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;copy_frags2uip
+<LI><a href="#[19b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;add_fragment
+<LI><a href="#[23e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_stats_input_callback
 <LI><a href="#[1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_dataptr
 <LI><a href="#[1c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_datalen
 <LI><a href="#[1c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_attr
 <LI><a href="#[19c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_addr
-<LI><a href="#[23f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uncompress_hdr_iphc
-<LI><a href="#[240]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_packet_attrs
-<LI><a href="#[1bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;copy_frags2uip
-<LI><a href="#[19b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;add_fragment
 <LI><a href="#[241]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcpip_input
 <LI><a href="#[190]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 </UL>
@@ -5902,7 +5902,10 @@ Local Symbols
 <P><STRONG><a name="[6f]"></a>output</STRONG> (Thumb, 438 bytes, Stack size 40 bytes, sicslowpan.o(i.output))
 <BR><BR>[Stack]<UL><LI>Max Depth = 108<LI>Call Chain = output &rArr; compress_hdr_iphc &rArr; addr_context_lookup_by_prefix &rArr; memcmp
 </UL>
-<BR>[Calls]<UL><LI><a href="#[266]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queuebuf_to_packetbuf
+<BR>[Calls]<UL><LI><a href="#[240]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_packet_attrs
+<LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_packet
+<LI><a href="#[1bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;compress_hdr_iphc
+<LI><a href="#[266]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queuebuf_to_packetbuf
 <LI><a href="#[262]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queuebuf_numfree
 <LI><a href="#[264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queuebuf_new_from_packetbuf
 <LI><a href="#[210]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queuebuf_free
@@ -5911,9 +5914,6 @@ Local Symbols
 <LI><a href="#[1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_dataptr
 <LI><a href="#[260]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_clear
 <LI><a href="#[1a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linkaddr_copy
-<LI><a href="#[240]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_packet_attrs
-<LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_packet
-<LI><a href="#[1bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;compress_hdr_iphc
 <LI><a href="#[1ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memmove
 <LI><a href="#[190]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 </UL>
@@ -5929,8 +5929,8 @@ Local Symbols
 <P><STRONG><a name="[265]"></a>send_packet</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, sicslowpan.o(i.send_packet))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = send_packet &rArr; packetbuf_set_addr
 </UL>
-<BR>[Calls]<UL><LI><a href="#[261]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_set_addr
-<LI><a href="#[2c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;watchdog_periodic
+<BR>[Calls]<UL><LI><a href="#[2c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;watchdog_periodic
+<LI><a href="#[261]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_set_addr
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;output
 </UL>
@@ -5966,10 +5966,10 @@ Local Symbols
 <P><STRONG><a name="[23f]"></a>uncompress_hdr_iphc</STRONG> (Thumb, 720 bytes, Stack size 40 bytes, sicslowpan.o(i.uncompress_hdr_iphc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = uncompress_hdr_iphc &rArr; uncompress_addr &rArr; __aeabi_memcpy
 </UL>
-<BR>[Calls]<UL><LI><a href="#[1c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_datalen
-<LI><a href="#[19c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_addr
-<LI><a href="#[2e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uncompress_addr
+<BR>[Calls]<UL><LI><a href="#[2e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uncompress_addr
 <LI><a href="#[2e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;addr_context_lookup_by_number
+<LI><a href="#[1c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_datalen
+<LI><a href="#[19c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_addr
 </UL>
 <BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;input
 </UL>
@@ -6059,9 +6059,9 @@ Local Symbols
 <P><STRONG><a name="[9]"></a>ns_input</STRONG> (Thumb, 516 bytes, Stack size 56 bytes, uip-nd6.o(i.ns_input))
 <BR><BR>[Stack]<UL><LI>Max Depth = 248<LI>Call Chain = ns_input &rArr; uip_ds6_nbr_add &rArr; nbr_table_add_lladdr &rArr; nbr_table_allocate &rArr; rpl_nbr_policy_find_removable &rArr; find_removable_dao &rArr; update_nbr &rArr; uip_ds6_route_is_nexthop &rArr; uip_ds6_nbr_lladdr_from_ipaddr &rArr; uip_ds6_nbr_lookup &rArr; nbr_table_head &rArr; nbr_table_next &rArr; nbr_get_bit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[25d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_update_lladdr
-<LI><a href="#[25e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_add
+<BR>[Calls]<UL><LI><a href="#[25e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_add
 <LI><a href="#[1f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_icmp6chksum
+<LI><a href="#[25d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_update_lladdr
 <LI><a href="#[202]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_lookup
 <LI><a href="#[203]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_nbr_get_ll
 <LI><a href="#[1b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_addr_lookup
@@ -6089,11 +6089,11 @@ Local Symbols
 <P><STRONG><a name="[20f]"></a>free_packet</STRONG> (Thumb, 102 bytes, Stack size 16 bytes, csma.o(i.free_packet))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = free_packet &rArr; schedule_transmission &rArr; ctimer_set &rArr; ctimer_set_with_process &rArr; etimer_set &rArr; add_timer &rArr; update_time
 </UL>
-<BR>[Calls]<UL><LI><a href="#[1d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_remove
+<BR>[Calls]<UL><LI><a href="#[212]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;schedule_transmission
+<LI><a href="#[1d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_remove
 <LI><a href="#[1b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_head
 <LI><a href="#[211]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memb_free
 <LI><a href="#[210]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queuebuf_free
-<LI><a href="#[212]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;schedule_transmission
 <LI><a href="#[1d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ctimer_stop
 </UL>
 <BR>[Called By]<UL><LI><a href="#[269]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tx_done
@@ -6118,20 +6118,20 @@ Local Symbols
 <P><STRONG><a name="[70]"></a>packet_sent</STRONG> (Thumb, 216 bytes, Stack size 24 bytes, csma.o(i.packet_sent))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = packet_sent &rArr; tx_done &rArr; free_packet &rArr; schedule_transmission &rArr; ctimer_set &rArr; ctimer_set_with_process &rArr; etimer_set &rArr; add_timer &rArr; update_time
 </UL>
-<BR>[Calls]<UL><LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_item_next
+<BR>[Calls]<UL><LI><a href="#[269]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tx_done
+<LI><a href="#[26a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rexmit
+<LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_item_next
 <LI><a href="#[1b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_head
 <LI><a href="#[268]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queuebuf_attr
 <LI><a href="#[1c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_attr
-<LI><a href="#[269]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tx_done
-<LI><a href="#[26a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rexmit
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> csma.o(i.transmit_packet_list)
 </UL>
 <P><STRONG><a name="[26a]"></a>rexmit</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, csma.o(i.rexmit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = rexmit &rArr; schedule_transmission &rArr; ctimer_set &rArr; ctimer_set_with_process &rArr; etimer_set &rArr; add_timer &rArr; update_time
 </UL>
-<BR>[Calls]<UL><LI><a href="#[289]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queuebuf_update_attr_from_packetbuf
-<LI><a href="#[212]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;schedule_transmission
+<BR>[Calls]<UL><LI><a href="#[212]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;schedule_transmission
+<LI><a href="#[289]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queuebuf_update_attr_from_packetbuf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packet_sent
 </UL>
@@ -6150,7 +6150,9 @@ Local Symbols
 <P><STRONG><a name="[7c]"></a>send_packet</STRONG> (Thumb, 298 bytes, Stack size 32 bytes, csma.o(i.send_packet))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = send_packet &rArr; schedule_transmission &rArr; ctimer_set &rArr; ctimer_set_with_process &rArr; etimer_set &rArr; add_timer &rArr; update_time
 </UL>
-<BR>[Calls]<UL><LI><a href="#[1b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_length
+<BR>[Calls]<UL><LI><a href="#[2bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mac_call_sent_callback
+<LI><a href="#[212]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;schedule_transmission
+<LI><a href="#[1b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_length
 <LI><a href="#[1c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;random_rand
 <LI><a href="#[1d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_remove
 <LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;list_item_next
@@ -6165,8 +6167,6 @@ Local Symbols
 <LI><a href="#[19c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_addr
 <LI><a href="#[1a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linkaddr_copy
 <LI><a href="#[19d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linkaddr_cmp
-<LI><a href="#[2bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mac_call_sent_callback
-<LI><a href="#[212]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;schedule_transmission
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> csma.o(.constdata)
 </UL>
@@ -6206,7 +6206,10 @@ Local Symbols
 <P><STRONG><a name="[1be]"></a>create_frame</STRONG> (Thumb, 280 bytes, Stack size 88 bytes, framer-802154.o(i.create_frame))
 <BR><BR>[Stack]<UL><LI>Max Depth = 156<LI>Call Chain = create_frame &rArr; frame802154_create &rArr; field_len &rArr; frame802154_has_panid
 </UL>
-<BR>[Calls]<UL><LI><a href="#[1c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;random_rand
+<BR>[Calls]<UL><LI><a href="#[1c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;frame802154_hdrlen
+<LI><a href="#[1bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;frame802154_get_pan_id
+<LI><a href="#[1c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;frame802154_create
+<LI><a href="#[1c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;random_rand
 <LI><a href="#[1c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_set_attr
 <LI><a href="#[1c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_holds_broadcast
 <LI><a href="#[1c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_hdrptr
@@ -6216,9 +6219,6 @@ Local Symbols
 <LI><a href="#[1c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_attr
 <LI><a href="#[19c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_addr
 <LI><a href="#[1a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linkaddr_copy
-<LI><a href="#[1c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;frame802154_hdrlen
-<LI><a href="#[1bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;frame802154_get_pan_id
-<LI><a href="#[1c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;frame802154_create
 <LI><a href="#[179]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
 <BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hdr_length
@@ -6234,14 +6234,14 @@ Local Symbols
 <P><STRONG><a name="[83]"></a>parse</STRONG> (Thumb, 142 bytes, Stack size 80 bytes, framer-802154.o(i.parse))
 <BR><BR>[Stack]<UL><LI>Max Depth = 148<LI>Call Chain = parse &rArr; frame802154_parse &rArr; frame802154_has_panid
 </UL>
-<BR>[Calls]<UL><LI><a href="#[1c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_set_attr
+<BR>[Calls]<UL><LI><a href="#[20c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;frame802154_parse
+<LI><a href="#[273]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;frame802154_is_broadcast_addr
+<LI><a href="#[1bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;frame802154_get_pan_id
+<LI><a href="#[1c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_set_attr
 <LI><a href="#[261]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_set_addr
 <LI><a href="#[272]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_hdrreduce
 <LI><a href="#[1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_dataptr
 <LI><a href="#[1c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_datalen
-<LI><a href="#[20c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;frame802154_parse
-<LI><a href="#[273]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;frame802154_is_broadcast_addr
-<LI><a href="#[1bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;frame802154_get_pan_id
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> framer-802154.o(.constdata)
 </UL>
@@ -6267,20 +6267,20 @@ Local Symbols
 <BR>[Address Reference Count : 1]<UL><LI> nullrdc.o(.constdata)
 </UL>
 <P><STRONG><a name="[86]"></a>send_list</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, nullrdc.o(i.send_list))
-<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = send_list &rArr; queuebuf_to_packetbuf &rArr; packetbuf_copyfrom &rArr; packetbuf_clear &rArr; packetbuf_attr_clear
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = send_list &rArr; send_one_packet &rArr; mac_call_sent_callback
 </UL>
-<BR>[Calls]<UL><LI><a href="#[266]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queuebuf_to_packetbuf
-<LI><a href="#[2be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_one_packet
+<BR>[Calls]<UL><LI><a href="#[2be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_one_packet
+<LI><a href="#[266]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queuebuf_to_packetbuf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> nullrdc.o(.constdata)
 </UL>
 <P><STRONG><a name="[2be]"></a>send_one_packet</STRONG> (Thumb, 92 bytes, Stack size 24 bytes, nullrdc.o(i.send_one_packet))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = send_one_packet &rArr; mac_call_sent_callback
 </UL>
-<BR>[Calls]<UL><LI><a href="#[270]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_totlen
+<BR>[Calls]<UL><LI><a href="#[2bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mac_call_sent_callback
+<LI><a href="#[270]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_totlen
 <LI><a href="#[261]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_set_addr
 <LI><a href="#[1c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;packetbuf_hdrptr
-<LI><a href="#[2bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mac_call_sent_callback
 </UL>
 <BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_packet
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_list
@@ -6580,8 +6580,8 @@ Local Symbols
 <P><STRONG><a name="[63]"></a>handle_dao_timer</STRONG> (Thumb, 84 bytes, Stack size 16 bytes, rpl-timers.o(i.handle_dao_timer))
 <BR><BR>[Stack]<UL><LI>Max Depth = 284<LI>Call Chain = handle_dao_timer &rArr; dao_output &rArr; dao_output_target &rArr; dao_output_target_seq &rArr; uip_icmp6_send &rArr; tcpip_ipv6_output &rArr; rpl_update_header &rArr; insert_hbh_header &rArr; update_hbh_header &rArr;  dao_output_target (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ctimer_set
-<LI><a href="#[224]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_get_link_local
+<BR>[Calls]<UL><LI><a href="#[224]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_get_link_local
+<LI><a href="#[1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ctimer_set
 <LI><a href="#[1d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ctimer_stop
 <LI><a href="#[1f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etimer_expired
 <LI><a href="#[1df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dao_output
@@ -6594,8 +6594,8 @@ Local Symbols
 <P><STRONG><a name="[64]"></a>handle_dio_timer</STRONG> (Thumb, 122 bytes, Stack size 16 bytes, rpl-timers.o(i.handle_dio_timer))
 <BR><BR>[Stack]<UL><LI>Max Depth = 252<LI>Call Chain = handle_dio_timer &rArr; dio_output &rArr; uip_icmp6_send &rArr; tcpip_ipv6_output &rArr; rpl_update_header &rArr; insert_hbh_header &rArr; update_hbh_header &rArr;  dao_output_target (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ctimer_set
-<LI><a href="#[224]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_get_link_local
+<BR>[Calls]<UL><LI><a href="#[224]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_get_link_local
+<LI><a href="#[1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ctimer_set
 <LI><a href="#[1e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dio_output
 <LI><a href="#[226]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;new_dio_interval
 </UL>
@@ -6680,9 +6680,9 @@ Local Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_next
 <LI><a href="#[1ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_head
+<LI><a href="#[2b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_is_nexthop
 <LI><a href="#[1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ctimer_set
 <LI><a href="#[259]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nbr_table_get_lladdr
-<LI><a href="#[2b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_route_is_nexthop
 <LI><a href="#[29e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_get_parent
 </UL>
 <BR>[Called By]<UL><LI><a href="#[209]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;find_removable_dis
