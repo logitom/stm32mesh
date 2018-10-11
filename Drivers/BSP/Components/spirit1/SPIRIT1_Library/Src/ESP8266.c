@@ -64,7 +64,7 @@ const uint8_t TCP_CONNECTION[]="AT+CIPSTART=\"TCP\",\"192.168.2.161\",8888\\n\\r
 
 /* ESP8266 module structure */
 Wifi_t	Wifi;
-bool Server_Parsing_Flag=false;
+bool new_data=false;
 
 void ESP8266_Init(void)
 {
@@ -72,7 +72,7 @@ void ESP8266_Init(void)
      MX_UART4_UART_Init(); 
      ESP8266_APInit();
      HAL_Delay(2000);
-     Wifi.Mode=_WIFI_REGISTRATION_MODE;
+     Wifi.Mode=_WIFI_REG_PROJECT_CODE;
      //ESP8266_Write();
 }
 
@@ -131,7 +131,7 @@ void ESP8266_APInit(void)
     //HAL_UART_Receive_DMA(&huart4,(uint8_t*)&Wifi.usartBuff,UART_RxBufferSize); 
    
     Wifi_Init();
-    
+    new_data=false;
     #endif
 }
 
@@ -589,9 +589,8 @@ void	Wifi_RxCallBack(void)
 //#########################################################################################################
 void WifiTask(void)
 {
-	
-  
-  Wifi.Mode=_WIFI_CONFIG_MODE;
+	//Wifi.Mode=_WIFI_CONFIG_MODE;
+ // Wifi.RegStatus=REG_NONE;
   Wifi_SoftAp_Create("Well Intelligence2","111111ap",1,3,4,0);
   
   Wifi_SendStringAndWait("AT+RST\r\n",1000);
@@ -1352,18 +1351,56 @@ bool  Wifi_TcpIp_SendDataTcp(uint8_t LinkId,uint16_t dataLen,uint8_t *data)
 	return returnVal;	  
 }
 //#########################################################################################################
-void	Server_Reg_Parsing(void)
+
+//#########################################################################################################
+uint8_t Reg_Server_Account(void)
+{
+    int i=0;
+    uint16_t total_len;
+    volatile Register_Svr_t Reg_Pkt={NULL};    
+    
+    //total_len=atoi((char*)&Wifi.RxBuffer[9]); //ipd total len
+    Reg_Pkt.Header=Wifi.RxBuffer[REG_INDEX]; //header
+    Reg_Pkt.Cmd=Wifi.RxBuffer[REG_INDEX+1];
+    Reg_Pkt.AP_SSID_Len=Wifi.RxBuffer[REG_INDEX+2]^PRIVATE_KEY;
+    Reg_Pkt.AP_Pwd_Len=Wifi.RxBuffer[REG_INDEX+3]^PRIVATE_KEY;
+    Reg_Pkt.Svr_URL_Len=Wifi.RxBuffer[REG_INDEX+4]^PRIVATE_KEY;
+    Reg_Pkt.Google_ID_len=Wifi.RxBuffer[REG_INDEX+5]^PRIVATE_KEY;
+    Reg_Pkt.Svr_UserName_Len=Wifi.RxBuffer[REG_INDEX+6]^PRIVATE_KEY;  
+    Reg_Pkt.Google_Token_Len=Wifi.RxBuffer[REG_INDEX+7]^PRIVATE_KEY; 
+    
+    for(i=REG_INDEX+8;i<=REG_INDEX+8+Reg_Pkt.AP_SSID_Len+Reg_Pkt.AP_Pwd_Len+Reg_Pkt.Svr_URL_Len+Reg_Pkt.Google_ID_len+Reg_Pkt.Svr_UserName_Len+Reg_Pkt.Google_Token_Len;i++)
+    Wifi.RxBuffer[i]=Wifi.RxBuffer[i]^PRIVATE_KEY;
+    
+    memcpy((void *)Reg_Pkt.AP_SSID,&Wifi.RxBuffer[REG_INDEX+8],Reg_Pkt.AP_SSID_Len);
+    memcpy((void *)Reg_Pkt.AP_Pwd,&Wifi.RxBuffer[REG_INDEX+8+Reg_Pkt.AP_SSID_Len],Reg_Pkt.AP_Pwd_Len);
+    memcpy((void *)Reg_Pkt.Svr_URL,&Wifi.RxBuffer[REG_INDEX+8+Reg_Pkt.AP_SSID_Len+Reg_Pkt.AP_Pwd_Len],Reg_Pkt.Svr_URL_Len);
+    memcpy((void *)Reg_Pkt.Google_ID,&Wifi.RxBuffer[REG_INDEX+8+Reg_Pkt.AP_SSID_Len+Reg_Pkt.AP_Pwd_Len+Reg_Pkt.Svr_URL_Len],Reg_Pkt.Google_ID_len);
+    memcpy((void *)Reg_Pkt.Svr_UserName,&Wifi.RxBuffer[REG_INDEX+8+Reg_Pkt.AP_SSID_Len+Reg_Pkt.AP_Pwd_Len+Reg_Pkt.Svr_URL_Len+Reg_Pkt.Google_ID_len],Reg_Pkt.Svr_UserName_Len); // user name
+    memcpy((void *)Reg_Pkt.Google_Token,&Wifi.RxBuffer[REG_INDEX+8+Reg_Pkt.AP_SSID_Len+Reg_Pkt.AP_Pwd_Len+Reg_Pkt.Svr_URL_Len+Reg_Pkt.Google_ID_len+Reg_Pkt.Svr_UserName_Len],Reg_Pkt.Google_Token_Len); // token
+    //Reg_Pkt.Google_ID_len=Wifi.RxBuffer[REG_INDEX+4]^PRIVATE_KEY;   
+   // checksum
+  
+  
+    Wifi.Mode=_WIFI_REG_PROJECT_CODE;
+    return REGISTER_SERVER_SUCCEFULL;
+}
+
+//#########################################################################################################
+bool	Reg_Project_Check(void)
 {
     int i;
     uint8_t result;
     uint8_t header;
     uint8_t cmd;
     uint8_t EOP;
-    char ip[4];
+    uint8_t ip[4];
     char *ptr=NULL;
     uint16_t DataLen;
     uint16_t total_len;
-     
+    Register_Svr_t reg_pkt;    
+
+  
     uint8_t ack_pkt[4]; //ack packet for registration mode
     char buffer[120];
     char buffer2[20];
@@ -1374,7 +1411,7 @@ void	Server_Reg_Parsing(void)
       ptr=strstr((const char *)Wifi.RxBuffer,"IPD+:"); 
     }
     // parsing command type
-    total_len=atoi((char*)&Wifi.RxBuffer[9]); //ipd total len
+  //  total_len=atoi((char*)&Wifi.RxBuffer[9]); //ipd total len
     header=Wifi.RxBuffer[11];    //command header
     cmd=Wifi.RxBuffer[12];
     ip[0]=Wifi.RxBuffer[13];
@@ -1404,9 +1441,9 @@ void	Server_Reg_Parsing(void)
     sprintf((char*)buffer2,"%s",ack_pkt);
     printf("\r\n%s\r\n",ack_pkt); 
     ESP8266_Write((uint8_t*)buffer2);
-    HAL_Delay(1000);
+  //  HAL_Delay(1000);
     } 
-    Wifi.Mode=_WIFI_REGISTRATION_MODE;    
-    
+    Wifi.Mode=_WIFI_REG_AP_ACCOUNT;    
+    return true;
 }
 

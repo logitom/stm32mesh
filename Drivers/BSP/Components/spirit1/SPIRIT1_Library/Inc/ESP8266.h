@@ -57,10 +57,12 @@
 #define OFFSET 0x800
 #define DEST_ADDRESS (SRAM_BASE+OFFSET)
 
-   
+#define PRIVATE_KEY 0xa8
+#define REG_INDEX   0x0d   
 
 #define		_WIFI_USART									huart4
 
+#define   _WIFI_DATA_LEN              256     
 #define		_WIFI_TX_SIZE								256
 #define		_WIFI_RX_SIZE								512
 #define		_WIFI_RX_FOR_DATA_SIZE			512    
@@ -68,9 +70,10 @@
 #define		_WIFI_WAIT_TIME_MED					5000
 #define		_WIFI_WAIT_TIME_HIGH				25000
 #define		_WIFI_WAIT_TIME_VERYHIGH		60000    
-#define   _WIFI_REGISTRATION_MODE     0x00
-#define   _WIFI_SERVER_MODE           0x01     
-#define   _WIFI_CONFIG_MODE           0x02  // For setting wifi module parameter
+#define   _WIFI_REG_PROJECT_CODE      0x00
+#define   _WIFI_REG_AP_ACCOUNT        0x01
+#define   _WIFI_SERVER_MODE           0x02     
+#define   _WIFI_CONFIG_MODE           0x03  // For setting wifi module parameter
 
 /**********************************************************/
 /*  Constants  of register server procedures              */
@@ -89,7 +92,8 @@
 #define   REGISTER_WIFI_PWD_FAILED           0xb2
 #define   REGISTER_SERVER_FAILED             0xb3
 #define   REGISTER_WIFI_CONNECTING           0xb4 
-#define   REGISTER_SERVER_CHECKSUM_ERROR     0xb5    
+#define   REGISTER_SERVER_CHECKSUM_ERROR     0xb5   
+
 /**********************************************************/
 /*  Constants  of register server procedures              */
 /**********************************************************/     
@@ -102,32 +106,26 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data);
 void ESP8266_SendCommandToNode(uint8_t *Server_Command,uint8_t Command_Length);
     
 
-  
+
 
 typedef struct
 {
-    uint8_t Header;
-    uint8_t Cmd;
-    uint8_t EOP;    
-
-}Command_t;
-
-typedef struct
-{
-  Command_t Reg_Svr_Cmd;	
+  uint8_t   Header;
+  uint8_t   Cmd;	
   uint8_t   AP_SSID_Len;
   uint8_t   AP_Pwd_Len;
   uint8_t   Svr_URL_Len;	
 	uint16_t  Google_ID_len;
-	uint8_t*  Svr_UserName_Len; // server user name
+	uint8_t   Svr_UserName_Len; // server user name
 	uint8_t   Google_Token_Len;
-	uint8_t*  AP_SSID;
-  uint8_t*  AP_Pwd;
-	uint8_t*  Svr_URL;
-	uint8_t*  Google_ID;
-	uint8_t*  Svr_UserName;
-	uint8_t*  Google_Token;
+	uint8_t   AP_SSID[_WIFI_DATA_LEN];
+  uint8_t   AP_Pwd[_WIFI_DATA_LEN];
+	uint8_t   Svr_URL[_WIFI_DATA_LEN];
+	uint8_t   Google_ID[_WIFI_DATA_LEN];
+	uint8_t   Svr_UserName[_WIFI_DATA_LEN];
+	uint8_t   Google_Token[_WIFI_DATA_LEN];
 	uint32_t  Reg_Svr_csum;
+  uint8_t   EOP;
   //----------------
 }Register_Svr_t;
 
@@ -135,13 +133,14 @@ typedef struct
 
 typedef struct
 {
-    Command_t AP_Status_cmd;
+    uint8_t   Header;
+    uint8_t   Cmd;
     uint8_t   AP_Status;    
     uint32_t  AP_Status_csum;
-
+    uint8_t   EOP; 
 }AP_Status_t;
 
-//Command_t PCode_Cmd;
+
 
 
 //###################################################################################################
@@ -264,7 +263,8 @@ bool  Wifi_TcpIp_SendDataTcp(uint8_t LinkId,uint16_t dataLen,uint8_t *data);
 void	Wifi_RxClear(void);
 void	Wifi_TxClear(void);
 //###################################################################################################
-void	Server_Reg_Parsing(void);        
+uint8_t Reg_Server_Account(void);
+bool    Reg_Project_Check(void);        
     
 #ifdef __cplusplus
 }

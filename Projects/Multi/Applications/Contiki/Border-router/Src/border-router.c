@@ -72,7 +72,7 @@ static uip_ipaddr_t prefix;
 static uint8_t prefix_set;
 static uint8_t sender_ip[16];
 
-extern bool Server_Parsing_Flag;
+extern bool new_data;
 uint8_t ServerCommandFlag=0;
 uint32_t Server_Command_Len=0;
 
@@ -430,32 +430,13 @@ PROCESS_THREAD(border_router_process, ev, data)
 
   process_start(&unicast_receiver_process, NULL);  
   
-  #if 0
-  /* Init ESP8266 module */
-  Wifi_SendStringAndWait("AT\r\n",1000);
- 	Wifi_SetRfPower(82);
-  Wifi_TcpIp_GetMultiConnection();
-  Wifi_TcpIp_Close(0);
-  Wifi_TcpIp_Close(1);
-  Wifi_TcpIp_Close(2);
-  Wifi_TcpIp_Close(3);
-  Wifi_TcpIp_Close(4);
-  Wifi_TcpIp_SetMultiConnection(true);
-	Wifi_GetMode();
-	Wifi_Station_DhcpIsEnable();
-	Wifi_UserInit();  
-   Wifi_TcpIp_StartUdpConnection(1,"192.168.4.2",1678,3000);  
-  #endif
   
- // HAL_UART_Receive_DMA(&huart4,(uint8_t*)DMAstr,7); 
- 
+
   while(1) {
   
     // PROCESS_YIELD();
-     PROCESS_PAUSE();
-    // HAL_Delay(1000);
- //    HAL_UART_Receive_IT(&huart1, (uint8_t*)huart1.pRxBuffPtr, 1);
-   //  ESP8266_Write("go2\r\n");
+       PROCESS_PAUSE();
+
 #if 0    
     if(ServerCommandFlag==1)
     {
@@ -465,55 +446,35 @@ PROCESS_THREAD(border_router_process, ev, data)
            
     }       
 #endif    
-#if 1 
+ 
    // Wifi_RxClear();
-    
-    if(Server_Parsing_Flag==true)
+    if(new_data==true)
     {
-        Server_Parsing_Flag=false;
-        Wifi.Mode=_WIFI_SERVER_MODE;
-        Server_Reg_Parsing();      
-    }      
-    
-   // Wifi_TcpIp_StartUdpConnection(1,"192.168.4.2",1678,3000);
-          
-
-   // Wifi_TcpIp_SendDataUdp(1,11,(uint8_t*)"a1010102a3");
-   // printf("\r\n %s",(char*)Wifi.RxBuffer);
-   // HAL_Delay(5000);
-    //Wifi_RxClear();     
-    //Wifi_GetMyIp();	
-    //if((Wifi.Mode==WifiMode_SoftAp) || (Wifi.Mode==WifiMode_StationAndSoftAp))
-    //Wifi_SoftAp_GetConnectedDevices();
-		//Wifi_TcpIp_GetConnectionStatus();
-    
-#if 0
-    // send data to server    
-		for(uint8_t i=0; i< 100; i++)
-    {
-      if( Wifi.GotNewData==true)
-      {
-        Wifi.GotNewData=false;
-        for(uint8_t ii=0; ii<5 ; ii++)
+        new_data=false;
+       // Reg_Server_Account();
+      #if 1    
+       //if(Wifi.Mode==_WIFI_REG_PROJECT_CODE && Wifi.RxBuffer[12]==0x04)
+        if(Wifi.RxBuffer[12]==0x04) 
         {
-          if((strstr(Wifi.TcpIpConnections[ii].Type,"UDP")!=NULL) && (Wifi.RxDataConnectionNumber==Wifi.TcpIpConnections[ii].LinkId))
-            Wifi_UserGetUdpData(Wifi.RxDataConnectionNumber,Wifi.RxDataLen,Wifi.RxBufferForData);        
-          if((strstr(Wifi.TcpIpConnections[ii].Type,"TCP")!=NULL) && (Wifi.RxDataConnectionNumber==Wifi.TcpIpConnections[ii].LinkId))
-            Wifi_UserGetTcpData(Wifi.RxDataConnectionNumber,Wifi.RxDataLen,Wifi.RxBufferForData);        
-        }        
-      }
-      HAL_Delay(10);
+            Reg_Project_Check();
+        
+        }else if(Wifi.RxBuffer[REG_INDEX+1]==0x02)
+        {
+            Reg_Server_Account();
+        
+        }else if(Wifi.Mode==_WIFI_SERVER_MODE)
+        {
+          ;// parsing json data
+        }
+       #endif 
     }
-    //Wifi_UserProcess();
-#endif
-#endif    
-    
+  
 #if 1    
     if (ev == sensors_event && data == &button_sensor) {
       PRINTF("Initiating global repair\n");
       rpl_repair_root(RPL_DEFAULT_INSTANCE);
     }
- #endif
+#endif
   }
 
   PROCESS_END();

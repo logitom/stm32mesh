@@ -201,25 +201,25 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>1189</LineNumber>
+          <LineNumber>462</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134245434</Address>
+          <Address>134264532</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\..\..\..\..\..\Drivers\BSP\Components\spirit1\SPIRIT1_Library\Src\ESP8266.c</Filename>
+          <Filename>..\..\Src\border-router.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\border_router_l152\../../../../../../../Drivers/BSP/Components/spirit1/SPIRIT1_Library/Src/ESP8266.c\1189</Expression>
+          <Expression>\\border_router_l152\../../Src/border-router.c\462</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>1376</LineNumber>
+          <LineNumber>1437</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134233018</Address>
+          <Address>134232942</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -228,23 +228,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\..\..\..\..\..\..\Drivers\BSP\Components\spirit1\SPIRIT1_Library\Src\ESP8266.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\border_router_l152\../../../../../../../Drivers/BSP/Components/spirit1/SPIRIT1_Library/Src/ESP8266.c\1376</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>1378</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>0</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>0</BreakIfRCount>
-          <Filename>..\..\..\..\..\..\..\Drivers\BSP\Components\spirit1\SPIRIT1_Library\Src\ESP8266.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression></Expression>
+          <Expression>\\border_router_l152\../../../../../../../Drivers/BSP/Components/spirit1/SPIRIT1_Library/Src/ESP8266.c\1437</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>

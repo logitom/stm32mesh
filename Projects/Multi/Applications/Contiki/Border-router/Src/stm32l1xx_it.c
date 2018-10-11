@@ -76,7 +76,7 @@ extern volatile uint8_t UART_RxBuffer[UART_RxBufferSize];
 extern uint8_t ServerCommandFlag;
 //extern uint8_t DMAstr[7];
 extern Wifi_t	Wifi;
-extern bool Server_Parsing_Flag;
+extern bool new_data;
 //uint8_t i=0;
 
 /******************************************************************************/
@@ -394,14 +394,7 @@ void UART4_IRQHandler(void)
           if(counter!=0)
           {  
               HAL_UART_DMAStop(&huart4);
-              //Wifi.RxIndex=_WIFI_RX_SIZE-counter; //Total amount of uart received. 
-              if(Wifi.Mode==_WIFI_REGISTRATION_MODE)
-              {
-                Server_Parsing_Flag=true;
-                //Server_Reg_Parsing();
-              }                
-              //Wifi_RxCallBack();
-              // ServerCommandFlag=1;
+              new_data=true;
               HAL_UART_DMAResume(&huart4);
               HAL_UART_Receive_DMA(&_WIFI_USART,(uint8_t*)&Wifi.RxBuffer,_WIFI_RX_SIZE); 
           }
