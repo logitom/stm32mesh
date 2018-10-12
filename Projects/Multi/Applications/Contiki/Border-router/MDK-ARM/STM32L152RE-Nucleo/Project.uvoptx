@@ -197,40 +197,7 @@
           <Name>-U0672FF485649785087172021 -O206 -S1 -C0 -A0 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC1000 -FN1 -FF0STM32L1xx_512.FLM -FS08000000 -FL080000 -FP0($$Device:STM32L152RE$Flash\STM32L1xx_512.FLM)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint>
-        <Bp>
-          <Number>0</Number>
-          <Type>0</Type>
-          <LineNumber>462</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134264532</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\Src\border-router.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\border_router_l152\../../Src/border-router.c\462</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>1437</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134232942</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\..\..\..\..\..\Drivers\BSP\Components\spirit1\SPIRIT1_Library\Src\ESP8266.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\border_router_l152\../../../../../../../Drivers/BSP/Components/spirit1/SPIRIT1_Library/Src/ESP8266.c\1437</Expression>
-        </Bp>
-      </Breakpoint>
+      <Breakpoint/>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -261,6 +228,11 @@
           <count>5</count>
           <WinNumber>1</WinNumber>
           <ItemText>total_len</ItemText>
+        </Ww>
+        <Ww>
+          <count>6</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Reg_Pkt</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>

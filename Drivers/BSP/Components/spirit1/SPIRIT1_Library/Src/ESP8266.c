@@ -71,7 +71,7 @@ void ESP8266_Init(void)
     
      MX_UART4_UART_Init(); 
      ESP8266_APInit();
-     HAL_Delay(2000);
+    // HAL_Delay(2000);
      Wifi.Mode=_WIFI_REG_PROJECT_CODE;
      //ESP8266_Write();
 }
@@ -1356,6 +1356,9 @@ bool  Wifi_TcpIp_SendDataTcp(uint8_t LinkId,uint16_t dataLen,uint8_t *data)
 uint8_t Reg_Server_Account(void)
 {
     int i=0;
+    uint8_t tmp2[6];
+    uint8_t tmp1[30];
+    uint8_t buff2[30];
     uint16_t total_len;
     volatile Register_Svr_t Reg_Pkt={NULL};    
     
@@ -1379,9 +1382,25 @@ uint8_t Reg_Server_Account(void)
     memcpy((void *)Reg_Pkt.Svr_UserName,&Wifi.RxBuffer[REG_INDEX+8+Reg_Pkt.AP_SSID_Len+Reg_Pkt.AP_Pwd_Len+Reg_Pkt.Svr_URL_Len+Reg_Pkt.Google_ID_len],Reg_Pkt.Svr_UserName_Len); // user name
     memcpy((void *)Reg_Pkt.Google_Token,&Wifi.RxBuffer[REG_INDEX+8+Reg_Pkt.AP_SSID_Len+Reg_Pkt.AP_Pwd_Len+Reg_Pkt.Svr_URL_Len+Reg_Pkt.Google_ID_len+Reg_Pkt.Svr_UserName_Len],Reg_Pkt.Google_Token_Len); // token
     //Reg_Pkt.Google_ID_len=Wifi.RxBuffer[REG_INDEX+4]^PRIVATE_KEY;   
-   // checksum
-  
-  
+    // checksum
+    
+
+    //Registration ack packet
+    tmp2[0]=0xa1;
+    tmp2[1]=0x03;
+    tmp2[2]=0xb0;
+    tmp2[3]=tmp2[1]+tmp2[2];
+    tmp2[4]=0xa3;
+    tmp2[5]=0x00;    
+    for(i=0;i<4;i++)
+    {
+      sprintf((char*)tmp1,"AT+CIPSEND=%d,5\r\n",i); 
+      ESP8266_Write((uint8_t*)tmp1);
+      //Wifi_TcpIp_SendDataUdp(i,6,buffer);
+      HAL_Delay(700);
+      sprintf((char*)buff2,"%s",tmp2);
+      ESP8266_Write((uint8_t*)buff2); 
+    }
     Wifi.Mode=_WIFI_REG_PROJECT_CODE;
     return REGISTER_SERVER_SUCCEFULL;
 }
@@ -1427,12 +1446,12 @@ bool	Reg_Project_Check(void)
     //DataLen=strlen((const char*)buffer);
     //ESP8266_Write((uint8_t*)buffer);
    // printf("web buffer:%s \n",buffer);
-    for(i=0;i<=4;i++)
-    {
+   // for(i=0;i<=4;i++)
+   // {
    // HAL_Delay(2000);
     sprintf((char*)buffer2,"AT+CIPSEND=%d,3\r\n",i); 
     ESP8266_Write((uint8_t*)buffer2);
-    HAL_Delay(1000);
+    HAL_Delay(500);
      
     ack_pkt[0]=0xa1;
     ack_pkt[1]=0x05;
@@ -1442,7 +1461,7 @@ bool	Reg_Project_Check(void)
     printf("\r\n%s\r\n",ack_pkt); 
     ESP8266_Write((uint8_t*)buffer2);
   //  HAL_Delay(1000);
-    } 
+   // } 
     Wifi.Mode=_WIFI_REG_AP_ACCOUNT;    
     return true;
 }
