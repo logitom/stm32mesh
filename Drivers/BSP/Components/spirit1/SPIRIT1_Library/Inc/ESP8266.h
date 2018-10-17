@@ -74,7 +74,7 @@
 #define   _WIFI_REG_AP_ACCOUNT        0x01
 #define   _WIFI_SERVER_MODE           0x02     
 #define   _WIFI_CONFIG_MODE           0x03  // For setting wifi module parameter
-
+#define   _WIFI_RETRY_TIMES           0x03
 /**********************************************************/
 /*  Constants  of register server procedures              */
 /**********************************************************/    
@@ -114,13 +114,15 @@ typedef struct
   uint8_t   Cmd;	
   uint8_t   AP_SSID_Len;
   uint8_t   AP_Pwd_Len;
-  uint8_t   Svr_URL_Len;	
+  uint8_t   Svr_URL_Len;
+  uint16_t  Port_len;	
 	uint16_t  Google_ID_len;
 	uint8_t   Svr_UserName_Len; // server user name
 	uint8_t   Google_Token_Len;
 	uint8_t   AP_SSID[_WIFI_DATA_LEN];
   uint8_t   AP_Pwd[_WIFI_DATA_LEN];
 	uint8_t   Svr_URL[_WIFI_DATA_LEN];
+  uint8_t   Port[10];
 	uint8_t   Google_ID[_WIFI_DATA_LEN];
 	uint8_t   Svr_UserName[_WIFI_DATA_LEN];
 	uint8_t   Google_Token[_WIFI_DATA_LEN];
@@ -264,6 +266,7 @@ void	Wifi_RxClear(void);
 void	Wifi_TxClear(void);
 //###################################################################################################
 uint8_t Reg_Server_Account(void);
+uint8_t Reg_Server_Registration(void);
 bool    Reg_Project_Check(void);        
     
 #ifdef __cplusplus

@@ -460,15 +460,19 @@ PROCESS_THREAD(border_router_process, ev, data)
         
         }else if(Wifi.RxBuffer[REG_INDEX+1]==0x02)
         {
-            Reg_Server_Account();
-        
-        }else if(Wifi.Mode==_WIFI_SERVER_MODE)
-        {
-          ;// parsing json data
+            if(Reg_Server_Account()==REGISTER_SERVER_SUCCEFULL)
+            Wifi.Mode=_WIFI_SERVER_MODE;
+           //send registration data to server
+    
         }
        #endif 
     }
-  
+    
+    if(Wifi.Mode==_WIFI_SERVER_MODE)
+    {
+        Reg_Server_Registration();// parsing json data
+    }
+    
 #if 1    
     if (ev == sensors_event && data == &button_sensor) {
       PRINTF("Initiating global repair\n");
