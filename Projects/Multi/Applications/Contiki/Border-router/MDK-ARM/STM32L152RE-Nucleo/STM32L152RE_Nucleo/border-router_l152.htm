@@ -3,9 +3,9 @@
 <title>Static Call Graph - [.\STM32L152RE_Nucleo\border-router_l152.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\STM32L152RE_Nucleo\border-router_l152.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060061: Last Updated: Wed Oct 17 16:22:12 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060061: Last Updated: Thu Oct 18 16:26:01 2018
 <BR><P>
-<H3>Maximum Stack Usage =       1664 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =       1728 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 process_thread_border_router_process &rArr; Reg_Server_Registration &rArr; ESP8266_Write &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
 <P>
@@ -1726,8 +1726,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;process_thread_border_router_process
 </UL>
 
-<P><STRONG><a name="[132]"></a>Reg_Server_Registration</STRONG> (Thumb, 218 bytes, Stack size 1568 bytes, esp8266.o(i.Reg_Server_Registration))
-<BR><BR>[Stack]<UL><LI>Max Depth = 1640<LI>Call Chain = Reg_Server_Registration &rArr; ESP8266_Write &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
+<P><STRONG><a name="[132]"></a>Reg_Server_Registration</STRONG> (Thumb, 270 bytes, Stack size 1624 bytes, esp8266.o(i.Reg_Server_Registration))
+<BR><BR>[Stack]<UL><LI>Max Depth = 1696<LI>Call Chain = Reg_Server_Registration &rArr; ESP8266_Write &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ESP8266_Write
@@ -4494,7 +4494,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;process_thread_unicast_receiver_process
 </UL>
 
-<P><STRONG><a name="[279]"></a>set_prefix_64</STRONG> (Thumb, 94 bytes, Stack size 24 bytes, border-router_1.o(i.set_prefix_64))
+<P><STRONG><a name="[279]"></a>set_prefix_64</STRONG> (Thumb, 138 bytes, Stack size 24 bytes, border-router_1.o(i.set_prefix_64))
 <BR><BR>[Stack]<UL><LI>Max Depth = 388<LI>Call Chain = set_prefix_64 &rArr; rpl_set_root &rArr; rpl_free_dag &rArr; remove_parents &rArr; rpl_remove_parent &rArr; rpl_nullify_parent &rArr; dao_output &rArr; dao_output_target &rArr; dao_output_target_seq &rArr; uip_icmp6_send &rArr; tcpip_ipv6_output &rArr; rpl_update_header &rArr; insert_hbh_header &rArr; update_hbh_header &rArr;  dao_output_target (Cycle)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[17d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_set_addr_iid
@@ -5399,8 +5399,8 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;generate_routes
 </UL>
 
-<P><STRONG><a name="[1]"></a>process_thread_border_router_process</STRONG> (Thumb, 276 bytes, Stack size 24 bytes, border-router_1.o(i.process_thread_border_router_process))
-<BR><BR>[Stack]<UL><LI>Max Depth = 1664<LI>Call Chain = process_thread_border_router_process &rArr; Reg_Server_Registration &rArr; ESP8266_Write &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
+<P><STRONG><a name="[1]"></a>process_thread_border_router_process</STRONG> (Thumb, 282 bytes, Stack size 32 bytes, border-router_1.o(i.process_thread_border_router_process))
+<BR><BR>[Stack]<UL><LI>Max Depth = 1728<LI>Call Chain = process_thread_border_router_process &rArr; Reg_Server_Registration &rArr; ESP8266_Write &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[262]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_debug_ipaddr_print
 <LI><a href="#[27a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rpl_repair_root
@@ -5443,7 +5443,7 @@ Local Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> border-router_1.o(i.process_thread_unicast_receiver_process)
 </UL>
-<P><STRONG><a name="[285]"></a>set_global_address</STRONG> (Thumb, 92 bytes, Stack size 16 bytes, border-router_1.o(i.set_global_address))
+<P><STRONG><a name="[285]"></a>set_global_address</STRONG> (Thumb, 112 bytes, Stack size 16 bytes, border-router_1.o(i.set_global_address))
 <BR><BR>[Stack]<UL><LI>Max Depth = 116<LI>Call Chain = set_global_address &rArr; uip_ds6_addr_add &rArr; uip_ds6_maddr_add &rArr; uip_ds6_list_loop &rArr; memcmp
 </UL>
 <BR>[Calls]<UL><LI><a href="#[17d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uip_ds6_set_addr_iid

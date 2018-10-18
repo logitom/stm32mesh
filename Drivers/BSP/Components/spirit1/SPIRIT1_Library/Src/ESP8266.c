@@ -50,7 +50,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 extern UART_HandleTypeDef huart4;   
-
+extern uip_ipaddr_t server_ip;// for registration server
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
@@ -1514,17 +1514,25 @@ bool	Reg_Project_Check(void)
 
 uint8_t Reg_Server_Registration(void)
 {
+     int i;
+     uint16_t a;
      char kk[20]={NULL};    
      char buffer[1024];
      char buffer2[512];
+     //uint16_t server[8];
      uint16_t Content_len; 
      uint16_t Total_Len;
      
-  
+   #if 0  
+     for(i = 0 ; i < sizeof(uip_ipaddr_t); i += 2)
+     {
+         server[i]=(server_ip.u8[i] << 8) + server_ip.u8[i + 1];
+     }
+   #endif  
      // send device to server HTTP Host command
    
   sprintf((char*)buffer2,"_type=SIGN_IN&_google_id=%s&_name=%s&_token=%s",Reg_Pkt.Google_ID,Reg_Pkt.Svr_UserName,Reg_Pkt.Google_Token);  
-  sprintf((char*)buffer2,"%s&_device=[{\"_address\":\"192.168.1.100\",\"_type\":2,\"_status\":3,\"_battery\":100,\"_alarm\":false}]",buffer2);  
+  sprintf((char*)buffer2,"%s&_device=[{\"_address\":\"%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x\",\"_type\":2,\"_status\":3,\"_battery\":100,\"_alarm\":false}]",buffer2,server_ip.u8[0],server_ip.u8[1],server_ip.u8[2],server_ip.u8[3],server_ip.u8[4],server_ip.u8[5],server_ip.u8[6],server_ip.u8[7],server_ip.u8[8],server_ip.u8[9],server_ip.u8[10],server_ip.u8[11],server_ip.u8[12],server_ip.u8[13],server_ip.u8[14],server_ip.u8[15]);  
   Content_len=strlen((const char*)buffer2);   
     
   sprintf((char*)buffer,"POST");
@@ -1536,8 +1544,7 @@ uint8_t Reg_Server_Registration(void)
   sprintf((char*)buffer,"%s%s",buffer,buffer2);   
   Total_Len=strlen((const char*)buffer);   
   
-  printf("json:\r\n%s",buffer2);
-  
+ 
   printf("post:\r\n%s",buffer);
  // Wifi_TcpIp_SendDataUdp(0,Total_Len,(uint8_t *)buffer);
   
@@ -1547,7 +1554,7 @@ uint8_t Reg_Server_Registration(void)
     HAL_Delay(1000);   
   
     ESP8266_Write(buffer); 
-    HAL_Delay(2000);  
+    HAL_Delay(3000);  
   
 
 

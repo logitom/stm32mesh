@@ -66,7 +66,7 @@
 #include "net/ip/uip-debug.h"
 
 
-extern volatile uint8_t UART_RxBuffer[UART_RxBufferSize];
+//extern volatile uint8_t UART_RxBuffer[UART_RxBufferSize];
 extern  UART_HandleTypeDef huart4;
 static uip_ipaddr_t prefix;
 static uint8_t prefix_set;
@@ -75,6 +75,9 @@ static uint8_t sender_ip[16];
 extern bool new_data;
 uint8_t ServerCommandFlag=0;
 uint32_t Server_Command_Len=0;
+
+uip_ipaddr_t server_ip;  // for registraion
+
 
 void SendCommandToNode(void);
 #define JSON_ADDR 22
@@ -372,6 +375,14 @@ set_prefix_64(uip_ipaddr_t *prefix_64)
   uip_debug_ipaddr_print(&prefix);
   PRINTF("\n");
   
+  PRINTF(" init  Print server:");
+  uip_debug_ipaddr_print(&ipaddr);
+  uip_ipaddr_copy(&server_ip,&ipaddr);
+  
+  PRINTF("\n");
+  uip_debug_ipaddr_print(&server_ip);
+  PRINTF("\n");
+  
   dag = rpl_set_root(RPL_DEFAULT_INSTANCE, &ipaddr);
   if(dag != NULL) {
     rpl_set_prefix(dag, &prefix, 64);
@@ -545,6 +556,7 @@ static uip_ipaddr_t *
 set_global_address(void)
 {
   static uip_ipaddr_t ipaddr;
+  
   int i;
   uint8_t state;
 
@@ -560,8 +572,10 @@ set_global_address(void)
       uip_debug_ipaddr_print(&uip_ds6_if.addr_list[i].ipaddr);
       PRINTF("\n");
     }
-  }
-
+}
+     PRINTF("\r\n reg server address \r\n");
+     uip_debug_ipaddr_print(&server_ip); 
+     PRINTF("\n");
   return &ipaddr;
 }
 /*---------------------------------------------------------------------------*/
@@ -610,6 +624,8 @@ PROCESS_THREAD(unicast_receiver_process, ev, data)
 /*---------------------------------------------------------------------------*/
 void SendCommandToNode(void)
 {
+  
+#if 0
     uip_ipaddr_t addr; 
     uint8_t _cmd;
     uint8_t tmp,tmpaddr; 
@@ -662,9 +678,9 @@ void SendCommandToNode(void)
     //uip_ip6addr_u8 
     //  uip_ip6addr(addr, 0xaaaa, 0, 0, 0, 0, 0, 0, 0);
     //JSON_ADDR
+#endif    
     
-    
-#if 1
+#if 0
    uip_debug_ipaddr_print(&addr);
    //Parsing address
  //  for(i=0;i<16;i++)
