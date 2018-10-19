@@ -115,9 +115,12 @@ int main()
     /* DMA init */
     MX_DMA_Init();   
     
+     
+    /* esp8266 wifi initialize */ 
+    ESP8266_Init(); 
    
     /* esp8266 wifi initialize */ 
-    ESP8266_Init();
+   // ESP8266_Init();
            
     /* Initialize RTC */
     RTC_Config();
@@ -141,8 +144,10 @@ int main()
 #endif
 
    
+     
     Stack_6LoWPAN_Init();
     
+   
 
     while(1) {
       int r = 0;

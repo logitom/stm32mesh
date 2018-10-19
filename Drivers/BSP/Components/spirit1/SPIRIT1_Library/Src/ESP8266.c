@@ -70,7 +70,6 @@ bool new_data=false;
 
 void ESP8266_Init(void)
 {
-    
      MX_UART4_UART_Init(); 
      ESP8266_APInit();
     // HAL_Delay(2000);
@@ -104,8 +103,8 @@ static void MX_UART4_UART_Init(void)
     ;//_Error_Handler(__FILE__, __LINE__);
   }
   
-   huart4.pRxBuffPtr = (uint8_t*)UART4_RxBuffer;
-   huart4.RxXferSize = UART_RxBufferSize;
+   //huart4.pRxBuffPtr = (uint8_t*)Wifi.RxBuffer;
+   //huart4.RxXferSize = _WIFI_RX_SIZE;
    huart4.ErrorCode = HAL_UART_ERROR_NONE;
   
   
@@ -384,13 +383,14 @@ bool	Wifi_WaitForString(uint32_t TimeOut_ms,uint8_t *result,uint8_t CountOfParam
 	//////////////////////////////////	
 	for(uint32_t t=0 ; t<TimeOut_ms ; t+=50)
 	{
-		HAL_Delay(50);
+		HAL_Delay(30);
 		for(uint8_t	mx=0 ; mx<CountOfParameter ; mx++)
 		{			
 			if(strstr((char*)Wifi.RxBuffer,arg[mx])!=NULL)
 			{
 				*result = mx+1;
-				return true;
+				//if(*result>=2)
+        return true;
 			}				
 		}				
 	}
@@ -591,12 +591,13 @@ void	Wifi_RxCallBack(void)
 //#########################################################################################################
 void WifiTask(void)
 {
-	//Wifi.Mode=_WIFI_CONFIG_MODE;
+	uint8_t result=0;
+  //Wifi.Mode=_WIFI_CONFIG_MODE;
  // Wifi.RegStatus=REG_NONE;
   Wifi_SoftAp_Create("Well Intelligence2","111111ap",1,3,4,0);
   
-  Wifi_SendStringAndWait("AT+RST\r\n",1000);
- 	HAL_Delay(3000);
+  Wifi_SendStringAndWait("AT+RST\r\n",3000);
+ 	//HAL_Delay(5000);
   Wifi_SetRfPower(82);
  // Wifi_TcpIp_GetMultiConnection();
   Wifi_TcpIp_Close(0);
@@ -609,6 +610,7 @@ void WifiTask(void)
 	Wifi_Station_DhcpIsEnable();
 	
   Wifi_UserInit();  
+
   while(Wifi_TcpIp_StartUdpConnection(0,"192.168.4.2",1678,3000)==false);
   while(Wifi_TcpIp_StartUdpConnection(1,"192.168.4.3",1678,3000)==false);
  // while(Wifi_TcpIp_StartUdpConnection(2,"192.168.4.4",1678,3000)==false);
@@ -852,8 +854,8 @@ bool	Wifi_Station_ConnectToAp(char *SSID,char *Pass,char *MAC)
 		if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,3,"OK","CONNECTED","WIFI GOT IP")==false)
 		{
       printf("\r\n Can't connect to AP: %s",(char*)SSID);
-       printf("\r\n %s",(char*)Wifi.RxBuffer);
-      Wifi_RxClear();      
+      // printf("\r\n %s",(char*)Wifi.RxBuffer);
+      //Wifi_RxClear();      
       break;
 	  }
    
@@ -1192,22 +1194,31 @@ bool  Wifi_TcpIp_StartUdpConnection(uint8_t LinkId,char *RemoteIp,uint16_t Remot
  
 	uint8_t result;
 	bool		returnVal=false;
+  
+   Wifi_RxClear();
+   HAL_Delay(700);
+  
 	do
 	{
-		HAL_Delay(700);
-    Wifi_RxClear();
-    if(Wifi.TcpIpMultiConnection==false)
-      sprintf((char*)Wifi.TxBuffer,"AT+CIPSTART=\"UDP\",\"%s\",%d,%d\r\n",RemoteIp,RemotePort,LocalPort);
-    else
-      sprintf((char*)Wifi.TxBuffer,"AT+CIPSTART=%d,\"UDP\",\"%s\",%d,%d,0\r\n",LinkId,RemoteIp,RemotePort,LocalPort);
+	  //if(Wifi.TcpIpMultiConnection==false)
+     // sprintf((char*)Wifi.TxBuffer,"AT+CIPSTART=\"UDP\",\"%s\",%d,%d\r\n",RemoteIp,RemotePort,LocalPort);
+    //else
+      sprintf((char*)Wifi.TxBuffer,"AT+CIPSTART=%d,\"UDP\",\"%s\",%d,%d\r\n",LinkId,RemoteIp,RemotePort,LocalPort);
 		if(Wifi_SendString((char*)Wifi.TxBuffer)==false)
-			break;
+		break;
     //Wifi_RxClear();
-    //HAL_Delay(3000);
+    //ESP8266_Write(Wifi.TxBuffer); 
+    //printf("\r\n Txbuffer: %s",Wifi.TxBuffer);
+    //HAL_Delay(1000);  
     
-		if(Wifi_WaitForString(_WIFI_WAIT_TIME_MED,&result,2,"OK","CONNECT")==false)
+    //HAL_Delay(1000);
+   // printf("\r\n rxbuffer: %s",Wifi.RxBuffer);
+		if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,3,"OK","CONNECT","ALREADY")==false)
 		{
-        break;
+      // sprintf((char*)Wifi.TxBuffer,"AT+CIPSTART=%d,\"UDP\",\"%s\",%d,%d\r\n",LinkId,RemoteIp,RemotePort,LocalPort);
+      // Wifi_SendString((char*)Wifi.TxBuffer);      
+      //HAL_UART_Receive_DMA(&_WIFI_USART,(uint8_t*)&Wifi.RxBuffer,_WIFI_RX_SIZE);
+      break;
 		}//if(result == 3)
 		else
     {  
@@ -1410,10 +1421,10 @@ uint8_t Reg_Server_Account(void)
       sprintf((char*)tmp1,"AT+CIPSEND=0,5\r\n"); 
       ESP8266_Write((uint8_t*)tmp1);
       //Wifi_TcpIp_SendDataUdp(i,6,buffer);
-      HAL_Delay(700);
+      HAL_Delay(1000);
       sprintf((char*)buff2,"%s",tmp2);
       ESP8266_Write((uint8_t*)buff2);
-      HAL_Delay(700);      
+      HAL_Delay(1000);      
     //}
     
     
@@ -1470,10 +1481,12 @@ bool	Reg_Project_Check(void)
     char buffer2[20];
   // parsing IPD+ len
    // Wifi_RxClear(); 
-    if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,2,"OK","IPD+:")==true)
+#if 0  
+  if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,2,"OK","IPD+:")==true)
     {
       ptr=strstr((const char *)Wifi.RxBuffer,"IPD+:"); 
     }
+#endif    
     // parsing command type
   //  total_len=atoi((char*)&Wifi.RxBuffer[9]); //ipd total len
     header=Wifi.RxBuffer[11];    //command header
@@ -1505,9 +1518,10 @@ bool	Reg_Project_Check(void)
     sprintf((char*)buffer2,"%s",ack_pkt);
     //printf("\r\n%s\r\n",ack_pkt); 
     ESP8266_Write((uint8_t*)buffer2);
-    //HAL_Delay(500);
+    HAL_Delay(500);
    // } 
-    Wifi.Mode=_WIFI_REG_AP_ACCOUNT;
+   // if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,1,"OK")==true)
+    //Wifi.Mode=_WIFI_REG_AP_ACCOUNT;
 
     return true;
 }
@@ -1515,6 +1529,7 @@ bool	Reg_Project_Check(void)
 uint8_t Reg_Server_Registration(void)
 {
      int i;
+     uint8_t result; 
      uint16_t a;
      char kk[20]={NULL};    
      char buffer[1024];
@@ -1532,7 +1547,7 @@ uint8_t Reg_Server_Registration(void)
      // send device to server HTTP Host command
    
   sprintf((char*)buffer2,"_type=SIGN_IN&_google_id=%s&_name=%s&_token=%s",Reg_Pkt.Google_ID,Reg_Pkt.Svr_UserName,Reg_Pkt.Google_Token);  
-  sprintf((char*)buffer2,"%s&_device=[{\"_address\":\"%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x\",\"_type\":2,\"_status\":3,\"_battery\":100,\"_alarm\":false}]",buffer2,server_ip.u8[0],server_ip.u8[1],server_ip.u8[2],server_ip.u8[3],server_ip.u8[4],server_ip.u8[5],server_ip.u8[6],server_ip.u8[7],server_ip.u8[8],server_ip.u8[9],server_ip.u8[10],server_ip.u8[11],server_ip.u8[12],server_ip.u8[13],server_ip.u8[14],server_ip.u8[15]);  
+  sprintf((char*)buffer2,"%s&_device=[{\"_address\":\"%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x\",\"_type\":2,\"_status\":3,\"_battery\":56,\"_alarm\":false}]",buffer2,server_ip.u8[0],server_ip.u8[1],server_ip.u8[2],server_ip.u8[3],server_ip.u8[4],server_ip.u8[5],server_ip.u8[6],server_ip.u8[7],server_ip.u8[8],server_ip.u8[9],server_ip.u8[10],server_ip.u8[11],server_ip.u8[12],server_ip.u8[13],server_ip.u8[14],server_ip.u8[15]);  
   Content_len=strlen((const char*)buffer2);   
     
   sprintf((char*)buffer,"POST");
@@ -1554,9 +1569,15 @@ uint8_t Reg_Server_Registration(void)
     HAL_Delay(1000);   
   
     ESP8266_Write(buffer); 
-    HAL_Delay(3000);  
+    HAL_Delay(2000);  
   
-
-
-    return REGISTER_SERVER_SUCCEFULL;
+    //strstr();
+     
+    if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,1,"\"message\":1")==true)
+    {
+        Wifi.Mode=_WIFI_REPORT_MODE;
+        return REGISTER_SERVER_SUCCEFULL;
+    }
+    
+    return REGISTER_SERVER_FAILED;
 }

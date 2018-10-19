@@ -478,12 +478,12 @@ PROCESS_THREAD(border_router_process, ev, data)
         }
        #endif 
     }
-    
+#if 1    
     if(Wifi.Mode==_WIFI_SERVER_MODE)
     {
         Reg_Server_Registration();// parsing json data
     }
-    
+#endif    
 #if 1    
     if (ev == sensors_event && data == &button_sensor) {
       PRINTF("Initiating global repair\n");
@@ -518,7 +518,7 @@ receiver(struct simple_udp_connection *c,
 	  uip_debug_ipaddr_print(sender_addr);
 	
   
-     
+#if 0     
       if(((uint8_t *)sender_addr)[15]==0x40)
       {
         //  node3_counter++;
@@ -532,7 +532,7 @@ receiver(struct simple_udp_connection *c,
         //  node1_counter++;
           printf("\r\n Node1");    
       }
-  
+#endif  
 #if 1      
       for(i=0;i<16;i++)
       {

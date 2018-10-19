@@ -74,6 +74,7 @@
 #define   _WIFI_REG_AP_ACCOUNT        0x01
 #define   _WIFI_SERVER_MODE           0x02     
 #define   _WIFI_CONFIG_MODE           0x03  // For setting wifi module parameter
+#define   _WIFI_REPORT_MODE           0x04  
 #define   _WIFI_RETRY_TIMES           0x03
 /**********************************************************/
 /*  Constants  of register server procedures              */
