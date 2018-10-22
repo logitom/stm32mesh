@@ -40,6 +40,8 @@
 #include "cube_hal.h"
 #include <stdint.h>
 #include <stdlib.h>
+#include "stm32l1xx_hal_flash.h"
+
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
@@ -71,9 +73,13 @@ bool new_data=false;
 void ESP8266_Init(void)
 {
      MX_UART4_UART_Init(); 
-     ESP8266_APInit();
-    // HAL_Delay(2000);
-     Wifi.Mode=_WIFI_REG_PROJECT_CODE;
+     new_data=false;
+     
+     HAL_UART_Receive_DMA(&_WIFI_USART,(uint8_t*)&Wifi.RxBuffer,_WIFI_RX_SIZE);
+     if(Wifi.Mode==_WIFI_REG_PROJECT_CODE)
+     {ESP8266_APInit();}
+     // HAL_Delay(2000);
+    // Wifi.Mode=_WIFI_REG_PROJECT_CODE;
      //ESP8266_Write();
 }
 
@@ -130,9 +136,9 @@ void ESP8266_APInit(void)
  //   HAL_Delay(1000); 
     #if 1
     //HAL_UART_Receive_DMA(&huart4,(uint8_t*)&Wifi.usartBuff,UART_RxBufferSize); 
-   
+    // load eeprom default value
     Wifi_Init();
-    new_data=false;
+   
     #endif
 }
 
@@ -383,7 +389,7 @@ bool	Wifi_WaitForString(uint32_t TimeOut_ms,uint8_t *result,uint8_t CountOfParam
 	//////////////////////////////////	
 	for(uint32_t t=0 ; t<TimeOut_ms ; t+=50)
 	{
-		HAL_Delay(30);
+		HAL_Delay(50);
 		for(uint8_t	mx=0 ; mx<CountOfParameter ; mx++)
 		{			
 			if(strstr((char*)Wifi.RxBuffer,arg[mx])!=NULL)
@@ -591,9 +597,7 @@ void	Wifi_RxCallBack(void)
 //#########################################################################################################
 void WifiTask(void)
 {
-	uint8_t result=0;
-  //Wifi.Mode=_WIFI_CONFIG_MODE;
- // Wifi.RegStatus=REG_NONE;
+	
   Wifi_SoftAp_Create("Well Intelligence2","111111ap",1,3,4,0);
   
   Wifi_SendStringAndWait("AT+RST\r\n",3000);
@@ -608,8 +612,8 @@ void WifiTask(void)
   Wifi_TcpIp_SetMultiConnection(1);
 	Wifi_GetMode();
 	Wifi_Station_DhcpIsEnable();
-	
-  Wifi_UserInit();  
+	Wifi_SetMode(WifiMode_StationAndSoftAp);
+  //Wifi_UserInit();  
 
   while(Wifi_TcpIp_StartUdpConnection(0,"192.168.4.2",1678,3000)==false);
   while(Wifi_TcpIp_StartUdpConnection(1,"192.168.4.3",1678,3000)==false);
@@ -624,7 +628,7 @@ void WifiTask(void)
 //#########################################################################################################
 void	Wifi_Init(void)
 {
-	HAL_UART_Receive_DMA(&_WIFI_USART,(uint8_t*)&Wifi.RxBuffer,_WIFI_RX_SIZE);
+	
 	Wifi_RxClear();
 	Wifi_TxClear();
   WifiTask();
@@ -859,7 +863,7 @@ bool	Wifi_Station_ConnectToAp(char *SSID,char *Pass,char *MAC)
       break;
 	  }
    
-    printf("\r\n %s",(char*)Wifi.RxBuffer);    
+    //printf("\r\n %s",(char*)Wifi.RxBuffer);    
     if( result > 0)
 		{  	
       returnVal=true;	
@@ -1429,35 +1433,11 @@ uint8_t Reg_Server_Account(void)
     
     
     // 1. connect to AP
-      
-    for(i=0;i<_WIFI_RETRY_TIMES;i++)
-    {
-        if(Wifi_Station_ConnectToAp((char *)Reg_Pkt.AP_SSID,(char *)Reg_Pkt.AP_Pwd,NULL)==true)
-        { 
-           //printf("\r\n wifi connected \r\n");
-           break;
-        }else if(i==_WIFI_RETRY_TIMES-1)
-        {
-            return REGISTER_WIFI_FAILED;
-        }
-    }       
-    Wifi_SetMode(WifiMode_StationAndSoftAp);
-    Wifi_SendStringAndWait("AT+RST\r\n",1000);
-   	HAL_Delay(3000);
+    if(Reg_Connect_AP()!=REGISTER_SERVER_SUCCEFULL)
+    {return  CONNECT_TO_AP_FAILED;}
     
-    //Wifi_TcpIp_Close(0);
-    //Wifi_TcpIp_Close(1);
-    
-    Wifi_TcpIp_SetMultiConnection(1);
-   
-    while(Wifi_TcpIp_StartTcpConnection(0,(char *)Reg_Pkt.Svr_URL,7070,7070)==false);
-    //while(Wifi_TcpIp_StartUdpConnection(2,(char *)"well.electronics.asuscomm.com",16888,7070)==false);
-                                                  
     Wifi.Mode=_WIFI_SERVER_MODE;
-    
-    
-    
-    
+  
     return REGISTER_SERVER_SUCCEFULL;
 }
 
@@ -1576,8 +1556,141 @@ uint8_t Reg_Server_Registration(void)
     if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,1,"\"message\":1")==true)
     {
         Wifi.Mode=_WIFI_REPORT_MODE;
+        // save ssid & pwd to eeprom
+        Save_AP_Setting();
         return REGISTER_SERVER_SUCCEFULL;
     }
     
     return REGISTER_SERVER_FAILED;
 }
+
+uint8_t Reg_Connect_AP(void)
+{
+     // 1. connect to AP
+    int i;     
+    
+    Wifi_SetMode(WifiMode_StationAndSoftAp);
+     
+    Wifi_SendStringAndWait("AT+RST\r\n",3000);
+    Wifi_TcpIp_SetMultiConnection(1);
+    
+    HAL_Delay(1000); 
+    for(i=0;i<_WIFI_RETRY_TIMES;i++)
+    {
+        if(Wifi_Station_ConnectToAp((char *)Reg_Pkt.AP_SSID,(char *)Reg_Pkt.AP_Pwd,NULL)==true)
+        { 
+           printf("\r\n wifi connected \r\n"); //add a ap connected flag
+           break;
+        }else if(i==_WIFI_RETRY_TIMES-1)
+        {
+            return REGISTER_WIFI_FAILED;
+        }
+    }       
+  
+   // Wifi_SendStringAndWait("AT+RST\r\n",3000);
+   	HAL_Delay(1000);
+    
+    Wifi_TcpIp_Close(0);
+    //Wifi_TcpIp_Close(1);
+    
+    
+   
+    while(Wifi_TcpIp_StartTcpConnection(0,(char *)Reg_Pkt.Svr_URL,7070,7070)==false);
+    
+    return REGISTER_SERVER_SUCCEFULL;
+}
+
+
+HAL_StatusTypeDef writeEEPROMByte(uint32_t address, uint8_t data)
+ {
+    HAL_StatusTypeDef  status;
+    address = address + 0x08080000;
+    HAL_FLASHEx_DATAEEPROM_Unlock();  //Unprotect the EEPROM to allow writing
+    status = HAL_FLASHEx_DATAEEPROM_Program(TYPEPROGRAMDATA_BYTE, address, data);
+    HAL_FLASHEx_DATAEEPROM_Lock();  // Reprotect the EEPROM
+    return status;
+}
+
+
+uint8_t readEEPROMByte(uint32_t address) {
+    uint8_t tmp = 0;
+    address = address + 0x08080000;
+    tmp = *(__IO uint32_t*)address;
+    
+    return tmp;
+}
+
+uint8_t Save_AP_Setting(void)
+{
+    int i;
+    int index=0;
+    
+    // write mode        
+    writeEEPROMByte(index,Wifi.Mode);
+    index++;
+    
+    //ssid length
+    writeEEPROMByte(index,Reg_Pkt.AP_SSID_Len);
+    index++;  
+  
+    //ssid  
+    for(i=0;i<Reg_Pkt.AP_SSID_Len;i++)
+    writeEEPROMByte(index+i,Reg_Pkt.AP_SSID[i]);
+   
+    index=index+Reg_Pkt.AP_SSID_Len;
+    
+    //pwd length 
+    writeEEPROMByte(index,Reg_Pkt.AP_Pwd_Len);  
+    index++;  
+     // pwd
+    for(i=0;i<Reg_Pkt.AP_Pwd_Len;i++)
+    writeEEPROMByte(index+i,Reg_Pkt.AP_Pwd[i]); 
+   
+    index=index+Reg_Pkt.AP_Pwd_Len;
+    
+    //url length
+    writeEEPROMByte(index,Reg_Pkt.Svr_URL_Len);  
+    index++;  
+    
+    // url
+    for(i=0;i<Reg_Pkt.Svr_URL_Len;i++)
+    writeEEPROMByte(index+i,Reg_Pkt.Svr_URL[i]);  
+}  
+
+void Load_AP_Setting(void)
+{
+    int i;
+    int index=0;       
+    
+    Wifi.Mode=readEEPROMByte(index);
+    index++;
+    
+    // ssid length  
+    Reg_Pkt.AP_SSID_Len=readEEPROMByte(index);
+    index++;
+  
+    // read AP ssid
+    for(i=0;i<Reg_Pkt.AP_SSID_Len;i++)  
+    Reg_Pkt.AP_SSID[i]=readEEPROMByte(index+i);
+       
+    index=index+Reg_Pkt.AP_SSID_Len;
+  
+     //pwd length
+     Reg_Pkt.AP_Pwd_Len=readEEPROMByte(index);
+  
+     index++;
+    // AP pwd
+    for(i=0;i<Reg_Pkt.AP_Pwd_Len;i++)
+    Reg_Pkt.AP_Pwd[i]=readEEPROMByte(index+i);
+ 
+    index=index+Reg_Pkt.AP_Pwd_Len;
+    
+    // URL length
+    Reg_Pkt.Svr_URL_Len=readEEPROMByte(index);
+    index++;
+    
+    // Server URL    
+    for(i=0;i<Reg_Pkt.Svr_URL_Len;i++)
+    Reg_Pkt.Svr_URL[i]=readEEPROMByte(index+i);   
+}  
+

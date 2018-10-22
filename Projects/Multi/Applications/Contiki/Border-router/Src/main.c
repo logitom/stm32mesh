@@ -115,7 +115,8 @@ int main()
     /* DMA init */
     MX_DMA_Init();   
     
-     
+    // load default data
+    Load_AP_Setting();    
     /* esp8266 wifi initialize */ 
     ESP8266_Init(); 
    

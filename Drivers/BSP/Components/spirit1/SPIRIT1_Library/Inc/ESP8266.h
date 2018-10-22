@@ -95,6 +95,7 @@
 #define   REGISTER_WIFI_CONNECTING           0xb4 
 #define   REGISTER_SERVER_CHECKSUM_ERROR     0xb5   
 
+#define   CONNECT_TO_AP_FAILED               0x99
 /**********************************************************/
 /*  Constants  of register server procedures              */
 /**********************************************************/     
@@ -198,7 +199,8 @@ typedef struct
   uint8_t                       RxDataConnectionNumber;
   uint32_t                      RxDataLastTime;
   bool                          RxIsData;  
-  bool                          GotNewData;  
+  bool                          GotNewData;
+  bool                          IsAPConnected;    
 	//----------------General	Parameter			
 	WifiMode_t                    Mode;
 	char                          MyIP[16];	
@@ -269,7 +271,11 @@ void	Wifi_TxClear(void);
 uint8_t Reg_Server_Account(void);
 uint8_t Reg_Server_Registration(void);
 bool    Reg_Project_Check(void);        
-    
+uint8_t Reg_Connect_AP(void);
+
+uint8_t Save_AP_Setting(void);
+void    Load_AP_Setting(void);
+
 #ifdef __cplusplus
 }
 #endif

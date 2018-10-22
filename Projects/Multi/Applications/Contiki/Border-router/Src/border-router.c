@@ -78,7 +78,9 @@ uint32_t Server_Command_Len=0;
 
 uip_ipaddr_t server_ip;  // for registraion
 
-
+//flash command
+uint8_t readEEPROMByte(uint32_t address);
+HAL_StatusTypeDef writeEEPROMByte(uint32_t address, uint8_t data);
 void SendCommandToNode(void);
 #define JSON_ADDR 22
 
@@ -129,7 +131,7 @@ AUTOSTART_PROCESSES(&border_router_process,&webserver_nogui_process);
 #if WEBSERVER_CONF_ROUTE_LINKS
 #define BUF_USES_STACK 1
 #endif
-
+#if 0
 PROCESS(webserver_nogui_process, "Web server");
 PROCESS_THREAD(webserver_nogui_process, ev, data)
 {
@@ -144,7 +146,8 @@ PROCESS_THREAD(webserver_nogui_process, ev, data)
 
   PROCESS_END();
 }
-AUTOSTART_PROCESSES(&border_router_process,&webserver_nogui_process);
+#endif
+AUTOSTART_PROCESSES(&border_router_process);//,&webserver_nogui_process);
 
 static const char *TOP = "<html><head><title>ContikiRPL</title></head><body>\n";
 static const char *BOTTOM = "</body></html>\n";
@@ -393,8 +396,10 @@ set_prefix_64(uip_ipaddr_t *prefix_64)
 PROCESS_THREAD(border_router_process, ev, data)
 {
   static struct etimer et;
-
-  
+  int i;
+  uint8_t eeprom[4]={'w','e','l','l'};
+  uint8_t eeoutput;
+  uint32_t eeaddr=0x00000000;
   PROCESS_BEGIN();
 
 /* While waiting for the prefix to be sent through the SLIP connection, the future
@@ -441,32 +446,21 @@ PROCESS_THREAD(border_router_process, ev, data)
 
   process_start(&unicast_receiver_process, NULL);  
   
-  
-
   while(1) {
   
     // PROCESS_YIELD();
        PROCESS_PAUSE();
 
-#if 0    
-    if(ServerCommandFlag==1)
-    {
-       //parse esp8266 command   
-       ServerCommandFlag=0;  
-       SendCommandToNode();
-           
-    }       
-#endif    
  
-   // Wifi_RxClear();
+
     if(new_data==true)
     {
         new_data=false;
        // Reg_Server_Account();
       #if 1    
        //if(Wifi.Mode==_WIFI_REG_PROJECT_CODE && Wifi.RxBuffer[12]==0x04)
-        if(Wifi.RxBuffer[12]==0x04) 
-        {
+       if(Wifi.RxBuffer[12]==0x04)  
+       {
             Reg_Project_Check();
         
         }else if(Wifi.RxBuffer[REG_INDEX+1]==0x02)
@@ -478,14 +472,23 @@ PROCESS_THREAD(border_router_process, ev, data)
         }
        #endif 
     }
-#if 1    
+    
     if(Wifi.Mode==_WIFI_SERVER_MODE)
     {
+        if(Wifi.IsAPConnected!=true)
+        // connect to ap  
         Reg_Server_Registration();// parsing json data
     }
-#endif    
+    
+    if(Wifi.Mode==_WIFI_REPORT_MODE)
+    {
+        if(Wifi.IsAPConnected==false)
+        Reg_Connect_AP();// connect to ap
+    }
+    
 #if 1    
     if (ev == sensors_event && data == &button_sensor) {
+      // RESET EEPROM HERE
       PRINTF("Initiating global repair\n");
       rpl_repair_root(RPL_DEFAULT_INSTANCE);
     }
