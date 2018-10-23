@@ -74,7 +74,8 @@ void ESP8266_Init(void)
 {
      MX_UART4_UART_Init(); 
      new_data=false;
-     
+     //EEPROM_Reset();   
+     Wifi.IsAPConnected=false;
      HAL_UART_Receive_DMA(&_WIFI_USART,(uint8_t*)&Wifi.RxBuffer,_WIFI_RX_SIZE);
      if(Wifi.Mode==_WIFI_REG_PROJECT_CODE)
      {ESP8266_APInit();}
@@ -144,17 +145,15 @@ void ESP8266_APInit(void)
 
 void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
 {
-    uint8_t tmp; //device id
-    uint8_t humidity; //door status
+   
     uint8_t DataLen; 
-    uint8_t Content_len;  
-    uint8_t buffer2[30];
-    uint8_t lladdr[16];
-    uint8_t buffer[250];   
-    
-    /* get Device ID  */
-    tmp=data[0];  
-      
+    uint16_t Content_len;  
+    uint8_t buffer2[512];
+    uint8_t lladdr[17];
+    uint8_t buffer[1024];   
+    uint16_t Total_Len;
+   
+          
   
     /* get lladdress */
     for(int i=0;i<16;i++)
@@ -162,103 +161,34 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
       lladdr[i]=sender_addr[i]; 
       printf("ith: %d ip:%x \r\n",i,lladdr[i]);
     }
-    //lladdr[16]='\0';  
+    lladdr[16]='\0';  
      
-    /* get door status */    
-    humidity=data[1];  
-      
-    // ESP8266_Write((const uint8_t*)"AT+GMR\r\n");
-    /* creat a TCP connection */
-  //  ESP8266_Write((const uint8_t*)"AT+CIPMUX=1\r\n");
-  //  HAL_Delay(500); 
-  //  ESP8266_Write((const uint8_t*)"AT+CWMODE=3\r\n");
-  //  HAL_Delay(500); 
-   // ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"192.168.2.148\",80\r\n");
-    //  ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"192.168.2.53\",8080\r\n");   
-     ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"well-electronics.asuscomm.com\",80\r\n");
-    // ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"www.google.com\",80\r\n");
-    //ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"36.239.116.51\",8888\r\n"); //36.239.116.51 NAS  192.168.2.148
-    //well-electronics.asuscomm.com/test_server/test_send_data.php
-   // ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"well-electronics.asuscomm.com\/test_server\/test_send_data.php\",80\r\n");
-  // ESP8266_Write((const uint8_t*)"AT+CIPSTART=\"TCP\",\"well-electronics.asuscomm.com\",80\r\n");
-   // http://well-electronics.asuscomm.com/test_server/test_send_data.php
-    HAL_Delay(500);  
+  //data[4] alarm
+  sprintf((char*)buffer2,"_type=ALARM&_group_id=28");  
+  sprintf((char*)buffer2,"%s&_device=[{\"_address\":\"%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x\",\"_type\":%d,\"_status\":%d,\"_battery\":%d,\"_alarm\":true}]",buffer2,sender_addr[0],sender_addr[1],sender_addr[2],sender_addr[3],sender_addr[4],sender_addr[5],sender_addr[6],sender_addr[7],sender_addr[8],sender_addr[9],sender_addr[10],sender_addr[11],sender_addr[12],sender_addr[13],sender_addr[14],sender_addr[15],data[1],data[2],data[3]);  
+  Content_len=strlen((const char*)buffer2);   
     
-    /* send data */   
-   // sprintf((char*)buffer,"GET \/test_server\/test_send_data.php/test_sigfox/keep_history.php\?_temperature=%d\&_humidity=%d\&_mac=%x%x%
-   // sprintf((char*)buffer,"GET /test_sigfox/keep_history.php\?_temperature=32.11\&_humidity=77\&_mac=112233\r\n");    
-  //  sprintf((char*)buffer,"GET well-electronics.asuscomm.com/test_server/test_send_data.php\?temp=%d\&_humidity=%d\&_mac=%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x\r\n",tmp,humidity,
-    // sprintf((char*)buffer,"GET /test_sigfox/get_data.php");
-#if 0
-    sprintf((char*)buffer,"temp=%d_humidity=%d_mac=%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x HTTP/1.1\r\n",tmp,humidity,   
-    lladdr[0],lladdr[1],lladdr[2],lladdr[3],lladdr[4], 
-            lladdr[5],lladdr[6],lladdr[7],lladdr[8],lladdr[9],
-            lladdr[10],lladdr[11],lladdr[12],lladdr[13],lladdr[14],
-            lladdr[15]);  
-#endif
- //   sprintf((char*)buffer,"GET /test_sigfox/get_data.php\r\n");
-  //  sprintf((char*)buffer,"%s Host: 192.168.2.148\r\n",buffer);
-#if 1   
-    sprintf((char*)buffer,"temp=%d&_humidity=%d&_mac=%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x \r\n",tmp,humidity,   
-    lladdr[0],lladdr[1],lladdr[2],lladdr[3],lladdr[4], 
-            lladdr[5],lladdr[6],lladdr[7],lladdr[8],lladdr[9],
-            lladdr[10],lladdr[11],lladdr[12],lladdr[13],lladdr[14],
-            lladdr[15]);
-    
-    Content_len=strlen((const char*)buffer);
-    
-    sprintf((char*)buffer,"POST");
-    sprintf((char*)buffer,"%s /test_server/test_send_data.php HTTP/1.1\r\n",buffer);    
-
-  //  sprintf((char*)buffer,"%s / HTTP/1.1\r\n",buffer); 
-  //  sprintf((char*)buffer,"%sHost: 192.168.2.148:80\r\n\r\n",buffer);
-    sprintf((char*)buffer,"%sAccept: /\r\n",buffer);
-    sprintf((char*)buffer,"%sHost: well-electronics.asuscomm.com\r\n",buffer);
-    sprintf((char*)buffer,"%sContent-Type: application/x-www-form-urlencoded\r\n",buffer);
-    sprintf((char*)buffer,"%sContent-Length: %d\r\n\r\n",buffer,Content_len);
-    
-   
-    sprintf((char*)buffer,"%stemp=%d&_humidity=%d&_mac=%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x",buffer,tmp,humidity,   
-    lladdr[0],lladdr[1],lladdr[2],lladdr[3],lladdr[4], 
-            lladdr[5],lladdr[6],lladdr[7],lladdr[8],lladdr[9],
-            lladdr[10],lladdr[11],lladdr[12],lladdr[13],lladdr[14],
-            lladdr[15]);
-    
-    
-       
-   // sprintf((char*)buffer,"%sHost: www.google.com:80\r\n",buffer);
- //   sprintf((char*)buffer,"%sUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)",buffer);
-  //  sprintf((char*)buffer,"%s AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36\r\n",buffer);
- //   sprintf((char*)buffer,"%sAccept: /\r\n",buffer);
- //   sprintf((char*)buffer,"%sAccept-Encoding: gzip, deflate\r\n\r\n",buffer);
-   
- //   sprintf((char*)buffer,"%sAccept-Language: zh-TW,zh;q=0.9,en-US;q=0.8\r\n",buffer);
- //    sprintf((char*)buffer,"%sAccept-Language: zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7\r\n",buffer);
-#endif
- 
-    // sprintf((char*)buffer,"AT+PING=\"tw.yahoo.com\"\r\n");
-   //  ESP8266_Write((const uint8_t*)"AT+PING=\"tw.yahoo.com\"\r\n");   
-  //   HAL_Delay(1000); 
-//    sprintf((char*)buffer,"%sHost: 192.168.2.53\r\n",buffer);//well-electronics.asuscomm.com  36.239.116.51
-//    sprintf((char*)buffer,"%s User-Agent: ESP8266/1.3\r\n",buffer);
- //   sprintf((char*)buffer,"%s Connection: close\r\n\r\n",buffer);
-   
-#if 0  
-    printf("web ip:%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x \r\n",lladdr[15],lladdr[14],lladdr[13],lladdr[12],lladdr[11], 
-           lladdr[0],lladdr[1],lladdr[2],lladdr[3],lladdr[4], 
-            lladdr[5],lladdr[6],lladdr[7],lladdr[8],lladdr[9],
-            lladdr[10],lladdr[11],lladdr[12],lladdr[13],lladdr[14],
-            lladdr[15]);
-#endif    
-    
-    DataLen=strlen((const char*)buffer);
+  sprintf((char*)buffer,"POST");
+  sprintf((char*)buffer,"%s /smart_security/device/feedback HTTP/1.1\r\n",buffer);    
+  sprintf((char*)buffer,"%sAccept: /\r\n",buffer);
+  sprintf((char*)buffer,"%sHost: %s\r\n",buffer,Reg_Pkt.Svr_URL);
+  sprintf((char*)buffer,"%sContent-Type: application/x-www-form-urlencoded\r\n",buffer);
+  sprintf((char*)buffer,"%sContent-Length: %d\r\n\r\n%s",buffer,Content_len,buffer2);
+  sprintf((char*)buffer,"%s%s",buffer,buffer2);   
+  Total_Len=strlen((const char*)buffer);   
+     
+  
+  
     printf("web buffer:%s \n",buffer);
-    sprintf((char*)buffer2,"AT+CIPSEND=%d\r\n",DataLen); 
+    while(Wifi_TcpIp_StartTcpConnection(0,(char *)Reg_Pkt.Svr_URL,7070,7000)==false);
+    HAL_Delay(1000);
+    sprintf((char*)buffer2,"AT+CIPSEND=0,%d\r\n",Total_Len); 
+   
     ESP8266_Write(buffer2);
-    HAL_Delay(1000);   
+    HAL_Delay(3000);   
   
     ESP8266_Write(buffer); 
-    HAL_Delay(2000);  
+    HAL_Delay(4000);  
   
   /* close a TCP connection */  
   //ESP8266_Write("AT+CIPCLOSE=1\n\r");
@@ -1437,7 +1367,7 @@ uint8_t Reg_Server_Account(void)
     {return  CONNECT_TO_AP_FAILED;}
     
     Wifi.Mode=_WIFI_SERVER_MODE;
-  
+    
     return REGISTER_SERVER_SUCCEFULL;
 }
 
@@ -1558,6 +1488,7 @@ uint8_t Reg_Server_Registration(void)
         Wifi.Mode=_WIFI_REPORT_MODE;
         // save ssid & pwd to eeprom
         Save_AP_Setting();
+        Wifi.IsAPConnected=true;
         return REGISTER_SERVER_SUCCEFULL;
     }
     
@@ -1590,12 +1521,12 @@ uint8_t Reg_Connect_AP(void)
    // Wifi_SendStringAndWait("AT+RST\r\n",3000);
    	HAL_Delay(1000);
     
-    Wifi_TcpIp_Close(0);
+   // Wifi_TcpIp_Close(0);
     //Wifi_TcpIp_Close(1);
-    
+   // HAL_Delay(1000);
     
    
-    while(Wifi_TcpIp_StartTcpConnection(0,(char *)Reg_Pkt.Svr_URL,7070,7070)==false);
+    while(Wifi_TcpIp_StartTcpConnection(0,(char *)Reg_Pkt.Svr_URL,7070,2000)==false);
     
     return REGISTER_SERVER_SUCCEFULL;
 }
@@ -1662,6 +1593,7 @@ void Load_AP_Setting(void)
     int i;
     int index=0;       
     
+    // device mode
     Wifi.Mode=readEEPROMByte(index);
     index++;
     
@@ -1694,3 +1626,12 @@ void Load_AP_Setting(void)
     Reg_Pkt.Svr_URL[i]=readEEPROMByte(index+i);   
 }  
 
+void EEPROM_Reset(void)
+{
+    
+    writeEEPROMByte(0,_WIFI_REG_PROJECT_CODE);   //set mode:_WIFI_REG_PROJECT_CODE 
+   
+    //read  device mode
+    Wifi.Mode=readEEPROMByte(0);  
+  
+}  

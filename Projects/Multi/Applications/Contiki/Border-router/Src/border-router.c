@@ -486,9 +486,11 @@ PROCESS_THREAD(border_router_process, ev, data)
         Reg_Connect_AP();// connect to ap
     }
     
+    
 #if 1    
     if (ev == sensors_event && data == &button_sensor) {
       // RESET EEPROM HERE
+            
       PRINTF("Initiating global repair\n");
       rpl_repair_root(RPL_DEFAULT_INSTANCE);
     }
@@ -542,13 +544,16 @@ receiver(struct simple_udp_connection *c,
         sender_ip[i]=((uint8_t *)sender_addr)[i];
         printf("ith: %d ip:%x \r\n",i,sender_ip[i]);
       } 
-#endif      
       
+#endif  
+#if 0      
       printf(" sender addr:%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x  length %d: data:%d\n",
 	          sender_ip[0],sender_ip[1],sender_ip[2],sender_ip[3],sender_ip[4], 
             sender_ip[5],sender_ip[6],sender_ip[7],sender_ip[8],sender_ip[9],
             sender_ip[10],sender_ip[11],sender_ip[12],sender_ip[13],sender_ip[14],
             sender_ip[15],datalen, data[1]);
+#endif      
+     
       //ESP8266 send data
       ESP8266_SendData(sender_ip,data);
  
