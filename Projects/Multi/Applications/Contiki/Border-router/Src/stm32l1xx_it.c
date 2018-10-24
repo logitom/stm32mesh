@@ -466,7 +466,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
   if (GPIO_Pin == USER_BUTTON_PIN)
   {
-    sensors_changed(&button_sensor);
+    EEPROM_Reset(); // add by Thomas
+    //sensors_changed(&button_sensor);
   }
 
 }

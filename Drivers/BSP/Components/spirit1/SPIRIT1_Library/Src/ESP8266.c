@@ -59,9 +59,9 @@ extern uip_ipaddr_t server_ip;// for registration server
 
 volatile uint8_t UART4_RxBuffer[UART_RxBufferSize];
 
-const uint8_t DISCONNECT_AP[]={"AT+CWQAP\\r\\n"};
-const uint8_t CONNECT_AP[]={"\\well\\,\\26426588\\\\n\\r"};
-const uint8_t TCP_CONNECTION[]="AT+CIPSTART=\"TCP\",\"192.168.2.161\",8888\\n\\r";
+//const uint8_t DISCONNECT_AP[]={"AT+CWQAP\\r\\n"};
+//const uint8_t CONNECT_AP[]={"\\well\\,\\26426588\\\\n\\r"};
+//const uint8_t TCP_CONNECTION[]="AT+CIPSTART=\"TCP\",\"192.168.2.161\",8888\\n\\r";
 /* USER CODE END PV */
 
 /* ESP8266 module structure */
@@ -152,7 +152,7 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
     uint8_t lladdr[17];
     uint8_t buffer[1024];   
     uint16_t Total_Len;
-   
+    int result=0;
           
   
     /* get lladdress */
@@ -170,26 +170,37 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
     
   sprintf((char*)buffer,"POST");
   sprintf((char*)buffer,"%s /smart_security/device/feedback HTTP/1.1\r\n",buffer);    
-  sprintf((char*)buffer,"%sAccept: /\r\n",buffer);
-  sprintf((char*)buffer,"%sHost: %s\r\n",buffer,Reg_Pkt.Svr_URL);
+  sprintf((char*)buffer,"%sHost: %s:7070\r\n",buffer,Reg_Pkt.Svr_URL);
+  sprintf((char*)buffer,"%sContent-Length: %d\r\n",buffer,Content_len);
   sprintf((char*)buffer,"%sContent-Type: application/x-www-form-urlencoded\r\n",buffer);
-  sprintf((char*)buffer,"%sContent-Length: %d\r\n\r\n%s",buffer,Content_len,buffer2);
+  sprintf((char*)buffer,"%sAccept: /\r\n",buffer);   
+  sprintf((char*)buffer,"%sConnection:close \r\n\r\n",buffer);
   sprintf((char*)buffer,"%s%s",buffer,buffer2);   
   Total_Len=strlen((const char*)buffer);   
      
   
   
-    printf("web buffer:%s \n",buffer);
+    Wifi_TcpIp_Close(0);
     while(Wifi_TcpIp_StartTcpConnection(0,(char *)Reg_Pkt.Svr_URL,7070,7000)==false);
-    HAL_Delay(1000);
+    //HAL_Delay(1000);
     sprintf((char*)buffer2,"AT+CIPSEND=0,%d\r\n",Total_Len); 
    
     ESP8266_Write(buffer2);
-    HAL_Delay(3000);   
+    HAL_Delay(1000);   
   
     ESP8266_Write(buffer); 
-    HAL_Delay(4000);  
+    HAL_Delay(1000);  
   
+    printf("web buffer:%s \n",buffer);
+    
+    if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,1,"\"message\":1")==true)
+    {
+      
+        printf("\r\n sensor alarm pushed\r\n");
+      //  
+    }
+  
+   //Wifi_TcpIp_Close(0);
   /* close a TCP connection */  
   //ESP8266_Write("AT+CIPCLOSE=1\n\r");
   //HAL_Delay(1000);
@@ -1459,19 +1470,24 @@ uint8_t Reg_Server_Registration(void)
   sprintf((char*)buffer2,"_type=SIGN_IN&_google_id=%s&_name=%s&_token=%s",Reg_Pkt.Google_ID,Reg_Pkt.Svr_UserName,Reg_Pkt.Google_Token);  
   sprintf((char*)buffer2,"%s&_device=[{\"_address\":\"%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x\",\"_type\":2,\"_status\":3,\"_battery\":56,\"_alarm\":false}]",buffer2,server_ip.u8[0],server_ip.u8[1],server_ip.u8[2],server_ip.u8[3],server_ip.u8[4],server_ip.u8[5],server_ip.u8[6],server_ip.u8[7],server_ip.u8[8],server_ip.u8[9],server_ip.u8[10],server_ip.u8[11],server_ip.u8[12],server_ip.u8[13],server_ip.u8[14],server_ip.u8[15]);  
   Content_len=strlen((const char*)buffer2);   
+  
     
   sprintf((char*)buffer,"POST");
   sprintf((char*)buffer,"%s /smart_security/device/register HTTP/1.1\r\n",buffer);    
-  sprintf((char*)buffer,"%sAccept: /\r\n",buffer);
-  sprintf((char*)buffer,"%sHost: %s\r\n",buffer,Reg_Pkt.Svr_URL);
+  sprintf((char*)buffer,"%sHost: %s:7070\r\n",buffer,Reg_Pkt.Svr_URL);
+  sprintf((char*)buffer,"%sContent-Length: %d\r\n",buffer,Content_len);
   sprintf((char*)buffer,"%sContent-Type: application/x-www-form-urlencoded\r\n",buffer);
-  sprintf((char*)buffer,"%sContent-Length: %d\r\n\r\n%s",buffer,Content_len,buffer2);
+  sprintf((char*)buffer,"%sAccept: /\r\n",buffer);   
+  sprintf((char*)buffer,"%sConnection:close \r\n\r\n",buffer);
+  
   sprintf((char*)buffer,"%s%s",buffer,buffer2);   
   Total_Len=strlen((const char*)buffer);   
   
  
-  printf("post:\r\n%s",buffer);
+ 
  // Wifi_TcpIp_SendDataUdp(0,Total_Len,(uint8_t *)buffer);
+    //Wifi_TcpIp_Close(0);
+    //while(Wifi_TcpIp_StartTcpConnection(0,(char *)Reg_Pkt.Svr_URL,7070,7000)==false); 
   
  //    sprintf((char*)Wifi.TxBuffer,"AT+CIPSEND=%d,%d\r\n",LinkId,dataLen);
     sprintf((char*)buffer2,"AT+CIPSEND=0,%d\r\n",Total_Len); 
@@ -1479,7 +1495,7 @@ uint8_t Reg_Server_Registration(void)
     HAL_Delay(1000);   
   
     ESP8266_Write(buffer); 
-    HAL_Delay(2000);  
+    HAL_Delay(1000);  
   
     //strstr();
      
@@ -1489,6 +1505,7 @@ uint8_t Reg_Server_Registration(void)
         // save ssid & pwd to eeprom
         Save_AP_Setting();
         Wifi.IsAPConnected=true;
+         printf("post:\r\n%s",buffer);
         return REGISTER_SERVER_SUCCEFULL;
     }
     
@@ -1521,12 +1538,12 @@ uint8_t Reg_Connect_AP(void)
    // Wifi_SendStringAndWait("AT+RST\r\n",3000);
    	HAL_Delay(1000);
     
-   // Wifi_TcpIp_Close(0);
+    Wifi_TcpIp_Close(0);
     //Wifi_TcpIp_Close(1);
    // HAL_Delay(1000);
     
-   
-    while(Wifi_TcpIp_StartTcpConnection(0,(char *)Reg_Pkt.Svr_URL,7070,2000)==false);
+    //if(Wifi.Mode==_WIFI_REG_PROJECT_CODE)
+    while(Wifi_TcpIp_StartTcpConnection(0,(char *)Reg_Pkt.Svr_URL,7070,7000)==false);
     
     return REGISTER_SERVER_SUCCEFULL;
 }

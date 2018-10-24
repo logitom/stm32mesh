@@ -254,6 +254,16 @@
           <WinNumber>1</WinNumber>
           <ItemText>Reg_Pkt</ItemText>
         </Ww>
+        <Ww>
+          <count>11</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>buffer2</ItemText>
+        </Ww>
+        <Ww>
+          <count>12</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>buffer</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>
