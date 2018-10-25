@@ -164,7 +164,7 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
     lladdr[16]='\0';  
      
   //data[4] alarm
-  sprintf((char*)buffer2,"_type=ALARM&_group_id=28");  
+  sprintf((char*)buffer2,"_type=ALARM&_group_id=32");  
   sprintf((char*)buffer2,"%s&_device=[{\"_address\":\"%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x\",\"_type\":%d,\"_status\":%d,\"_battery\":%d,\"_alarm\":true}]",buffer2,sender_addr[0],sender_addr[1],sender_addr[2],sender_addr[3],sender_addr[4],sender_addr[5],sender_addr[6],sender_addr[7],sender_addr[8],sender_addr[9],sender_addr[10],sender_addr[11],sender_addr[12],sender_addr[13],sender_addr[14],sender_addr[15],data[1],data[2],data[3]);  
   Content_len=strlen((const char*)buffer2);   
     
@@ -1547,6 +1547,44 @@ uint8_t Reg_Connect_AP(void)
     
     return REGISTER_SERVER_SUCCEFULL;
 }
+
+
+uint8_t Report_Connect_AP(void)
+{
+     // 1. connect to AP
+    int i;     
+    
+    Wifi_SetMode(WifiMode_Station);
+    
+    Wifi_SendStringAndWait("AT+RST\r\n",3000);
+    Wifi_TcpIp_SetMultiConnection(1);
+    
+    HAL_Delay(1000); 
+    for(i=0;i<_WIFI_RETRY_TIMES;i++)
+    {
+        if(Wifi_Station_ConnectToAp((char *)Reg_Pkt.AP_SSID,(char *)Reg_Pkt.AP_Pwd,NULL)==true)
+        { 
+           printf("\r\n wifi connected \r\n"); //add a ap connected flag
+           break;
+        }else if(i==_WIFI_RETRY_TIMES-1)
+        {
+            return REGISTER_WIFI_FAILED;
+        }
+    }       
+  
+   // Wifi_SendStringAndWait("AT+RST\r\n",3000);
+   //	HAL_Delay(1000);
+    
+    //Wifi_TcpIp_Close(0);
+    Wifi_TcpIp_Close(0);
+   // HAL_Delay(1000);
+    
+    //if(Wifi.Mode==_WIFI_REG_PROJECT_CODE)
+    while(Wifi_TcpIp_StartTcpConnection(0,(char *)Reg_Pkt.Svr_URL,7070,7000)==false);
+    
+    return REGISTER_SERVER_SUCCEFULL;
+}
+
 
 
 HAL_StatusTypeDef writeEEPROMByte(uint32_t address, uint8_t data)

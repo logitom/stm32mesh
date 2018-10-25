@@ -272,6 +272,7 @@ uint8_t Reg_Server_Account(void);
 uint8_t Reg_Server_Registration(void);
 bool    Reg_Project_Check(void);        
 uint8_t Reg_Connect_AP(void);
+uint8_t Report_Connect_AP(void);
 void EEPROM_Reset(void);
 
 uint8_t Save_AP_Setting(void);

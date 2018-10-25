@@ -483,7 +483,7 @@ PROCESS_THREAD(border_router_process, ev, data)
     if(Wifi.Mode==_WIFI_REPORT_MODE)
     {
         if(Wifi.IsAPConnected==false)
-        Reg_Connect_AP();// connect to ap
+        Report_Connect_AP();// connect to ap
     }
     
     
