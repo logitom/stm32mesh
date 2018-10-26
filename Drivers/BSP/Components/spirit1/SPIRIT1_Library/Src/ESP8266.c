@@ -1333,7 +1333,7 @@ uint8_t Reg_Server_Account(void)
     Reg_Pkt.Svr_UserName_Len=Wifi.RxBuffer[REG_INDEX+7]^PRIVATE_KEY;  
     Reg_Pkt.Google_Token_Len=Wifi.RxBuffer[REG_INDEX+8]^PRIVATE_KEY; 
     
-    for(i=REG_INDEX+8;i<=REG_INDEX+8+Reg_Pkt.AP_SSID_Len+Reg_Pkt.AP_Pwd_Len+Reg_Pkt.Svr_URL_Len+Reg_Pkt.Google_ID_len+Reg_Pkt.Svr_UserName_Len+Reg_Pkt.Google_Token_Len;i++)
+    for(i=REG_INDEX+8;i<=REG_INDEX+8+Reg_Pkt.AP_SSID_Len+Reg_Pkt.AP_Pwd_Len+Reg_Pkt.Svr_URL_Len+Reg_Pkt.Google_ID_len+Reg_Pkt.Svr_UserName_Len+Reg_Pkt.Google_Token_Len+4;i++)
     Wifi.RxBuffer[i]=Wifi.RxBuffer[i]^PRIVATE_KEY;
     
     memcpy((void *)Reg_Pkt.AP_SSID,&Wifi.RxBuffer[REG_INDEX+9],Reg_Pkt.AP_SSID_Len);
