@@ -49,6 +49,10 @@
 #define DEBUG DEBUG_PRINT //DEBUG_NONE print
 #include "net/ip/uip-debug.h"
 
+/* Json parser head files */
+#include <ctype.h>
+#include "tiny-json.h"
+/* Json parser head files */
 
 /* Private variables ---------------------------------------------------------*/
 extern UART_HandleTypeDef huart4;   
@@ -164,7 +168,7 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
     lladdr[16]='\0';  
      
   //data[4] alarm
-  sprintf((char*)buffer2,"_type=ALARM&_group_id=32");  
+  sprintf((char*)buffer2,"_type=ALARM&_group_id=%d",Wifi.GroupID);  
   sprintf((char*)buffer2,"%s&_device=[{\"_address\":\"%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x\",\"_type\":%d,\"_status\":%d,\"_battery\":%d,\"_alarm\":true}]",buffer2,sender_addr[0],sender_addr[1],sender_addr[2],sender_addr[3],sender_addr[4],sender_addr[5],sender_addr[6],sender_addr[7],sender_addr[8],sender_addr[9],sender_addr[10],sender_addr[11],sender_addr[12],sender_addr[13],sender_addr[14],sender_addr[15],data[1],data[2],data[3]);  
   Content_len=strlen((const char*)buffer2);   
     
@@ -195,7 +199,7 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
     
     if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,1,"\"message\":1")==true)
     {
-      
+                
         printf("\r\n sensor alarm pushed\r\n");
       //  
     }
@@ -1503,9 +1507,11 @@ uint8_t Reg_Server_Registration(void)
     {
         Wifi.Mode=_WIFI_REPORT_MODE;
         // save ssid & pwd to eeprom
+        // parsing group ID
+        Get_Group_ID();
         Save_AP_Setting();
         Wifi.IsAPConnected=true;
-         printf("post:\r\n%s",buffer);
+        printf("post:\r\n%s",buffer);
         return REGISTER_SERVER_SUCCEFULL;
     }
     
@@ -1615,6 +1621,10 @@ uint8_t Save_AP_Setting(void)
     writeEEPROMByte(index,Wifi.Mode);
     index++;
     
+    //group ID
+  //  writeEEPROMByte(index,Wifi.GroupID);  
+  //  index=index+sizeof(uint32_t);  
+  
     //ssid length
     writeEEPROMByte(index,Reg_Pkt.AP_SSID_Len);
     index++;  
@@ -1640,7 +1650,9 @@ uint8_t Save_AP_Setting(void)
     
     // url
     for(i=0;i<Reg_Pkt.Svr_URL_Len;i++)
-    writeEEPROMByte(index+i,Reg_Pkt.Svr_URL[i]);  
+    writeEEPROMByte(index+i,Reg_Pkt.Svr_URL[i]);
+    
+
 }  
 
 void Load_AP_Setting(void)
@@ -1652,6 +1664,10 @@ void Load_AP_Setting(void)
     Wifi.Mode=readEEPROMByte(index);
     index++;
     
+     //group ID
+    //writeEEPROMByte(index,Wifi.GroupID);  
+    //index=index+sizeof(uint32_t);   
+  
     // ssid length  
     Reg_Pkt.AP_SSID_Len=readEEPROMByte(index);
     index++;
@@ -1688,5 +1704,33 @@ void EEPROM_Reset(void)
    
     //read  device mode
     Wifi.Mode=readEEPROMByte(0);  
+  
+}  
+
+uint8_t Get_Group_ID(void)
+{
+    enum { MAX_FIELDS = 4 };
+    json_t pool[ MAX_FIELDS ]; 
+   
+    
+    char *group_id; 
+    group_id=strstr((char*)Wifi.RxBuffer,"{\"");  
+    
+   
+    json_t const* parent = json_create( group_id, pool, MAX_FIELDS );
+    if ( parent == NULL ) return EXIT_FAILURE;
+
+
+    json_t const* groupID = json_getProperty( parent, "value" );
+    if ( groupID == NULL ) return EXIT_FAILURE;
+    if ( json_getType( groupID ) != JSON_INTEGER ) return EXIT_FAILURE;   
+ 
+
+    char const* namevalue = json_getValue( groupID );
+    Wifi.GroupID= atoi((char*)namevalue);
+    //printf( "%s%s%s", "Name: '", namevalue, "'.\n" ); 
+    //printf( "group id:%d \r\n",Wifi.GroupID);    
+   // *result = atoi((char*)Wifi.RxBuffer);
+    return EXIT_SUCCESS;  
   
 }  

@@ -65,6 +65,12 @@
 #include "process.h"
 #include "ESP8266.h"
 #include "hw-config.h"
+
+
+
+#include <ctype.h>
+#include "tiny-json.h"
+
 /** @defgroup Border_router
   * @{
   */
@@ -81,6 +87,8 @@
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart4;
 DMA_HandleTypeDef hdma_uart4_rx;
+
+
 
 //extern uint8_t DMAstr[7];
 extern volatile uint8_t UART_RxBuffer[UART_RxBufferSize];
@@ -120,6 +128,8 @@ int main()
     /* esp8266 wifi initialize */ 
     ESP8266_Init(); 
    
+    
+    
     /* esp8266 wifi initialize */ 
    // ESP8266_Init();
            

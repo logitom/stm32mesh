@@ -53,6 +53,7 @@
 ".\stm32l152re_nucleo\servreg-hack.o"
 ".\stm32l152re_nucleo\esp8266.o"
 ".\stm32l152re_nucleo\border-router_1.o"
+".\stm32l152re_nucleo\tiny-json.o"
 ".\stm32l152re_nucleo\list.o"
 ".\stm32l152re_nucleo\memb.o"
 ".\stm32l152re_nucleo\random.o"

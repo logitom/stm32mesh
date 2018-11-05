@@ -121,3 +121,5 @@
 .\stm32l152re_nucleo\esp8266.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/ip/uip-debug.h
 .\stm32l152re_nucleo\esp8266.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/net-debug.h
 .\stm32l152re_nucleo\esp8266.o: ..\..\..\..\..\..\..\Middlewares\Third_Party\Contiki\core\net/linkaddr.h
+.\stm32l152re_nucleo\esp8266.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
+.\stm32l152re_nucleo\esp8266.o: ..\..\..\..\..\..\..\Drivers\BSP\Components\spirit1\SPIRIT1_Library\Inc\tiny-json.h

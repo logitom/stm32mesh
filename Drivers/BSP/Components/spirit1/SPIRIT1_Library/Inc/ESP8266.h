@@ -198,6 +198,7 @@ typedef struct
   uint16_t                      RxDataLen;
   uint8_t                       RxDataConnectionNumber;
   uint32_t                      RxDataLastTime;
+  uint32_t                      GroupID;
   bool                          RxIsData;  
   bool                          GotNewData;
   bool                          IsAPConnected;    
@@ -277,6 +278,7 @@ void EEPROM_Reset(void);
 
 uint8_t Save_AP_Setting(void);
 void    Load_AP_Setting(void);
+uint8_t Get_Group_ID(void);
 
 #ifdef __cplusplus
 }

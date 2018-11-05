@@ -66,6 +66,7 @@
 #include "net/ip/uip-debug.h"
 
 
+
 //extern volatile uint8_t UART_RxBuffer[UART_RxBufferSize];
 extern  UART_HandleTypeDef huart4;
 static uip_ipaddr_t prefix;
@@ -81,8 +82,8 @@ uip_ipaddr_t server_ip;  // for registraion
 //flash command
 uint8_t readEEPROMByte(uint32_t address);
 HAL_StatusTypeDef writeEEPROMByte(uint32_t address, uint8_t data);
-void SendCommandToNode(void);
-#define JSON_ADDR 22
+
+
 
 
 //uint8_t DMAstr[7];
@@ -103,13 +104,18 @@ PROCESS(border_router_process, "Border router process");
 static uip_ipaddr_t router_prefix={0xaa,0xaa,0,0,0,0,0,0};  
 
 
+//
+static void create_rpl_dag(uip_ipaddr_t *ipaddr);
+
 #if WEBSERVER==0
 /* No webserver */
-AUTOSTART_PROCESSES(&border_router_process);
+//AUTOSTART_PROCESSES(&border_router_process);
+AUTOSTART_PROCESSES(&unicast_receiver_process);
 #elif WEBSERVER>1
 /* Use an external webserver application */
 #include "webserver-nogui.h"
-AUTOSTART_PROCESSES(&border_router_process,&webserver_nogui_process);
+//AUTOSTART_PROCESSES(&border_router_process,&webserver_nogui_process);
+AUTOSTART_PROCESSES(&unicast_receiver_process);
 #else
 /* Use simple webserver with only one page for minimum footprint.
  * Multiple connections can result in interleaved tcp segments since
@@ -147,8 +153,8 @@ PROCESS_THREAD(webserver_nogui_process, ev, data)
   PROCESS_END();
 }
 #endif
-AUTOSTART_PROCESSES(&border_router_process);//,&webserver_nogui_process);
-
+//AUTOSTART_PROCESSES(&border_router_process);//,&webserver_nogui_process);
+AUTOSTART_PROCESSES(&unicast_receiver_process);
 static const char *TOP = "<html><head><title>ContikiRPL</title></head><body>\n";
 static const char *BOTTOM = "</body></html>\n";
 #if BUF_USES_STACK
@@ -396,10 +402,7 @@ set_prefix_64(uip_ipaddr_t *prefix_64)
 PROCESS_THREAD(border_router_process, ev, data)
 {
   static struct etimer et;
-  int i;
-  uint8_t eeprom[4]={'w','e','l','l'};
-  uint8_t eeoutput;
-  uint32_t eeaddr=0x00000000;
+ 
   PROCESS_BEGIN();
 
 /* While waiting for the prefix to be sent through the SLIP connection, the future
@@ -511,10 +514,7 @@ receiver(struct simple_udp_connection *c,
          const uint8_t *data,
          uint16_t datalen)
 {
-	  //static unsigned long int message_number;
-   // static unsigned long int node1_counter;
-  //  static unsigned long int node2_counter;
-  //  static unsigned long int node3_counter;
+	  
     int i;
     uint8_t buf[17];
     memcpy(buf,sender_addr,16);
@@ -522,22 +522,7 @@ receiver(struct simple_udp_connection *c,
     //printf("Data received from ");
 	  uip_debug_ipaddr_print(sender_addr);
 	
-  
-#if 0     
-      if(((uint8_t *)sender_addr)[15]==0x40)
-      {
-        //  node3_counter++;
-          printf("\r\n Node3 ");
-      }else if(((uint8_t *)sender_addr)[15]==0x49)
-      {
-        //  node2_counter++;
-          printf("\r\n Node2 ");
-      }else if(((uint8_t *)sender_addr)[15]==0xda)
-      {
-        //  node1_counter++;
-          printf("\r\n Node1");    
-      }
-#endif  
+ 
 #if 1      
       for(i=0;i<16;i++)
       {
@@ -546,13 +531,7 @@ receiver(struct simple_udp_connection *c,
       } 
       
 #endif  
-#if 0      
-      printf(" sender addr:%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x  length %d: data:%d\n",
-	          sender_ip[0],sender_ip[1],sender_ip[2],sender_ip[3],sender_ip[4], 
-            sender_ip[5],sender_ip[6],sender_ip[7],sender_ip[8],sender_ip[9],
-            sender_ip[10],sender_ip[11],sender_ip[12],sender_ip[13],sender_ip[14],
-            sender_ip[15],datalen, data[1]);
-#endif      
+
      
       //ESP8266 send data
       ESP8266_SendData(sender_ip,data);
@@ -590,118 +569,108 @@ set_global_address(void)
 
 PROCESS_THREAD(unicast_receiver_process, ev, data)
 {
+
+    
+  
   int i;
   uip_ipaddr_t *ipaddr;
   
-  uint16_t ssid[4]={0x6ef,0x6fd,0x6f4,0x6f4};
-  uint16_t code[4];
+ 
   
   PROCESS_BEGIN();
 
   servreg_hack_init();
 
-  ipaddr=set_global_address();
-  
-  uip_debug_ipaddr_print(ipaddr);
-  
-  printf("\n unicast_receiver_process thread started\n");
-  
+  ipaddr = set_global_address();
+
+  create_rpl_dag(ipaddr);
+
   servreg_hack_register(SERVICE_ID, ipaddr);
 
   simple_udp_register(&unicast_connection, UDP_PORT,
                       NULL, UDP_PORT, receiver);
+
   
+  /* init json parser */ 
+ // jsmn_init(&parser);  
   
+  printf("\n unicast_receiver_process thread started\n");   
  // ESP8266_Write("AT+\n"); //disconnect with ap
  
   while(1) {
   
-  PROCESS_WAIT_EVENT();
+  
+    // PROCESS_YIELD();
+       PROCESS_PAUSE();
+    
+    //parsing json file
+    
+   
+    if(new_data==true)
+    {
+        new_data=false;
+       // Reg_Server_Account();
+      #if 1    
+       //if(Wifi.Mode==_WIFI_REG_PROJECT_CODE && Wifi.RxBuffer[12]==0x04)
+       if(Wifi.RxBuffer[12]==0x04)  
+       {
+            Reg_Project_Check();
+        
+        }else if(Wifi.RxBuffer[REG_INDEX+1]==0x02)
+        {
+            if(Reg_Server_Account()==REGISTER_SERVER_SUCCEFULL)
+            Wifi.Mode=_WIFI_SERVER_MODE;
+           //send registration data to server
+    
+        }
+       #endif 
+    }
+    
+    if(Wifi.Mode==_WIFI_SERVER_MODE)
+    {
+        if(Wifi.IsAPConnected!=true)
+        // connect to ap  
+        Reg_Server_Registration();// parsing json data
+    }
+    
+    if(Wifi.Mode==_WIFI_REPORT_MODE)
+    {
+        if(Wifi.IsAPConnected==false)
+        Report_Connect_AP();// connect to ap
+    }
+    
   }
   PROCESS_END();
 }
 /*---------------------------------------------------------------------------*/
 
 /*---------------------------------------------------------------------------*/
-
-
-/*---------------------------------------------------------------------------*/
-// Parsing Json file. command and data
-// 1. command: _cmd:     index 8, len  1 byte
-// 2. address: _address: index 22,len 32 bytes
-/*---------------------------------------------------------------------------*/
-void SendCommandToNode(void)
+static void
+create_rpl_dag(uip_ipaddr_t *ipaddr)
 {
-  
-#if 0
-    uip_ipaddr_t addr; 
-    uint8_t _cmd;
-    uint8_t tmp,tmpaddr; 
-    int i=0,j=0;
-    int index=0;
+  struct uip_ds6_addr *root_if;
+
+  root_if = uip_ds6_addr_lookup(ipaddr);
+  if(root_if != NULL) {
+    rpl_dag_t *dag;
+    uip_ipaddr_t prefix;
     
-    //Parsing command type
-    _cmd=UART_RxBuffer[8];  
-    
-    printf("\n received command: %c\n",_cmd);
-  
-    do{  
-      
-    if(UART_RxBuffer[JSON_ADDR+i] >=0x30 && UART_RxBuffer[JSON_ADDR+i]<=0x39)
-    {
-       tmp= UART_RxBuffer[JSON_ADDR+i]-0x30;     
-    }else
-    {
-       tmp= UART_RxBuffer[JSON_ADDR+i]-0x57;    
-    }      
-    
-    if(i%2==0)
-    {
-      tmpaddr=tmp<<4;
-    }else
-    {       
-       tmpaddr=tmpaddr+tmp;
-       addr.u8[index++]=tmpaddr;
-       
-       printf("%x",tmpaddr);
-    }
-    i++;
-    
-    }while(UART_RxBuffer[JSON_ADDR+i]!=0x22);
-    
-    
-    // re-arrange ipv6 address
-    if(index!=15)
-    {
-       //for(i=0;i<=15;i++)
-        //addr.u8[i]=0x00; 
-      
-       
-       for(i=15;i>=(15-index+2);i--)
-       {
-           tmpaddr= addr.u8[index];
-           addr.u8[i]=tmpaddr;         
-       }         
-    }      
-    //uip_ip6addr_u8 
-    //  uip_ip6addr(addr, 0xaaaa, 0, 0, 0, 0, 0, 0, 0);
-    //JSON_ADDR
-#endif    
-    
-#if 0
-   uip_debug_ipaddr_print(&addr);
-   //Parsing address
- //  for(i=0;i<16;i++)
- //  {
-     //printf("\n send command addr %x\n",addr->u8[i]);
- //  }
-#endif   
-   //send command to Node
-   //simple_udp_sendto(&unicast_connection,(const void *)&_cmd,2, addr); 
-  
-}  
+    rpl_set_root(RPL_DEFAULT_INSTANCE, ipaddr);
+    dag = rpl_get_any_dag();
+    uip_ip6addr(&prefix, 0xaaaa, 0, 0, 0, 0, 0, 0, 0);
+    rpl_set_prefix(dag, &prefix, 64);
+    PRINTF("created a new RPL dag\n");
+  } else {
+    PRINTF("failed to create a new RPL DAG\n");
+  }
+}
 
 
 /**
   * @}
   */
+
+/*
+ * An example of reading JSON from stdin and printing its content to stdout.
+ * The output looks like YAML, but I'm not sure if it's really compatible.
+ */
