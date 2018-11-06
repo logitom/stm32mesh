@@ -49,10 +49,10 @@
 #define DEBUG DEBUG_PRINT //DEBUG_NONE print
 #include "net/ip/uip-debug.h"
 
-/* Json parser head files */
+/****** Json parser head files ******/
 #include <ctype.h>
 #include "tiny-json.h"
-/* Json parser head files */
+/****** Json parser head files ******/
 
 /* Private variables ---------------------------------------------------------*/
 extern UART_HandleTypeDef huart4;   
@@ -1593,6 +1593,18 @@ uint8_t Report_Connect_AP(void)
 
 
 
+
+HAL_StatusTypeDef writeEEPROMWord(uint32_t address, uint32_t data)
+ {
+    HAL_StatusTypeDef  status;
+    address = address + 0x08080000;
+    HAL_FLASHEx_DATAEEPROM_Unlock();  //Unprotect the EEPROM to allow writing
+    //status=FLASH_DATAEEPROM_FastProgramWord(address,data);
+    status = HAL_FLASHEx_DATAEEPROM_Program(FLASH_TYPEPROGRAMDATA_FASTWORD, address, data);
+    HAL_FLASHEx_DATAEEPROM_Lock();  // Reprotect the EEPROM
+    return status;
+}
+
 HAL_StatusTypeDef writeEEPROMByte(uint32_t address, uint8_t data)
  {
     HAL_StatusTypeDef  status;
@@ -1612,6 +1624,28 @@ uint8_t readEEPROMByte(uint32_t address) {
     return tmp;
 }
 
+
+
+uint32_t readEEPROMWord(uint32_t address) {
+    
+    int i;
+    uint32_t data;
+    uint8_t tmp[4] ={0,0,0,0};
+    for(i=0;i<4;i++)
+    {
+        address = address+i+ 0x08080000;
+        tmp[i] = *(__IO uint32_t*)address;
+    }
+    data=data|tmp[0]<<24;
+    data=data|tmp[1]<<16;
+    data=data|tmp[2]<<8;
+    data=data|tmp[3];
+    
+    return data;
+}
+
+
+
 uint8_t Save_AP_Setting(void)
 {
     int i;
@@ -1621,10 +1655,7 @@ uint8_t Save_AP_Setting(void)
     writeEEPROMByte(index,Wifi.Mode);
     index++;
     
-    //group ID
-  //  writeEEPROMByte(index,Wifi.GroupID);  
-  //  index=index+sizeof(uint32_t);  
-  
+      
     //ssid length
     writeEEPROMByte(index,Reg_Pkt.AP_SSID_Len);
     index++;  
@@ -1652,21 +1683,21 @@ uint8_t Save_AP_Setting(void)
     for(i=0;i<Reg_Pkt.Svr_URL_Len;i++)
     writeEEPROMByte(index+i,Reg_Pkt.Svr_URL[i]);
     
-
+     //group ID
+    index=index+Reg_Pkt.Svr_URL_Len;
+    writeEEPROMWord(index,Wifi.GroupID);  
+  
 }  
 
 void Load_AP_Setting(void)
 {
     int i;
     int index=0;       
-    
+    uint8_t groupID[4]={0,0,0,0};   
+  
     // device mode
     Wifi.Mode=readEEPROMByte(index);
     index++;
-    
-     //group ID
-    //writeEEPROMByte(index,Wifi.GroupID);  
-    //index=index+sizeof(uint32_t);   
   
     // ssid length  
     Reg_Pkt.AP_SSID_Len=readEEPROMByte(index);
@@ -1694,7 +1725,19 @@ void Load_AP_Setting(void)
     
     // Server URL    
     for(i=0;i<Reg_Pkt.Svr_URL_Len;i++)
-    Reg_Pkt.Svr_URL[i]=readEEPROMByte(index+i);   
+    Reg_Pkt.Svr_URL[i]=readEEPROMByte(index+i);
+
+ 
+    //group ID
+    index=index+Reg_Pkt.Svr_URL_Len;
+  
+    for(i=0;i<sizeof(uint32_t);i++)
+    {groupID[i]=readEEPROMByte(index+i);}  
+     
+    Wifi.GroupID|=groupID[3]<<24;
+    Wifi.GroupID|=groupID[2]<<16;
+    Wifi.GroupID|=groupID[1]<<8;
+    Wifi.GroupID|=groupID[0];
 }  
 
 void EEPROM_Reset(void)
@@ -1729,7 +1772,7 @@ uint8_t Get_Group_ID(void)
     char const* namevalue = json_getValue( groupID );
     Wifi.GroupID= atoi((char*)namevalue);
     //printf( "%s%s%s", "Name: '", namevalue, "'.\n" ); 
-    //printf( "group id:%d \r\n",Wifi.GroupID);    
+    printf( "group id:%d \r\n",Wifi.GroupID);    
    // *result = atoi((char*)Wifi.RxBuffer);
     return EXIT_SUCCESS;  
   

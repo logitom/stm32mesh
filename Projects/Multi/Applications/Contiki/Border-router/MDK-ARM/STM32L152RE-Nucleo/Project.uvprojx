@@ -675,6 +675,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\Src\border-router.c</FilePath>
             </File>
+            <File>
+              <FileName>tiny-json.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\..\..\..\Drivers\BSP\Components\spirit1\SPIRIT1_Library\Src\tiny-json.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
