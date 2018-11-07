@@ -54,6 +54,8 @@
 #include "tiny-json.h"
 /****** Json parser head files ******/
 
+#define SEND_INTERVAL		(10 * CLOCK_SECOND)
+
 /* Private variables ---------------------------------------------------------*/
 extern UART_HandleTypeDef huart4;   
 extern uip_ipaddr_t server_ip;// for registration server
@@ -74,6 +76,8 @@ Wifi_t	Wifi;
 volatile Register_Svr_t Reg_Pkt={NULL};
 bool new_data=false;
 
+
+
 void ESP8266_Init(void)
 {
      MX_UART4_UART_Init(); 
@@ -84,8 +88,8 @@ void ESP8266_Init(void)
      if(Wifi.Mode==_WIFI_REG_PROJECT_CODE)
      {ESP8266_APInit();}
      // HAL_Delay(2000);
-    // Wifi.Mode=_WIFI_REG_PROJECT_CODE;
-     //ESP8266_Write();
+    
+    
 }
 
 
@@ -1777,3 +1781,4 @@ uint8_t Get_Group_ID(void)
     return EXIT_SUCCESS;  
   
 }  
+

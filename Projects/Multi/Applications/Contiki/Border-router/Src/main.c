@@ -127,9 +127,7 @@ int main()
     Load_AP_Setting();    
     /* esp8266 wifi initialize */ 
     ESP8266_Init(); 
-   
-    
-    
+       
     /* esp8266 wifi initialize */ 
    // ESP8266_Init();
            
@@ -157,8 +155,7 @@ int main()
    
      
     Stack_6LoWPAN_Init();
-    
-   
+     
 
     while(1) {
       int r = 0;

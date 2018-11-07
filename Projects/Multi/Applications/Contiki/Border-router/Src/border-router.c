@@ -74,6 +74,7 @@ static uint8_t prefix_set;
 static uint8_t sender_ip[16];
 
 extern bool new_data;
+extern volatile Register_Svr_t Reg_Pkt;
 uint8_t ServerCommandFlag=0;
 uint32_t Server_Command_Len=0;
 
@@ -96,10 +97,8 @@ HAL_StatusTypeDef writeEEPROMByte(uint32_t address, uint8_t data);
 
 static struct simple_udp_connection unicast_connection;
 PROCESS(unicast_receiver_process, "Unicast receiver example process");
-/* for receiver function */
-
 PROCESS(border_router_process, "Border router process");
-
+PROCESS(server_query_process, "query server process");
   //set router prefix as:0xaaaa  Thomas
 static uip_ipaddr_t router_prefix={0xaa,0xaa,0,0,0,0,0,0};  
 
@@ -570,12 +569,10 @@ set_global_address(void)
 PROCESS_THREAD(unicast_receiver_process, ev, data)
 {
 
-    
   
   int i;
   uip_ipaddr_t *ipaddr;
   
- 
   
   PROCESS_BEGIN();
 
@@ -591,8 +588,12 @@ PROCESS_THREAD(unicast_receiver_process, ev, data)
                       NULL, UDP_PORT, receiver);
 
   
-  /* init json parser */ 
- // jsmn_init(&parser);  
+  if(Wifi.Mode==_WIFI_REPORT_MODE)
+   {
+       process_start(&server_query_process, NULL);     
+   }
+     
+  
   
   printf("\n unicast_receiver_process thread started\n");   
  // ESP8266_Write("AT+\n"); //disconnect with ap
@@ -674,3 +675,34 @@ create_rpl_dag(uip_ipaddr_t *ipaddr)
  * An example of reading JSON from stdin and printing its content to stdout.
  * The output looks like YAML, but I'm not sure if it's really compatible.
  */
+
+
+
+PROCESS_THREAD(server_query_process, ev, data)
+{
+
+  
+  int i;
+  static struct etimer periodic_timer;
+  
+  PROCESS_BEGIN();
+  
+  
+  printf("\n server_query_process thread started\n");   
+  // create UDP 16888 link
+  Wifi_TcpIp_StartUdpConnection(1,(char *)Reg_Pkt.Svr_URL,16888,16888);
+  
+  etimer_set(&periodic_timer, 10000);
+  
+  while(1) {
+  
+   PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
+   etimer_reset(&periodic_timer);
+   //printf(" query timer \n\r");
+   //send query command
+    
+  }
+  PROCESS_END();
+}
+/*---------------------------------------------------------------------------*/
+

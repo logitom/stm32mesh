@@ -281,7 +281,6 @@ void    Load_AP_Setting(void);
 uint8_t Get_Group_ID(void);
 
 //flash command
-uint32_t readEEPROMWord(uint32_t address);
 uint8_t  readEEPROMByte(uint32_t address);
 HAL_StatusTypeDef writeEEPROMWord(uint32_t address, uint32_t data);
 HAL_StatusTypeDef writeEEPROMByte(uint32_t address, uint8_t data);
