@@ -571,8 +571,11 @@ PROCESS_THREAD(unicast_receiver_process, ev, data)
 
   
   int i;
-  uip_ipaddr_t *ipaddr;
   
+  char * get_keep=NULL;
+  char keep_list;
+  
+  uip_ipaddr_t *ipaddr;
   
   PROCESS_BEGIN();
 
@@ -620,11 +623,41 @@ PROCESS_THREAD(unicast_receiver_process, ev, data)
         }else if(Wifi.RxBuffer[REG_INDEX+1]==0x02)
         {
             if(Reg_Server_Account()==REGISTER_SERVER_SUCCEFULL)
-            Wifi.Mode=_WIFI_SERVER_MODE;
+            {
+              Wifi.Mode=_WIFI_SERVER_MODE;
+            }
+           
            //send registration data to server
     
         }
        #endif 
+   #if 1    
+       // get keep list 
+       if(strstr((const char*)Wifi.RxBuffer,"a000")!=NULL)       
+       {
+           get_keep=strstr((const char*)Wifi.RxBuffer,"a000");
+           keep_list=*(get_keep+4);
+         
+           printf("\r\n keep command:%c \r\n",keep_list);
+           
+           if(keep_list=='1')
+           {
+            // send get keep list command
+            // change flag 
+                memset(Wifi.RxBuffer,0,UART_RxBufferSize*sizeof(uint8_t)); 
+                ESP8266_Query_KeepList();
+                Wifi.KeepList=true;
+           }             
+      
+       }
+    #endif      
+       if(Wifi.KeepList==true)       
+       {
+           Wifi.KeepList=false;
+           //parse json command file
+           ESP8266_Get_KeepList(); 
+         
+       }          
     }
     
     if(Wifi.Mode==_WIFI_SERVER_MODE)
@@ -632,6 +665,7 @@ PROCESS_THREAD(unicast_receiver_process, ev, data)
         if(Wifi.IsAPConnected!=true)
         // connect to ap  
         Reg_Server_Registration();// parsing json data
+      
     }
     
     if(Wifi.Mode==_WIFI_REPORT_MODE)
@@ -671,17 +705,11 @@ create_rpl_dag(uip_ipaddr_t *ipaddr)
   * @}
   */
 
-/*
- * An example of reading JSON from stdin and printing its content to stdout.
- * The output looks like YAML, but I'm not sure if it's really compatible.
- */
-
 
 
 PROCESS_THREAD(server_query_process, ev, data)
 {
 
-  
   int i;
   static struct etimer periodic_timer;
   
@@ -698,8 +726,17 @@ PROCESS_THREAD(server_query_process, ev, data)
   
    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
    etimer_reset(&periodic_timer);
-   //printf(" query timer \n\r");
+   
+   if(Wifi.IsAPConnected==true)
+   ESP8266_ServerQuery(); 
+    //printf(" query timer \n\r");
    //send query command
+   
+  // if esp8266 is connected then send the query command   
+//GET /smart_security/alarm/get?_group_id=1 HTTP/0.1
+//Host: well-electronics.asuscomm.com:16888    
+   
+    
     
   }
   PROCESS_END();

@@ -106,8 +106,8 @@ void ESP8266_Write(const uint8_t *inst);
 void ESP8266_APInit(void);
 void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data);
 void ESP8266_SendCommandToNode(uint8_t *Server_Command,uint8_t Command_Length);
-    
-
+uint8_t ESP8266_ServerQuery(void);     
+uint8_t ESP8266_Get_KeepList(void);
 
 
 typedef struct
@@ -119,15 +119,17 @@ typedef struct
   uint8_t   Svr_URL_Len;
   uint16_t  Port_len;	
 	uint16_t  Google_ID_len;
-	uint8_t   Svr_UserName_Len; // server user name
-	uint8_t   Google_Token_Len;
+  uint8_t   TimeZone_Len;
+	//uint8_t   Svr_UserName_Len; // server user name
+	//uint8_t   Google_Token_Len;
 	uint8_t   AP_SSID[_WIFI_DATA_LEN];
   uint8_t   AP_Pwd[_WIFI_DATA_LEN];
 	uint8_t   Svr_URL[_WIFI_DATA_LEN];
   uint8_t   Port[10];
 	uint8_t   Google_ID[_WIFI_DATA_LEN];
-	uint8_t   Svr_UserName[_WIFI_DATA_LEN];
-	uint8_t   Google_Token[_WIFI_DATA_LEN];
+	uint8_t   TimeZone[_WIFI_DATA_LEN]; 
+  //uint8_t   Svr_UserName[_WIFI_DATA_LEN];
+	//uint8_t   Google_Token[_WIFI_DATA_LEN];
 	uint32_t  Reg_Svr_csum;
   uint8_t   EOP;
   //----------------
@@ -201,7 +203,8 @@ typedef struct
   uint32_t                      GroupID;
   bool                          RxIsData;  
   bool                          GotNewData;
-  bool                          IsAPConnected;    
+  bool                          IsAPConnected;
+  bool                          KeepList;  
 	//----------------General	Parameter			
 	WifiMode_t                    Mode;
 	char                          MyIP[16];	
