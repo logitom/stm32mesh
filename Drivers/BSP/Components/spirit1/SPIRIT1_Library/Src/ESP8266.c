@@ -83,6 +83,7 @@ void ESP8266_Init(void)
      new_data=false;
      //EEPROM_Reset();   
      Wifi.IsAPConnected=false;
+     Wifi.Mode=_WIFI_REPORT_MODE;
      HAL_UART_Receive_DMA(&_WIFI_USART,(uint8_t*)&Wifi.RxBuffer,_WIFI_RX_SIZE);
      if(Wifi.Mode==_WIFI_REG_PROJECT_CODE)
      {ESP8266_APInit();}
@@ -172,7 +173,7 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
      
   //data[4] alarm
   sprintf((char*)buffer2,"_type=ALARM&_group_id=%d",Wifi.GroupID);  
-  sprintf((char*)buffer2,"%s&_device=[{\"_address\":\"%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x\",\"_type\":%d,\"_status\":%d,\"_battery\":%d,\"_alarm\":true}]",buffer2,sender_addr[0],sender_addr[1],sender_addr[2],sender_addr[3],sender_addr[4],sender_addr[5],sender_addr[6],sender_addr[7],sender_addr[8],sender_addr[9],sender_addr[10],sender_addr[11],sender_addr[12],sender_addr[13],sender_addr[14],sender_addr[15],data[1],data[2],data[3]);  
+  sprintf((char*)buffer2,"%s&_device=[{\"_address\":\"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x\",\"_type\":%d,\"_status\":%d,\"_battery\":%d,\"_alarm\":true}]",buffer2,sender_addr[0],sender_addr[1],sender_addr[2],sender_addr[3],sender_addr[4],sender_addr[5],sender_addr[6],sender_addr[7],sender_addr[8],sender_addr[9],sender_addr[10],sender_addr[11],sender_addr[12],sender_addr[13],sender_addr[14],sender_addr[15],data[1],data[2],data[3]);  
   Content_len=strlen((const char*)buffer2);   
     
   sprintf((char*)buffer,"POST");
