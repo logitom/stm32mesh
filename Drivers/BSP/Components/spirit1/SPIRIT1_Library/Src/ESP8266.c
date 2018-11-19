@@ -1705,36 +1705,42 @@ uint8_t ESP8266_Query_KeepList(void)
 
 uint8_t ESP8266_Get_KeepList(void)
 {
-   
-   char*str=NULL;
+       
+   json_t mem[32];
+   char*Group=NULL;
    
    //Get json header 
-   str=strstr((char*)Wifi.RxBuffer,"\"value\":");
+   Group=strstr((char*)Wifi.RxBuffer,"{\"");
+   
+  //simple_udp_sendto
   
-  
-  
-  json_t const* json = json_create( str, mem, sizeof mem / sizeof *mem );
-    if ( !json ) {
-        puts("Error json create.");
+  json_t const* json = json_create( Group,mem,sizeof mem / sizeof *mem );
+    if ( json==NULL ) {
+        printf("Error json create.");
         return EXIT_FAILURE;
     } 
 
 
-    
-
-
-
- json_t const* phoneList = json_getProperty( json, "phoneList" );
-    if ( !phoneList || JSON_ARRAY != json_getType( phoneList ) ) {
-        puts("Error, the phone list property is not found.");
+ json_t const* CommandList = json_getProperty( json, "value" );
+    if ( !CommandList || JSON_ARRAY != json_getType( CommandList ) ) {
+        printf("Error, the phone list property is not found.");
         return EXIT_FAILURE;
     }
 
-    json_t const* phone;
-    for( phone = json_getChild( phoneList ); phone != 0; phone = json_getSibling( phone ) ) {
-        if ( JSON_OBJ == json_getType( phone ) ) {
-            char const* phoneNumber = json_getPropertyValue( phone, "number" );
-            if ( phoneNumber ) printf( "Number: %s.\n", phoneNumber );
+    json_t const* command;
+    for( command = json_getChild( CommandList ); command != 0; command = json_getSibling( command ) ) {
+        if ( JSON_OBJ == json_getType( command ) ) {
+            char const* address = json_getPropertyValue( command, "_address" );
+            if ( address ) printf( "_address: %s\n", address );
+            
+            char const* cmd = json_getPropertyValue( command, "_cmd" );
+            if ( address ) printf( "_cmd: %s\n", cmd ); 
+            
+            if(*cmd=='2')
+            printf("cmd is 2\n\r"); 
+            // send command to device
+            //simple_udp_sendto(&unicast_connection, buf, strlen(buf),addr);  
+            
         }
     }   
   
