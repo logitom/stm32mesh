@@ -58,7 +58,7 @@
 #define DEST_ADDRESS (SRAM_BASE+OFFSET)
 
 #define PRIVATE_KEY 0xa8
-#define REG_INDEX   0x0d   
+#define REG_INDEX   0x0c   
 
 #define		_WIFI_USART									huart4
 

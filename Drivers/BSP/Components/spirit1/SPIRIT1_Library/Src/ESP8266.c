@@ -81,11 +81,12 @@ void ESP8266_Init(void)
 {
      MX_UART4_UART_Init(); 
      new_data=false;
-     //EEPROM_Reset();   
+     //EEPROM_Reset();
+     //Wifi.GroupID=1;  
      Wifi.IsAPConnected=false;
-     Wifi.Mode=_WIFI_REPORT_MODE;
+    // Wifi.Mode=_WIFI_REPORT_MODE;
      HAL_UART_Receive_DMA(&_WIFI_USART,(uint8_t*)&Wifi.RxBuffer,_WIFI_RX_SIZE);
-     if(Wifi.Mode==_WIFI_REG_PROJECT_CODE)
+     if(Wifi.Wifi_Mode==_WIFI_REG_PROJECT_CODE)
      {ESP8266_APInit();}
      // HAL_Delay(2000);
     
@@ -172,6 +173,7 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
     lladdr[16]='\0';  
      
   //data[4] alarm
+    
   sprintf((char*)buffer2,"_type=ALARM&_group_id=%d",Wifi.GroupID);  
   sprintf((char*)buffer2,"%s&_device=[{\"_address\":\"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x\",\"_type\":%d,\"_status\":%d,\"_battery\":%d,\"_alarm\":true}]",buffer2,sender_addr[0],sender_addr[1],sender_addr[2],sender_addr[3],sender_addr[4],sender_addr[5],sender_addr[6],sender_addr[7],sender_addr[8],sender_addr[9],sender_addr[10],sender_addr[11],sender_addr[12],sender_addr[13],sender_addr[14],sender_addr[15],data[1],data[2],data[3]);  
   Content_len=strlen((const char*)buffer2);   
@@ -1347,12 +1349,12 @@ uint8_t Reg_Server_Account(void)
     for(i=REG_INDEX+8;i<=REG_INDEX+8+Reg_Pkt.AP_SSID_Len+Reg_Pkt.AP_Pwd_Len+Reg_Pkt.Svr_URL_Len+Reg_Pkt.Google_ID_len+Reg_Pkt.TimeZone_Len+4;i++)
     Wifi.RxBuffer[i]=Wifi.RxBuffer[i]^PRIVATE_KEY;
     
-    memcpy((void *)Reg_Pkt.AP_SSID,&Wifi.RxBuffer[REG_INDEX+9],Reg_Pkt.AP_SSID_Len);
-    memcpy((void *)Reg_Pkt.AP_Pwd,&Wifi.RxBuffer[REG_INDEX+9+Reg_Pkt.AP_SSID_Len],Reg_Pkt.AP_Pwd_Len);
-    memcpy((void *)Reg_Pkt.Svr_URL,&Wifi.RxBuffer[REG_INDEX+9+Reg_Pkt.AP_SSID_Len+Reg_Pkt.AP_Pwd_Len],Reg_Pkt.Svr_URL_Len);
-    memcpy((void *)Reg_Pkt.Port,&Wifi.RxBuffer[REG_INDEX+9+Reg_Pkt.AP_SSID_Len+Reg_Pkt.Svr_URL_Len+Reg_Pkt.AP_Pwd_Len],Reg_Pkt.Port_len);
-    memcpy((void *)Reg_Pkt.Google_ID,&Wifi.RxBuffer[REG_INDEX+9+Reg_Pkt.AP_SSID_Len+Reg_Pkt.AP_Pwd_Len+Reg_Pkt.Svr_URL_Len+Reg_Pkt.Port_len],Reg_Pkt.Google_ID_len);
-    memcpy((void *)Reg_Pkt.TimeZone,&Wifi.RxBuffer[REG_INDEX+9+Reg_Pkt.AP_SSID_Len+Reg_Pkt.AP_Pwd_Len+Reg_Pkt.Svr_URL_Len+Reg_Pkt.Port_len+Reg_Pkt.Google_ID_len],Reg_Pkt.TimeZone_Len);
+    memcpy((void *)Reg_Pkt.AP_SSID,&Wifi.RxBuffer[REG_INDEX+8],Reg_Pkt.AP_SSID_Len);
+    memcpy((void *)Reg_Pkt.AP_Pwd,&Wifi.RxBuffer[REG_INDEX+8+Reg_Pkt.AP_SSID_Len],Reg_Pkt.AP_Pwd_Len);
+    memcpy((void *)Reg_Pkt.Svr_URL,&Wifi.RxBuffer[REG_INDEX+8+Reg_Pkt.AP_SSID_Len+Reg_Pkt.AP_Pwd_Len],Reg_Pkt.Svr_URL_Len);
+    memcpy((void *)Reg_Pkt.Port,&Wifi.RxBuffer[REG_INDEX+8+Reg_Pkt.AP_SSID_Len+Reg_Pkt.Svr_URL_Len+Reg_Pkt.AP_Pwd_Len],Reg_Pkt.Port_len);
+    memcpy((void *)Reg_Pkt.Google_ID,&Wifi.RxBuffer[REG_INDEX+8+Reg_Pkt.AP_SSID_Len+Reg_Pkt.AP_Pwd_Len+Reg_Pkt.Svr_URL_Len+Reg_Pkt.Port_len],Reg_Pkt.Google_ID_len);
+    memcpy((void *)Reg_Pkt.TimeZone,&Wifi.RxBuffer[REG_INDEX+8+Reg_Pkt.AP_SSID_Len+Reg_Pkt.AP_Pwd_Len+Reg_Pkt.Svr_URL_Len+Reg_Pkt.Port_len+Reg_Pkt.Google_ID_len],Reg_Pkt.TimeZone_Len);
     
     //memcpy((void *)Reg_Pkt.Svr_UserName,&Wifi.RxBuffer[REG_INDEX+9+Reg_Pkt.AP_SSID_Len+Reg_Pkt.AP_Pwd_Len+Reg_Pkt.Svr_URL_Len+Reg_Pkt.Port_len+Reg_Pkt.Google_ID_len],Reg_Pkt.Svr_UserName_Len); // user name
     //memcpy((void *)Reg_Pkt.Google_Token,&Wifi.RxBuffer[REG_INDEX+9+Reg_Pkt.AP_SSID_Len+Reg_Pkt.AP_Pwd_Len+Reg_Pkt.Svr_URL_Len+Reg_Pkt.Port_len+Reg_Pkt.Google_ID_len+Reg_Pkt.Svr_UserName_Len],Reg_Pkt.Google_Token_Len); // token
@@ -1400,7 +1402,7 @@ uint8_t Reg_Server_Account(void)
     }
     
     
-    Wifi.Mode=_WIFI_SERVER_MODE;
+    Wifi.Wifi_Mode=_WIFI_SERVER_MODE;
     
     
    
@@ -1467,7 +1469,7 @@ bool	Reg_Project_Check(void)
     HAL_Delay(500);
    // } 
    // if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,1,"OK")==true)
-    //Wifi.Mode=_WIFI_REG_AP_ACCOUNT;
+    //Wifi.Wifi_Mode=_WIFI_REG_AP_ACCOUNT;
 
     return true;
 }
@@ -1492,7 +1494,7 @@ uint8_t Reg_Server_Registration(void)
    #endif  
      // send device to server HTTP Host command
    
-  sprintf((char*)buffer2,"_type=SIGN_IN&_google_id=%s&_token=%s",Reg_Pkt.Google_ID,Reg_Pkt.TimeZone);  
+  sprintf((char*)buffer2,"_type=SIGN_IN&_google_id=%s&_gmt_min=%s",Reg_Pkt.Google_ID,Reg_Pkt.TimeZone);  
   sprintf((char*)buffer2,"%s&_device=[{\"_address\":\"%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x\",\"_type\":2,\"_status\":3,\"_battery\":56,\"_alarm\":false}]",buffer2,server_ip.u8[0],server_ip.u8[1],server_ip.u8[2],server_ip.u8[3],server_ip.u8[4],server_ip.u8[5],server_ip.u8[6],server_ip.u8[7],server_ip.u8[8],server_ip.u8[9],server_ip.u8[10],server_ip.u8[11],server_ip.u8[12],server_ip.u8[13],server_ip.u8[14],server_ip.u8[15]);  
   Content_len=strlen((const char*)buffer2);   
   
@@ -1523,10 +1525,11 @@ uint8_t Reg_Server_Registration(void)
     HAL_Delay(1000);  
   
     //strstr();
-     
+     //printf("post:\r\n%s",buffer);    
+    
     if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,1,"\"message\":1")==true)
     {
-        Wifi.Mode=_WIFI_REPORT_MODE;
+        Wifi.Wifi_Mode=_WIFI_REPORT_MODE;
         // save ssid & pwd to eeprom
         // parsing group ID
         Get_Group_ID();
@@ -1741,7 +1744,7 @@ uint8_t ESP8266_Get_KeepList(void)
             printf("cmd is 2\n\r"); 
             // send command to device
             //simple_udp_sendto(&unicast_connection, buf, strlen(buf),addr);  
-            
+            //void udp_sendto_device(char const* address);
         }
     }   
   
@@ -1807,7 +1810,7 @@ uint8_t Save_AP_Setting(void)
     int index=0;
     
     // write mode        
-    writeEEPROMByte(index,Wifi.Mode);
+    writeEEPROMByte(index,Wifi.Wifi_Mode);
     index++;
     
       
@@ -1851,7 +1854,7 @@ void Load_AP_Setting(void)
     uint8_t groupID[4]={0,0,0,0};   
   
     // device mode
-    Wifi.Mode=readEEPROMByte(index);
+    Wifi.Wifi_Mode=readEEPROMByte(index);
     index++;
   
     // ssid length  
@@ -1901,7 +1904,7 @@ void EEPROM_Reset(void)
     writeEEPROMByte(0,_WIFI_REG_PROJECT_CODE);   //set mode:_WIFI_REG_PROJECT_CODE 
    
     //read  device mode
-    Wifi.Mode=readEEPROMByte(0);  
+    Wifi.Wifi_Mode=readEEPROMByte(0);  
   
 }  
 

@@ -528,7 +528,6 @@ receiver(struct simple_udp_connection *c,
         sender_ip[i]=((uint8_t *)sender_addr)[i];
         printf("ith: %d ip:%x \r\n",i,sender_ip[i]);
       } 
-      
 #endif  
 
      
@@ -615,16 +614,16 @@ PROCESS_THREAD(unicast_receiver_process, ev, data)
         new_data=false;
        // Reg_Server_Account();
       #if 1    
-       //if(Wifi.Mode==_WIFI_REG_PROJECT_CODE && Wifi.RxBuffer[12]==0x04)
+      // if(strstr((const char*)Wifi.RxBuffer,"A004")!=NULL) 
        if(Wifi.RxBuffer[12]==0x04)  
        {
             Reg_Project_Check();
         
-        }else if(Wifi.RxBuffer[REG_INDEX+1]==0x02)
+        }else if(Wifi.RxBuffer[REG_INDEX+1]==0x02) //if(strstr((const char*)Wifi.RxBuffer,"0a02")!=NULL)
         {
             if(Reg_Server_Account()==REGISTER_SERVER_SUCCEFULL)
             {
-              Wifi.Mode=_WIFI_SERVER_MODE;
+              Wifi.Wifi_Mode=_WIFI_SERVER_MODE;
             }
            
            //send registration data to server
@@ -653,14 +652,15 @@ PROCESS_THREAD(unicast_receiver_process, ev, data)
     #endif      
        if(Wifi.KeepList==true)       
        {
-           Wifi.KeepList=false;
+           //Wifi.KeepList=false;
            //parse json command file
-           ESP8266_Get_KeepList(); 
+           ESP8266_Get_KeepList();
+           Wifi.KeepList=false;          
          
        }          
     }
     
-    if(Wifi.Mode==_WIFI_SERVER_MODE)
+    if(Wifi.Wifi_Mode==_WIFI_SERVER_MODE)
     {
         if(Wifi.IsAPConnected!=true)
         // connect to ap  
@@ -668,7 +668,7 @@ PROCESS_THREAD(unicast_receiver_process, ev, data)
       
     }
     
-    if(Wifi.Mode==_WIFI_REPORT_MODE)
+    if(Wifi.Wifi_Mode==_WIFI_REPORT_MODE)
     {
         if(Wifi.IsAPConnected==false)
         Report_Connect_AP();// connect to ap
@@ -725,11 +725,14 @@ PROCESS_THREAD(server_query_process, ev, data)
   while(1) {
   
    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
-   etimer_reset(&periodic_timer);
+   //etimer_reset(&periodic_timer);
    
-   if(Wifi.IsAPConnected==true)
-   ESP8266_ServerQuery(); 
-    //printf(" query timer \n\r");
+   if(Wifi.IsAPConnected==true && Wifi.KeepList==false)
+   {
+       ESP8266_ServerQuery(); 
+       etimer_reset(&periodic_timer);
+   }
+     //printf(" query timer \n\r");
    //send query command
    
   // if esp8266 is connected then send the query command   
