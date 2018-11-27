@@ -515,11 +515,27 @@ receiver(struct simple_udp_connection *c,
 {
 	  
     int i;
-    uint8_t buf[17];
-    memcpy(buf,sender_addr,16);
+    //uint8_t buf[17];
+    //memcpy(buf,sender_addr,16);
     
+       
+       
+      //ESP8266 send data
+     // ESP8266_SendData(sender_ip,data);
+#if 1      
+    
+    if(data[0]==51 && data[1]==1)
+    {
+        printf(" turn off the sensor \r\n ");
+        // 
+        Report_Closed_Alarm(sender_addr);
+        
+    }
+    else
+    {
+      
     //printf("Data received from ");
-	  uip_debug_ipaddr_print(sender_addr);
+	   uip_debug_ipaddr_print(sender_addr);
 	
  
 #if 1      
@@ -533,7 +549,8 @@ receiver(struct simple_udp_connection *c,
      
       //ESP8266 send data
       ESP8266_SendData(sender_ip,data);
- 
+    }
+ #endif
 }
 /*---------------------------------------------------------------------------*/
 
@@ -590,7 +607,7 @@ PROCESS_THREAD(unicast_receiver_process, ev, data)
                       NULL, UDP_PORT, receiver);
 
   
-  if(Wifi.Mode==_WIFI_REPORT_MODE)
+  if(Wifi.Wifi_Mode==_WIFI_REPORT_MODE)
    {
        process_start(&server_query_process, NULL);     
    }
@@ -725,7 +742,7 @@ PROCESS_THREAD(server_query_process, ev, data)
   while(1) {
   
    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
-   //etimer_reset(&periodic_timer);
+ //  etimer_reset(&periodic_timer);
    
    if(Wifi.IsAPConnected==true && Wifi.KeepList==false)
    {
@@ -745,4 +762,42 @@ PROCESS_THREAD(server_query_process, ev, data)
   PROCESS_END();
 }
 /*---------------------------------------------------------------------------*/
+
+void udp_sendto_device(char const* address)
+{
+  int i;
+  uip_ipaddr_t IPv6;
+  uint8_t data[2];
+  uint8_t tmp[2];
+  uint8_t hex_add[32];
+  
+  for(i=0;i<32;i++)
+  {
+    if(address[i]>=0x61 && address[i]<=0x66)
+    {
+        hex_add[i]=address[i]-0x57;
+    }
+    else
+    {
+        hex_add[i]=address[i]-0x30;  
+    }      
+        
+      printf("%x",hex_add[i]);  
+  }
+  
+  printf("\r\n");  
+  
+  for(i=0;i<16;i++)
+  { 
+   tmp[0]=hex_add[2*i]<<4;
+   tmp[1]=hex_add[2*i+1];
+   IPv6.u8[i]=tmp[0]|tmp[1];
+   printf("%x",IPv6.u8[i]); 
+  }
+  data[0]=51;
+  data[1]=0;  
+  //atoi
+  simple_udp_sendto(&unicast_connection, data,2,&IPv6);
+
+}
 

@@ -63,6 +63,7 @@ extern uip_ipaddr_t server_ip;// for registration server
 /* Private variables ---------------------------------------------------------*/
 
 
+
 volatile uint8_t UART4_RxBuffer[UART_RxBufferSize];
 
 //const uint8_t DISCONNECT_AP[]={"AT+CWQAP\\r\\n"};
@@ -162,7 +163,8 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
     uint8_t buffer[1024];   
     uint16_t Total_Len;
     int result=0;
-          
+    uint8_t t2[5]="true"; 
+   
   
     /* get lladdress */
     for(int i=0;i<16;i++)
@@ -175,7 +177,8 @@ void ESP8266_SendData(uint8_t *sender_addr,const uint8_t * data)
   //data[4] alarm
     
   sprintf((char*)buffer2,"_type=ALARM&_group_id=%d",Wifi.GroupID);  
-  sprintf((char*)buffer2,"%s&_device=[{\"_address\":\"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x\",\"_type\":%d,\"_status\":%d,\"_battery\":%d,\"_alarm\":true}]",buffer2,sender_addr[0],sender_addr[1],sender_addr[2],sender_addr[3],sender_addr[4],sender_addr[5],sender_addr[6],sender_addr[7],sender_addr[8],sender_addr[9],sender_addr[10],sender_addr[11],sender_addr[12],sender_addr[13],sender_addr[14],sender_addr[15],data[1],data[2],data[3]);  
+  sprintf((char*)buffer2,"%s&_device=[{\"_address\":\"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x\",\"_type\":%d,\"_status\":%d,\"_battery\":%d",buffer2,sender_addr[0],sender_addr[1],sender_addr[2],sender_addr[3],sender_addr[4],sender_addr[5],sender_addr[6],sender_addr[7],sender_addr[8],sender_addr[9],sender_addr[10],sender_addr[11],sender_addr[12],sender_addr[13],sender_addr[14],sender_addr[15],data[1],data[2],data[3]);  
+  sprintf((char*)buffer2,"%s,\"_alarm\":%s}]",buffer2,t2);
   Content_len=strlen((const char*)buffer2);   
     
   sprintf((char*)buffer,"POST");
@@ -1651,7 +1654,7 @@ uint8_t ESP8266_ServerQuery(void)
     uint8_t  end;  
   
     header=0xa1;
-    //cmd=0x01;
+    cmd=0x01;
     checksum=cmd+Wifi.GroupID;
     end=0xa3;
     sprintf((char*)buffer,"0x%x0x010x%x0x%x0x%x",header,Wifi.GroupID,checksum,end);
@@ -1665,7 +1668,7 @@ uint8_t ESP8266_ServerQuery(void)
     
     sprintf((char*)buffer2,"AT+CIPSEND=1,%d\r\n",Total_Len); 
     
-      
+    printf("server query:%s \r\n",buffer);   
     ESP8266_Write(buffer2);
     HAL_Delay(1000);   
   
@@ -1685,7 +1688,7 @@ uint8_t ESP8266_Query_KeepList(void)
       
     uint16_t Total_Len;
      
-    Wifi_TcpIp_Close(0);
+    Wifi_TcpIp_Close(3);
     HAL_Delay(300); 
   
     sprintf((char*)buffer,"GET");
@@ -1693,9 +1696,9 @@ uint8_t ESP8266_Query_KeepList(void)
     sprintf((char*)buffer,"%sHost: well-electronics.asuscomm.com:7070 \r\n\r\n",buffer);     
     Total_Len=strlen((const char*)buffer);   
     printf("buffer:%s \r\n",buffer);
-    while(Wifi_TcpIp_StartTcpConnection(0,(char *)Reg_Pkt.Svr_URL,7070,3000)==false);
+    while(Wifi_TcpIp_StartTcpConnection(3,(char *)Reg_Pkt.Svr_URL,7070,3000)==false);
     
-    sprintf((char*)buffer2,"AT+CIPSEND=0,%d\r\n",Total_Len); 
+    sprintf((char*)buffer2,"AT+CIPSEND=3,%d\r\n",Total_Len); 
     
       
     ESP8266_Write(buffer2);
@@ -1744,7 +1747,9 @@ uint8_t ESP8266_Get_KeepList(void)
             printf("cmd is 2\n\r"); 
             // send command to device
             //simple_udp_sendto(&unicast_connection, buf, strlen(buf),addr);  
-            //void udp_sendto_device(char const* address);
+            udp_sendto_device(address);
+             
+            
         }
     }   
   
@@ -1935,4 +1940,59 @@ uint8_t Get_Group_ID(void)
     return EXIT_SUCCESS;  
   
 }  
+
+void Report_Closed_Alarm(const uip_ipaddr_t *sender_addr)
+{
+
+    uint8_t DataLen; 
+    uint16_t Content_len;  
+    uint8_t buffer2[512];
+    uint8_t buffer[1024];   
+    uint16_t Total_Len;
+    int result=0;
+  
+   
+  
+     
+  //data[4] alarm
+   
+  sprintf((char*)buffer2,"_address=[{\"_address\":\"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x\"}]",sender_addr->u8[0] ,sender_addr->u8[1],sender_addr->u8[2],sender_addr->u8[3],sender_addr->u8[4],sender_addr->u8[5],sender_addr->u8[6],sender_addr->u8[7],sender_addr->u8[8],sender_addr->u8[9],sender_addr->u8[10],sender_addr->u8[11],sender_addr->u8[12],sender_addr->u8[13],sender_addr->u8[14],sender_addr->u8[15]);  
+  
+  Content_len=strlen((const char*)buffer2);   
+    
+  sprintf((char*)buffer,"POST");
+  sprintf((char*)buffer,"%s /smart_security/alarm/report HTTP/1.1\r\n",buffer);    
+  sprintf((char*)buffer,"%sHost: %s:%s\r\n",buffer,Reg_Pkt.Svr_URL,Reg_Pkt.Port);
+  sprintf((char*)buffer,"%sContent-Length: %d\r\n",buffer,Content_len);
+  sprintf((char*)buffer,"%sContent-Type: application/x-www-form-urlencoded; charset=UTF-8\r\n\r\n",buffer);
+  sprintf((char*)buffer,"%s%s",buffer,buffer2);   
+  Total_Len=strlen((const char*)buffer);   
+     
+  
+  
+    Wifi_TcpIp_Close(0);
+    while(Wifi_TcpIp_StartTcpConnection(0,(char *)Reg_Pkt.Svr_URL,7070,7000)==false);
+    //HAL_Delay(1000);
+    sprintf((char*)buffer2,"AT+CIPSEND=0,%d\r\n",Total_Len); 
+   
+    ESP8266_Write(buffer2);
+    HAL_Delay(1000);   
+  
+    ESP8266_Write(buffer); 
+    HAL_Delay(1000);  
+  
+    printf("web buffer:%s \n",buffer);
+    
+    if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,1,"\"message\":1")==true)
+    {
+                
+        printf("\r\n alarm closed pushed\r\n");
+       // BSP_LED_Toggle(LED_GREEN);
+      //  
+    }
+
+  
+}
+
+
 

@@ -109,6 +109,8 @@ void ESP8266_SendCommandToNode(uint8_t *Server_Command,uint8_t Command_Length);
 uint8_t ESP8266_ServerQuery(void);     
 uint8_t ESP8266_Get_KeepList(void);
 
+void udp_sendto_device(char const* address);
+
 
 typedef struct
 {
@@ -279,6 +281,7 @@ uint8_t Reg_Connect_AP(void);
 uint8_t Report_Connect_AP(void);
 void EEPROM_Reset(void);
 
+void Report_Closed_Alarm(const uip_ipaddr_t *sender_addr);
 uint8_t Save_AP_Setting(void);
 void    Load_AP_Setting(void);
 uint8_t Get_Group_ID(void);
