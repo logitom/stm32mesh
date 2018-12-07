@@ -170,6 +170,7 @@ void SystemClock_Config(void)
   /* Poll VOSF bit of in PWR_CSR. Wait until it is reset to 0 */
   while (__HAL_PWR_GET_FLAG(PWR_FLAG_VOS) != RESET) {};
 
+   
   /* Select PLL as system clock source and configure the HCLK, PCLK1 and PCLK2
   clocks dividers */
   RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
@@ -193,11 +194,30 @@ void SystemClock_Config(void)
 */
 void MX_GPIO_Init(void)
 {
-
+  
+  GPIO_InitTypeDef GPIO_InitStruct;
   /* GPIO Ports Clock Enable */
   __GPIOA_CLK_ENABLE();  /*Enable the clock for GPIOA peripheral*/
   __GPIOC_CLK_ENABLE();
   __GPIOD_CLK_ENABLE();
+  
+  //Definition of reset pin (PA11)
+
+
+
+  /*********************************
+  *  Configure GPIO pin : PA11     *
+  *  Definition of reset pin (PA11)*  
+  **********************************/
+  GPIO_InitStruct.Pin = GPIO_PIN_11;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  
+  /*PA11 is reboot pin, default status is High */
+  HAL_GPIO_WritePin(GPIOA,GPIO_PIN_11, GPIO_PIN_SET); 
+ 
 }
 
 

@@ -130,8 +130,9 @@ int main()
     /* esp8266 wifi initialize */ 
     ESP8266_Init(); 
     
-    
-    /* Initialize RTC */
+  
+  
+  /* Initialize RTC */
     RTC_Config();
     RTC_TimeStampConfig();
 #if 0
@@ -156,6 +157,9 @@ int main()
      
     Stack_6LoWPAN_Init();
      
+       
+ 
+    
 
     while(1) {
       int r = 0;

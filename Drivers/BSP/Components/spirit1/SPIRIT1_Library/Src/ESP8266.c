@@ -1182,7 +1182,7 @@ bool  Wifi_TcpIp_StartUdpConnection(uint8_t LinkId,char *RemoteIp,uint16_t Remot
 		}//if(result == 3)
 		else
     {  
-		    printf("\r\n ok create new connection: %d",LinkId);
+		    //printf("\r\n ok create new connection: %d",LinkId);
         returnVal=true;	
     }
   }while(0);
@@ -1363,12 +1363,12 @@ uint8_t Reg_Server_Account(void)
     //memcpy((void *)Reg_Pkt.Google_Token,&Wifi.RxBuffer[REG_INDEX+9+Reg_Pkt.AP_SSID_Len+Reg_Pkt.AP_Pwd_Len+Reg_Pkt.Svr_URL_Len+Reg_Pkt.Port_len+Reg_Pkt.Google_ID_len+Reg_Pkt.Svr_UserName_Len],Reg_Pkt.Google_Token_Len); // token
    // Reg_Pkt.Google_ID_len=Wifi.RxBuffer[REG_INDEX+4]^PRIVATE_KEY;   
     // checksum
-    Reg_Pkt.AP_SSID[Reg_Pkt.AP_SSID_Len+1]=NULL;
-    Reg_Pkt.AP_Pwd[Reg_Pkt.AP_Pwd_Len+1]=NULL;
-    Reg_Pkt.Svr_URL[Reg_Pkt.Svr_URL_Len+1]=NULL; 
-    Reg_Pkt.Port[Reg_Pkt.Port_len+1]=NULL; 
-    Reg_Pkt.Google_ID[Reg_Pkt.Google_ID_len+1]=NULL;
-    Reg_Pkt.TimeZone[Reg_Pkt.TimeZone_Len+1]=NULL;
+    Reg_Pkt.AP_SSID[Reg_Pkt.AP_SSID_Len]=NULL;
+    Reg_Pkt.AP_Pwd[Reg_Pkt.AP_Pwd_Len]=NULL;
+    Reg_Pkt.Svr_URL[Reg_Pkt.Svr_URL_Len]=NULL; 
+    Reg_Pkt.Port[Reg_Pkt.Port_len]=NULL; 
+    Reg_Pkt.Google_ID[Reg_Pkt.Google_ID_len]=NULL;
+    Reg_Pkt.TimeZone[Reg_Pkt.TimeZone_Len]=NULL;
   //  Reg_Pkt.Svr_UserName[Reg_Pkt.Svr_UserName_Len+1]=NULL;
    // Reg_Pkt.Google_Token[Reg_Pkt.Google_Token_Len+1]=NULL;
     
@@ -1545,8 +1545,8 @@ uint8_t Reg_Server_Registration(void)
         HAL_Delay(300);
          
         Wifi_SetMode(WifiMode_Station); 
-      
-        return REGISTER_SERVER_SUCCEFULL;
+        HAL_GPIO_WritePin(GPIOA,GPIO_PIN_11, GPIO_PIN_RESET); 
+        //return REGISTER_SERVER_SUCCEFULL;
     }
     
     return REGISTER_SERVER_FAILED;
@@ -1668,7 +1668,7 @@ uint8_t ESP8266_ServerQuery(void)
     
     sprintf((char*)buffer2,"AT+CIPSEND=1,%d\r\n",Total_Len); 
     
-    printf("server query:%s \r\n",buffer);   
+    //printf("server query:%s \r\n",buffer);   
     ESP8266_Write(buffer2);
     HAL_Delay(1000);   
   
@@ -1695,7 +1695,7 @@ uint8_t ESP8266_Query_KeepList(void)
     sprintf((char*)buffer,"%s /smart_security/alarm/get?_group_id=%d HTTP/1.1\r\n",buffer,Wifi.GroupID);  
     sprintf((char*)buffer,"%sHost: well-electronics.asuscomm.com:7070 \r\n\r\n",buffer);     
     Total_Len=strlen((const char*)buffer);   
-    printf("buffer:%s \r\n",buffer);
+   // printf("buffer:%s \r\n",buffer);
     while(Wifi_TcpIp_StartTcpConnection(3,(char *)Reg_Pkt.Svr_URL,7070,3000)==false);
     
     sprintf((char*)buffer2,"AT+CIPSEND=3,%d\r\n",Total_Len); 
@@ -1738,13 +1738,13 @@ uint8_t ESP8266_Get_KeepList(void)
     for( command = json_getChild( CommandList ); command != 0; command = json_getSibling( command ) ) {
         if ( JSON_OBJ == json_getType( command ) ) {
             char const* address = json_getPropertyValue( command, "_address" );
-            if ( address ) printf( "_address: %s\n", address );
+           //if ( address ) printf( "_address: %s\n", address );
             
             char const* cmd = json_getPropertyValue( command, "_cmd" );
-            if ( address ) printf( "_cmd: %s\n", cmd ); 
+            //if ( address ) printf( "_cmd: %s\n", cmd ); 
             
-            if(*cmd=='2')
-            printf("cmd is 2\n\r"); 
+           // if(*cmd=='2')
+           // printf("cmd is 2\n\r"); 
             // send command to device
             //simple_udp_sendto(&unicast_connection, buf, strlen(buf),addr);  
             udp_sendto_device(address);
@@ -1981,7 +1981,7 @@ void Report_Closed_Alarm(const uip_ipaddr_t *sender_addr)
     ESP8266_Write(buffer); 
     HAL_Delay(1000);  
   
-    printf("web buffer:%s \n",buffer);
+   // printf("web buffer:%s \n",buffer);
     
     if(Wifi_WaitForString(_WIFI_WAIT_TIME_LOW,&result,1,"\"message\":1")==true)
     {

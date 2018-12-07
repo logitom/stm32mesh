@@ -463,7 +463,9 @@ PROCESS_THREAD(border_router_process, ev, data)
        //if(Wifi.Mode==_WIFI_REG_PROJECT_CODE && Wifi.RxBuffer[12]==0x04)
        if(Wifi.RxBuffer[12]==0x04)  
        {
-            Reg_Project_Check();
+          // HAL_GPIO_WritePin(GPIOA,GPIO_PIN_11, GPIO_PIN_SET); 
+          // PRINTF("\r\n turn off led\r\n");
+           Reg_Project_Check();
         
         }else if(Wifi.RxBuffer[REG_INDEX+1]==0x02)
         {
@@ -477,6 +479,7 @@ PROCESS_THREAD(border_router_process, ev, data)
     
     if(Wifi.Mode==_WIFI_SERVER_MODE)
     {
+       
         if(Wifi.IsAPConnected!=true)
         // connect to ap  
         Reg_Server_Registration();// parsing json data
@@ -523,13 +526,15 @@ receiver(struct simple_udp_connection *c,
       //ESP8266 send data
      // ESP8266_SendData(sender_ip,data);
 #if 1      
-    
+    printf("\r\n received length: %ddata :%d,%d",datalen,data[0],data[1]);
     if(data[0]==51 && data[1]==1)
     {
         printf(" turn off the sensor \r\n ");
         // 
         Report_Closed_Alarm(sender_addr);
-        
+        //send an ack to sender address
+      
+      
     }
     else
     {
@@ -654,7 +659,7 @@ PROCESS_THREAD(unicast_receiver_process, ev, data)
            get_keep=strstr((const char*)Wifi.RxBuffer,"a000");
            keep_list=*(get_keep+4);
          
-           printf("\r\n keep command:%c \r\n",keep_list);
+           //printf("\r\n keep command:%c \r\n",keep_list);
            
            if(keep_list=='1')
            {
@@ -782,17 +787,17 @@ void udp_sendto_device(char const* address)
         hex_add[i]=address[i]-0x30;  
     }      
         
-      printf("%x",hex_add[i]);  
+     // printf("%x",hex_add[i]);  
   }
   
-  printf("\r\n");  
+ // printf("\r\n");  
   
   for(i=0;i<16;i++)
   { 
    tmp[0]=hex_add[2*i]<<4;
    tmp[1]=hex_add[2*i+1];
    IPv6.u8[i]=tmp[0]|tmp[1];
-   printf("%x",IPv6.u8[i]); 
+   //printf("%x",IPv6.u8[i]); 
   }
   data[0]=51;
   data[1]=0;  
